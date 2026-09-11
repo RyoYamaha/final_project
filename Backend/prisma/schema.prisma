@@ -1,0 +1,314 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+// SQL Server không hỗ trợ Prisma enum -> dùng String, validate giá trị ở DTO (class-validator)
+// ContentType: "Manga" | "Novel"
+// OwnershipTier: "Licensed" | "FanTranslation"
+// PublicationStatus: "Draft" | "PendingApproval" | "Published" | "Rejected" | "Hidden"
+// StoryStatus: "Ongoing" | "Completed" | "Hiatus"
+// ChapterModerationStatus: "Published" | "PendingReview" | "Hidden"
+// UserRole: "Reader" | "Author" | "Publisher" | "Admin"
+// PublisherVerificationStatus: "Pending" | "Approved" | "Rejected" | "Suspended"
+// ReportTargetType: "Content" | "Chapter" | "Comment" | "User"
+// ReportStatus: "Pending" | "Dismissed" | "Resolved"
+
+model Content {
+  id                String   @id @default(uuid()) //id của chính content 
+  title             String
+  synopsis          String?  @db.NVarChar(Max)
+  type              String
+  ownershipTier     String
+  publicationStatus String   @default("Draft")
+  storyStatus       String   @default("Ongoing")
+  coverImageUrl     String?
+
+  uploaderId String  //ID của user upload content 
+  uploader   User   @relation("ContentUploader", fields: [uploaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+//id của content là khóa chính của content, có khóa ngoại là uploaderid trỏ đến id của user, nhận id của user là khóa ngoại 
+  // suy ra ở đây id của user là khóa ngoại của content
+
+  publisherId String?
+  publisher   Publisher? @relation(fields: [publisherId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  parentContentId String?
+  parentContent   Content?  @relation("ContentParent", fields: [parentContentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  fanTranslations Content[] @relation("ContentParent")
+
+  mangaDetail MangaDetail?
+  novelDetail NovelDetail?
+  chapters    Chapter[]
+
+  genres ContentGenre[]
+  tags   ContentTag[]
+
+  bookmarks       Bookmark[]
+  favorites       Favorite[]
+  ratings         Rating[]
+  comments        Comment[]
+  readingProgress ReadingProgress[]
+
+  knowledgeBase   ContentKnowledgeBase?
+  aiConversations AIConversation[]
+  recommendedIn   RecommendationCache[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type, publicationStatus])
+  @@index([ownershipTier])
+  @@index([parentContentId])
+}
+
+model MangaDetail {
+  id        String  @id @default(uuid()) //id được prisma tự gen ra 
+  contentId String  @unique // giá trị cột đó không được trùng nhau 
+  content   Content @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model NovelDetail {
+  id        String  @id @default(uuid())
+  contentId String  @unique
+  content   Content @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Chapter {
+  id               String    @id @default(uuid())
+  contentId        String
+  content          Content   @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  //content là cách Prisma đi từ mã truyện đó đến đến đầy đủ thông tin Content, nó là field quan hệ của prisma  , và mình truy cập khi cần 
+  number           Int
+  title            String?
+  moderationStatus String    @default("Published")
+  publishedAt      DateTime?
+
+  pages           ChapterPage[]
+  chapterContent  ChapterContent?
+  readingProgress ReadingProgress[]
+
+  @@unique([contentId, number])
+  @@index([moderationStatus])
+}
+
+model ChapterPage {
+  id         String  @id @default(uuid())
+  chapterId  String
+  chapter    Chapter @relation(fields: [chapterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pageNumber Int
+  imageUrl   String
+
+  @@unique([chapterId, pageNumber])
+}
+
+model ChapterContent {
+  id        String  @id @default(uuid())
+  chapterId String  @unique
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  textBody  String  @db.NVarChar(Max)
+}
+
+model Genre {
+  id       String         @id @default(uuid())
+  name     String         @unique
+  contents ContentGenre[]
+}
+
+model Tag {
+  id       String       @id @default(uuid())
+  name     String       @unique
+  contents ContentTag[]
+}
+
+model ContentGenre {
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  genreId   String
+  genre     Genre   @relation(fields: [genreId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([contentId, genreId])
+}
+
+model ContentTag {
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tagId     String
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([contentId, tagId])
+}
+
+model Publisher {
+  id                 String    @id @default(uuid())
+  userId             String    @unique
+  user               User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  organizationName   String
+  verificationStatus String    @default("Pending")
+
+  contents Content[]
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  role         String   @default("Reader")
+  bio          String?
+  isLocked     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  uploadedContents Content[]  @relation("ContentUploader")
+  publisherProfile Publisher?
+
+  bookmarks       Bookmark[]
+  favorites       Favorite[]
+  ratings         Rating[]
+  comments        Comment[]
+  readingProgress ReadingProgress[]
+  notifications   Notification[]
+  reportsFiled    Report[]              @relation("ReportedBy")
+  refreshTokens   RefreshToken[]
+  aiConversations AIConversation[]
+  recommendations RecommendationCache[]
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId String
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, contentId])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId String
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, contentId])
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId String
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  score     Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, contentId])
+}
+
+model Comment {
+  id               String    @id @default(uuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId        String
+  content          Content   @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parentCommentId  String?
+  parentComment    Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies          Comment[] @relation("CommentReplies")
+  body             String    @db.NVarChar(Max)
+  moderationStatus String    @default("Published")
+  createdAt        DateTime  @default(now())
+
+  @@index([contentId])
+  @@index([moderationStatus])
+}
+
+model ReadingProgress {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId     String
+  content       Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  lastChapterId String
+  lastChapter   Chapter  @relation(fields: [lastChapterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  lastPageNumber Int?
+  lastReadAt    DateTime @default(now())
+
+  @@unique([userId, contentId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  type      String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+model Report {
+  id         String   @id @default(uuid())
+  reporterId String
+  reporter   User     @relation("ReportedBy", fields: [reporterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  targetType String
+  targetId   String
+  reason     String
+  evidence   String?
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
+
+  @@index([targetType, targetId])
+  @@index([status])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tokenHash String   @unique
+  isRevoked Boolean  @default(false)
+  expiresAt DateTime
+
+  @@index([userId])
+}
+
+model ContentKnowledgeBase {
+  id          String   @id @default(uuid())
+  contentId   String   @unique
+  content     Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  summaryText String   @db.NVarChar(Max)
+  updatedAt   DateTime @updatedAt
+}
+
+model AIConversation {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId String
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  messages  String   @db.NVarChar(Max)
+  createdAt DateTime @default(now())
+
+  @@index([userId, contentId])
+}
+
+model RecommendationCache {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId   String
+  content     Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  score       Float
+  generatedAt DateTime @default(now())
+
+  @@unique([userId, contentId])
+  @@index([userId, score])
+}
