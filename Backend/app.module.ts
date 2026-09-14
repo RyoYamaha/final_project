@@ -6,6 +6,7 @@ import { PublisherModule } from './publisher/publisher.module';
 import { AuthorModule } from './author/author.module';
 import { RatingModule } from './rating/rating.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
+import { CommentModule } from './comment/comment.modult';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
       AuthorModule,
       RatingModule,
       BookmarkModule,
+      CommentModule,
     // AuthModule sẽ thêm vào đây sau cùng
   ],
 })
