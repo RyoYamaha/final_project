@@ -4,12 +4,14 @@ import { ContentService } from '../core/content/content.service';
 import { RegisterPublisherDto } from './dto/register-publisher.dto';
 import { CreatePublisherContentDto } from './dto/create-publisher-content.dto';
 import { OwnershipTier } from '../common/constants/content.enum';
+import {NotificationService} from '../notification/notification.service'
 
 @Injectable()
 export class PublisherService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly contentService: ContentService,
+    private readonly notificationservice: NotificationService 
   ) {}
 
 //Đăng ký publisher 
@@ -77,5 +79,13 @@ export class PublisherService {
  // tương tự 
   async rejectVerification(publisherId: string) {
     return this.prisma.publisher.update({ where: { id: publisherId }, data: { verificationStatus: 'Rejected' } });
+  }
+  private async safeNotify(userId: string, type: string, message: string){
+    try{
+    const notification = await this.notificationservice.create(userId, type as any, message);
+    }
+    catch{
+      console.error('Failed to create notification');
+    }
   }
 }

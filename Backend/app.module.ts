@@ -8,6 +8,7 @@ import { RatingModule } from './rating/rating.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { CommentModule } from './comment/comment.modult';
 import { NotificationModule } from './notification/notification.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { NotificationModule } from './notification/notification.module';
       BookmarkModule,
       CommentModule,
       NotificationModule,
+      ReportModule,
     // AuthModule sẽ thêm vào đây sau cùng
   ],
 })

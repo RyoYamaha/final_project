@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import {NotificationService } from '../notification/notification.service'
+import {NotificationType} from '../common/constants/notification.enum'
 
 
 @Injectable()
 export class CommentService{ 
-    constructor( private readonly prisma: PrismaService){}
+    constructor( private readonly prisma: PrismaService, private readonly notificationservice: NotificationService){}
     async CreateComment(userId: string, contentId: string, body: string, parentCommentId?: string,) {
         const content = await this.prisma.content.findUnique({
             where: { id: contentId },
@@ -13,25 +15,30 @@ export class CommentService{
             throw new NotFoundException('The content does not exist');
         }
 
-        const user = await this.prisma.user.findUnique({
-            where: { id: userId },
-        });
-        if (!user) {
-            throw new NotFoundException('The user does not exist');
-        }
+
 
         if (parentCommentId) {
             const parentComment = await this.prisma.comment.findFirst({
                 where: { id: parentCommentId, contentId },
             });
+            if (parentComment && parentComment.userId !== userId){
+            try{
+                await this.notificationservice.create(parentComment.userId, NotificationType.CommentReply, 'some one just reply your comment')
+            }
+            catch (err){
+                console.error('Faild to create notification')
+            }
+        }
             if (!parentComment) {
                 throw new NotFoundException('The parent comment does not exist');
             }
         }
+        
 
         return this.prisma.comment.create({
-            data: { userId, contentId, parentCommentId, body },
+            data: { userId, contentId, parentCommentId, body, moderationStatus: 'Published' },
         });
+        
     }
        
     async GetComment(contentId: string ){

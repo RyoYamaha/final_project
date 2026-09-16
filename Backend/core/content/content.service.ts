@@ -3,10 +3,11 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateContentDto } from './dto/create-content.dto';
 import { QueryContentDto } from './dto/query-content.dto';
 import { OwnershipTier, PublicationStatus } from '../../common/constants/content.enum';
+import {NotificationService} from '../../notification/notification.service'
 
 @Injectable()
 export class ContentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly notificationservice: NotificationService) {}
 
   async createContent(params: { //tham số đầu vào cho function này phải bao gồm như dưới
     dto: CreateContentDto;
@@ -169,5 +170,13 @@ export class ContentService {
       where: { id },
       data: { publicationStatus: toStatus },
     });
+  }
+  private async safeNotify(userId: string, type: string, message: string){
+    try{
+    const notification = await this.notificationservice.create(userId, type as any, message);
+    }
+    catch{
+      console.error('Failed to create notification');
+    }
   }
 }
