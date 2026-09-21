@@ -38,12 +38,12 @@ export class PublisherService {
 
   async createContent(userId: string, dto: CreatePublisherContentDto) {
     const publisher = await this.getVerifiedPublisher(userId);
-    return this.contentService.createContent({ // đẩy content của id publisher đó 
+    return this.contentService.createContent( // đẩy content của id publisher đó 
       dto,
-      uploaderId: userId,
-      ownershipTier: OwnershipTier.Licensed,
-      publisherId: publisher.id,
-    });
+      userId,
+      OwnershipTier.Licensed,
+      publisher.id,
+    );
   }
 
   //dựa vào userid của publisher, lấu ra những content tương ứng với publisher đó 

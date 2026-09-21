@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,6 +14,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@nestjs/cli": "^12.0.3",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "@types/multer": "^2.2.0",
@@ -32,6 +37,7 @@
     "mssql": "^12.7.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pdf-parse": "^1.1.1",
     "pdf-to-png-converter": "^3.18.0"
   }
 }

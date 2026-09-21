@@ -1,5 +1,5 @@
 import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -14,14 +14,13 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    const existing = await this.prisma.user.findFirst({
-      where: { OR: [{ username: dto.username }, { email: dto.email }] },
-    });
+    const existing = await this.prisma.user.findFirst({ where: { OR: [{ username: dto.username },
+       { email: dto.email }] },});
     if (existing) {
-      throw new ConflictException('Username hoặc email đã tồn tại');
+      throw new ConflictException('Username or email has already existed');
     }
 
-    const passwordHash = await bcrypt.hash(dto.password, 10);
+    const passwordHash = await bcrypt.hash(dto.password, 10); //mã hóa mật khẩu cấp độ 10 
 
     const user = await this.prisma.user.create({
       data: {
@@ -32,76 +31,76 @@ export class AuthService {
       },
     });
 
-    return this.issueTokens(user.id, user.role);
+    return this.issueTokens(user.id, user.role); //phát token lại cho người dùng có id như này và role này 
   }
 
   async login(dto: LoginDto) {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        OR: [{ username: dto.usernameOrEmail }, { email: dto.usernameOrEmail }],
-      },
-    });
+    const user = await this.prisma.user.findFirst({where: { OR: [{ username: dto.usernameOrEmail }, { email: dto.usernameOrEmail }],},});
 
-    if (!user) throw new UnauthorizedException('Sai tài khoản hoặc mật khẩu');
-    if (user.isLocked) throw new UnauthorizedException('Tài khoản đã bị khoá');
+    if (!user){ 
+      throw new UnauthorizedException('wrong email or password');
+    }
+    if (user.isLocked){ 
+      throw new UnauthorizedException('this account have been locked by admin');
+    }
 
-    const passwordValid = await bcrypt.compare(dto.password, user.passwordHash);
-    if (!passwordValid) throw new UnauthorizedException('Sai tài khoản hoặc mật khẩu');
+    const passwordValid = await bcrypt.compare(dto.password, user.passwordHash); //mã hóa lại mật khẩu và so sánh với mật khẩu 
 
-    return this.issueTokens(user.id, user.role);
+    if (!passwordValid) throw new UnauthorizedException('wrong password');
+
+    return this.issueTokens(user.id, user.role); //phát lại token và role cho người dùng
   }
+// lấy lại token mới khi access token hết hạn 
 
   async refresh(refreshToken: string) {
-    const tokenHash = this.hashToken(refreshToken);
+    const tokenHash = this.hashToken(refreshToken); // hash là mã hóa (băm) token này 
 
-    const stored = await this.prisma.refreshToken.findUnique({
-      where: { tokenHash },
-    });
+    const stored = await this.prisma.refreshToken.findUnique({where: { tokenHash },}); //tìm xem token có tồn tại không
 
     if (!stored || stored.isRevoked || stored.expiresAt < new Date()) {
-      throw new UnauthorizedException('Refresh token không hợp lệ hoặc đã hết hạn');
+      throw new UnauthorizedException('Refresh token is expired');
     }
 
     const user = await this.prisma.user.findUnique({ where: { id: stored.userId } });
     if (!user || user.isLocked) {
-      throw new UnauthorizedException('Tài khoản không hợp lệ');
+      throw new UnauthorizedException('this account is not valid');
     }
 
-    // Thu hồi refresh token cũ, phát token mới (rotation) — tránh 1 refresh token dùng lại nhiều lần
+    // Thu hồi refresh token cũ, phát token mới (rotation)  tránh 1 refresh token dùng lại nhiều lần
     await this.prisma.refreshToken.update({
       where: { tokenHash },
       data: { isRevoked: true },
-    });
+    }); //hủy bỏ cái token cũ 
 
-    return this.issueTokens(user.id, user.role);
+    return this.issueTokens(user.id, user.role); //trả lại người dùng token mới và refresh token mới cùng với role của người dùng 
+
   }
 
   async logout(refreshToken: string) {
-    const tokenHash = this.hashToken(refreshToken);
+    const tokenHash = this.hashToken(refreshToken); //mã hóa refreshtoken 
     await this.prisma.refreshToken.updateMany({
       where: { tokenHash },
       data: { isRevoked: true },
-    });
+    }); //hủy bỏ cái token cũ 
     return { message: 'Đã đăng xuất' };
   }
-
   private async issueTokens(userId: string, role: string) {
-    const payload = { sub: userId, role };
+    const payload = { sub: userId, role }; 
 
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_SECRET,
-      expiresIn: process.env.JWT_ACCESS_EXPIRES ?? '15m',
-    });
+      expiresIn: (process.env.JWT_ACCESS_EXPIRES ?? '15m') as unknown as JwtSignOptions['expiresIn'],
+    }); //tạo access token mới tồn tại trong 15p 
 
-    const refreshToken = crypto.randomBytes(64).toString('hex');
-    const tokenHash = this.hashToken(refreshToken);
+    const refreshToken = crypto.randomBytes(64).toString('hex'); //tạo 1 chuỗi byte ngẫu nhiên 64 byte
+    //chuyển sang dạng hexstring  rồi lưu vào biến refresh token
+    const tokenHash = this.hashToken(refreshToken); //mã hóa refresh token để đảm bảo an toàn 
+
 
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7); // khớp JWT_REFRESH_EXPIRES=7d
 
-    await this.prisma.refreshToken.create({
-      data: { userId, tokenHash, expiresAt },
-    });
+    await this.prisma.refreshToken.create({data: { userId, tokenHash, expiresAt },}); //tạo bản ghi refresh token trong cơ sở dữ liệu
 
     return { accessToken, refreshToken };
   }

@@ -19,8 +19,7 @@ export class ChapterService {
     });
     if (existing) throw new ForbiddenException(`Chapter số ${dto.number} đã tồn tại`);
 
-    return this.prisma.chapter.create({
-      data: {
+    return this.prisma.chapter.create({data: {
         contentId,
         number: dto.number,
         title: dto.title,

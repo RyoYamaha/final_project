@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { ContentService } from '../core/content/content.service';
 import { CreateFanTranslationDto } from './dto/create-fan-translation.dto';
 import { OwnershipTier, PublicationStatus } from '../common/constants/content.enum';
+import { CreateOriginalContentDto } from './dto/create-original-content.dto';
 
 @Injectable()
 export class AuthorService {
@@ -45,13 +46,13 @@ export class AuthorService {
       throw new ForbiddenException('Content gốc chưa được duyệt, chưa thể dịch');
     }
 
-    return this.contentService.createContent({
+    return this.contentService.createContent(
       dto,
-      uploaderId: userId,
-      ownershipTier: OwnershipTier.FanTranslation,
-      parentContentId: dto.parentContentId,
-      // publisherId để trống — Fan Translation không thuộc Publisher nào
-    });
+      userId,
+      OwnershipTier.FanTranslation,
+      undefined,
+      dto.parentContentId,
+    );
   }
 
 
@@ -99,4 +100,11 @@ export class AuthorService {
       commentCount,
     };
   }
+      async createOriginalContent(userId: string, dto: CreateOriginalContentDto) {
+      return this.contentService.createContent(
+        dto,
+        userId,
+        OwnershipTier.Original,
+      );
+    }
 }

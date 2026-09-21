@@ -9,15 +9,9 @@ import {NotificationService} from '../../notification/notification.service'
 export class ContentService {
   constructor(private readonly prisma: PrismaService, private readonly notificationservice: NotificationService) {}
 
-  async createContent(params: { //tham số đầu vào cho function này phải bao gồm như dưới
-    dto: CreateContentDto;
-    uploaderId: string;
-    ownershipTier: OwnershipTier;
-    publisherId?: string;
-    parentContentId?: string;
-  }) {
-    const { dto, uploaderId, ownershipTier, publisherId, parentContentId } = params; //lấy tham số được nạp vào gán vào params, 
-    //const là từ khóa khai báo 1 biến không thể gán sang giá trị khác (ở đây biến là gì, có thấy ghi tên biến đâu )
+  async createContent( dto: CreateContentDto, uploaderId: string, ownershipTier: OwnershipTier,
+    publisherId?: string,
+    parentContentId?: string,) {
 
     // Fan Translation bắt buộc có parentContentId trỏ tới Content Licensed đã tồn tại
     if (ownershipTier === OwnershipTier.FanTranslation) {
@@ -28,6 +22,10 @@ export class ContentService {
       if (!parent || parent.ownershipTier !== OwnershipTier.Licensed) {
         throw new ForbiddenException('Content gốc không hợp lệ hoặc không phải Licensed');
       }
+    }
+      // Truyện người dùng đăng thì không cần parent Id 
+    if (ownershipTier === OwnershipTier.Original && parentContentId) {
+       throw new ForbiddenException('Truyện sáng tác gốc không được gắn Content gốc (parentContentId)');
     }
 
     const content = await this.prisma.content.create({

@@ -3,7 +3,7 @@ import { AuthorService } from './author.service';
 import { CreateFanTranslationDto } from './dto/create-fan-translation.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
-
+import { CreateOriginalContentDto } from './dto/create-original-content.dto';
 @Controller('author')
 @UseGuards(JwtAuthGuard)
 export class AuthorController {
@@ -33,4 +33,11 @@ export class AuthorController {
   getDashboard(@CurrentUser('id') userId: string) {
     return this.authorService.getDashboardStats(userId);
   }
+  @Post('original-content')
+createOriginalContent(
+  @CurrentUser('id') userId: string,
+  @Body() dto: CreateOriginalContentDto,
+) {
+  return this.authorService.createOriginalContent(userId, dto);
+}
 }

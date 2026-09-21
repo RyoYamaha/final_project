@@ -9,6 +9,10 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 import { CommentModule } from './comment/comment.modult';
 import { NotificationModule } from './notification/notification.module';
 import { ReportModule } from './report/report.module';
+import { AuthModule } from './user/auth/auth.module';
+import { MangaModule } from './manga/manga.module';
+import { NovelModule } from './novel/novel.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -22,7 +26,10 @@ import { ReportModule } from './report/report.module';
       CommentModule,
       NotificationModule,
       ReportModule,
-    // AuthModule sẽ thêm vào đây sau cùng
+      AuthModule,
+      MangaModule,
+      NovelModule,
+      HealthModule,
   ],
 })
 export class AppModule {}

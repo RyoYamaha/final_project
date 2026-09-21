@@ -1,0 +1,16 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: novel-platform-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-YourStrong@Passw0rd}"
+      MSSQL_PID: Developer
+    ports:
+      - "14331:1433"
+    volumes:
+      - novel-platform-sqlserver-data:/var/opt/mssql
+    restart: unless-stopped
+
+volumes:
+  novel-platform-sqlserver-data:

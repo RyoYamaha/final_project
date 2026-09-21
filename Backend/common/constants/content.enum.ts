@@ -6,6 +6,7 @@ export enum ContentType {
 export enum OwnershipTier {
   Licensed = 'Licensed',
   FanTranslation = 'FanTranslation',
+  Original = 'Original'
 }
 
 export enum PublicationStatus {

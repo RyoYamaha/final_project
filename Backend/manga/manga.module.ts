@@ -3,9 +3,10 @@ import { MangaService } from './manga.service';
 import { MangaController } from './manga.controller';
 import { ChapterModule } from '../core/chapter/chapter.module';
 import { CloudinaryModule } from '../common/cloudinary/cloudinary.module';
+import { AuthModule } from '../user/auth/auth.module';
 
 @Module({
-  imports: [ChapterModule, CloudinaryModule],
+  imports: [ChapterModule, CloudinaryModule, AuthModule],
   controllers: [MangaController],
   providers: [MangaService],
 })
