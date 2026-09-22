@@ -4,3 +4,4 @@ Backend/dist/
 Frontend/node_modules/
 Frontend/dist/
 *.log
+.idea/

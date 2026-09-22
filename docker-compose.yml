@@ -4,13 +4,21 @@ services:
     container_name: novel-platform-sqlserver
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-YourStrong@Passw0rd}"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-StrongPass123!}"
       MSSQL_PID: Developer
     ports:
       - "14331:1433"
     volumes:
       - novel-platform-sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q 'SELECT 1' || /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
     restart: unless-stopped
 
 volumes:
   novel-platform-sqlserver-data:
+    name: sourcecode-auth_novel-platform-sqlserver-data
+    external: true

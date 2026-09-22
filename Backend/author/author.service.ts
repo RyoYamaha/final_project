@@ -17,10 +17,7 @@ export class AuthorService {
    * Chỉ show Content đã Published (không cho dịch Content còn Draft/PendingApproval).
    */
   async browseLicensedContents(search?: string) {
-    return this.prisma.content.findMany({
-      where: {
-        ownershipTier: OwnershipTier.Licensed,
-        publicationStatus: PublicationStatus.Published,
+    return this.prisma.content.findMany({where: { ownershipTier: OwnershipTier.Licensed, publicationStatus: PublicationStatus.Published,
         ...(search && { title: { contains: search } }),
       },
       select: {
@@ -70,9 +67,7 @@ export class AuthorService {
     return this.contentService.resubmit(contentId, userId);
   }
 
-  /** Author Dashboard: thống kê lượt xem/rating/bookmark — chưa có bảng view count riêng,
-   *  tạm tính qua các bảng tương tác đã có (Bookmark, Rating, Comment)
-   */
+
   async getDashboardStats(userId: string) {
     const translations = await this.prisma.content.findMany({
       where: { uploaderId: userId, ownershipTier: OwnershipTier.FanTranslation },

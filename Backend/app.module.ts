@@ -13,6 +13,7 @@ import { AuthModule } from './user/auth/auth.module';
 import { MangaModule } from './manga/manga.module';
 import { NovelModule } from './novel/novel.module';
 import { HealthModule } from './health/health.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { HealthModule } from './health/health.module';
       MangaModule,
       NovelModule,
       HealthModule,
+      AdminModule
   ],
 })
 export class AppModule {}

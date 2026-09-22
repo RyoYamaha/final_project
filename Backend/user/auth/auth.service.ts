@@ -82,7 +82,7 @@ export class AuthService {
       where: { tokenHash },
       data: { isRevoked: true },
     }); //hủy bỏ cái token cũ 
-    return { message: 'Đã đăng xuất' };
+    return { message: 'log out successfully' };
   }
   private async issueTokens(userId: string, role: string) {
     const payload = { sub: userId, role }; 

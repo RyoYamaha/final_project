@@ -35,9 +35,7 @@ export class AuthorController {
   }
   @Post('original-content')
 createOriginalContent(
-  @CurrentUser('id') userId: string,
-  @Body() dto: CreateOriginalContentDto,
-) {
+  @CurrentUser('id') userId: string, @Body() dto: CreateOriginalContentDto,) {
   return this.authorService.createOriginalContent(userId, dto);
 }
 }
