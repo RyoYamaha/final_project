@@ -2,7 +2,6 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ChapterService } from '../core/chapter/chapter.service';
 import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
-import { pdfToPng } from 'pdf-to-png-converter';
 // @ts-ignore — pdf-parse không có type export chuẩn ESM
 const pdfParse = require('pdf-parse');
 
@@ -43,11 +42,31 @@ export class NovelService {
       );
     }
 
-    const pngPages = await pdfToPng(pdfBuffer, { viewportScale: 2.0 });
+    // pdf-img-convert pairs pdf.js with node-canvas. In this Node runtime pdf.js
+    // resolves @napi-rs/canvas, so mixing the two canvas implementations makes
+    // embedded PDF images fail the canvas type check.
+    const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
+    const { createCanvas } = require('@napi-rs/canvas');
+    const pdf = await pdfjs.getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+    const pngPages: Buffer[] = [];
+
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      const page = await pdf.getPage(pageNumber);
+      const initialViewport = page.getViewport({ scale: 1 });
+      const scale = Math.min(2000 / initialViewport.width, 2000 / initialViewport.height);
+      const viewport = page.getViewport({ scale });
+      const canvas = createCanvas(Math.ceil(viewport.width), Math.ceil(viewport.height));
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+      pngPages.push(canvas.toBuffer('image/png'));
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+    await pdf.destroy();
+
 
     const uploadedUrls = await Promise.all(
       pngPages.map((page) =>
-        this.cloudinary.uploadImage(page.content, `novamanga/novel-chapters/${chapterId}`),
+        this.cloudinary.uploadImage(page, `novamanga/novel-chapters/${chapterId}`),
       ),
     );
 

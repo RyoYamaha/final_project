@@ -1,6 +1,6 @@
-import { isUUID, IsUUID } from "class-validator";
+import { IsUUID } from 'class-validator';
 
-export class CreateFavouriteDto{
+export class CreateFavouriteDto {
     @IsUUID()
     contentId: string;
 }

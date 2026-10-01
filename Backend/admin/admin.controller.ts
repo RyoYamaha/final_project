@@ -8,39 +8,54 @@ import { AdminService } from './admin.service';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.Admin)
 @Controller('admin')
-export class AdminController{
-    constructor (private readonly service: AdminService){};
+export class AdminController {
+    constructor(private readonly service: AdminService) {}
+
     @Get('review-queue')
-    getReviewQueue(){
+    getReviewQueue() {
         return this.service.getReviewQueue();
     }
-    @Patch('content/:id/approval')
-    approveContent(@Param('id') id: string){
+
+    // Content moderation
+    @Patch(['content/:id/approve', 'content/:id/approval'])
+    approveContent(@Param('id') id: string) {
         return this.service.ApproveContent(id);
     }
+
     @Patch('content/:id/reject')
-    rejectContent(@Param('id') id: string){
+    rejectContent(@Param('id') id: string) {
         return this.service.RejectContent(id);
     }
+
+    @Patch('content/:id/hide')
+    hideContent(@Param('id') id: string) {
+        return this.service.HideContent(id);
+    }
+
     @Patch('content/:id/restore')
-    restoreContent(@Param('id') id: string){
+    restoreContent(@Param('id') id: string) {
         return this.service.RestoreContent(id);
     }
-    @Patch('content/:id/verify')
-    approveVerification(@Param('id') id: string){
+
+    // Publisher verification
+    @Patch('publishers/:id/verify')
+    approveVerification(@Param('id') id: string) {
         return this.service.AprroveVerification(id);
     }
-    @Patch('content/:id/reject')
-    rejectVerification(@Param('id') id: string){
+
+    @Patch('publishers/:id/reject')
+    rejectVerification(@Param('id') id: string) {
         return this.service.RejectVerification(id);
     }
-    
-    @Patch('content/:d/unlock')
-    unlockUser(@Param('id') id: string ){
-        return this.service.UnlockUser(id);
-    }
-    @Patch('content/:id/lock')
-    lockUser(@Param('id') id: string){
+
+    // User management
+    @Patch('users/:id/lock')
+    lockUser(@Param('id') id: string) {
         return this.service.LockUser(id);
+    }
+
+    @Patch('users/:id/unlock')
+    unlockUser(@Param('id') id: string) {
+        return this.service.UnlockUser(id);
     }
 }

@@ -20,15 +20,18 @@ export class FavouriteService{
         }
         return this.prisma.favorite.create({data: {userId, contentId}});
     }
-    async getContentbyFavorite(userId){
+    async getContentbyFavorite(userId: string){
          return this.prisma.favorite.findMany({where: {userId}, include: {content:true}, orderBy: {createdAt: 'desc'} })
     }
-    async RemoveFavortie(userId: string, contentId: string){
+    async removeFavorite(userId: string, contentId: string){
         const existing = await this.prisma.favorite.findUnique({where: {userId_contentId: {userId, contentId}}});
         if (!existing){
             throw new NotFoundException('can not found the favourite of this content');
         }
         await this.prisma.favorite.delete({where:{id: existing.id}});
         return {remove: true};
+    }
+    async RemoveFavortie(userId: string, contentId: string){
+        return this.removeFavorite(userId, contentId);
     }
 }

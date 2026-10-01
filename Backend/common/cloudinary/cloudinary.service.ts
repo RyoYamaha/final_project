@@ -13,7 +13,8 @@ export class CloudinaryService {
           resolve(result.secure_url);
         },
       );
-      Readable.from(fileBuffer).pipe(upload);
+      // A Buffer is iterable as numbers; wrap it so the stream emits one Buffer chunk.
+      Readable.from([fileBuffer]).pipe(upload);
     });
   }
 }

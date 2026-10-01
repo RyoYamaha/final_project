@@ -29,19 +29,13 @@ export class AdminService{
     async LockUser(userId: string){
         const user = await this.prisma.user.findUnique({where: {id: userId}});
         if (!user){
-            throw new NotFoundException('could not find the person you looking for');
+throw new NotFoundException('could not find the person you looking for');
         }
         //thu hồi lại token đăng nhập của người dùng không cho phép đăng nhập nữa 
         await this.prisma.$transaction([
-            this.prisma.user.update({
-                where: { id: userId },
-                data: { isLocked: true }, //đánh dấu là tài khoản đã bị khóa trong table
-            }),
+            this.prisma.user.update({ where: { id: userId },data: { isLocked: true },}), //đánh dấu là tài khoản đã bị khóa trong table
 
-            this.prisma.refreshToken.updateMany({
-                where: { userId, isRevoked: false },
-                data: { isRevoked: true }, //thu hồi lại token không cho phép người dùng sử dụng token để đăng nhập nữa 
-            }),
+            this.prisma.refreshToken.updateMany({ where: { userId, isRevoked: false }, data: { isRevoked: true }, }),//thu hồi lại token không cho phép người dùng sử dụng token để đăng nhập nữa 
         ]);
 
         return {locked: true};
@@ -51,10 +45,7 @@ export class AdminService{
         if ( !user){
             throw new NotFoundException('can not find the person you looking for');
         }
-        await this.prisma.user.update({
-            where: { id: userId },
-            data: { isLocked: false },
-        });
+        await this.prisma.user.update({where: { id: userId }, data: { isLocked: false },});
         return { locked: false };
     }
     
@@ -62,11 +53,7 @@ export class AdminService{
     async getReviewQueue(){
         const [pendingContent, pendingPublisher ] = await this.prisma.$transaction([
             //tìm content đã được approval
-            this.prisma.content.findMany({
-                where: {publicationStatus: 'PendingApproval'},
-                include: {uploader: {select: { id: true, username: true}}},
-                orderBy: {createdAt: 'asc'},
-            }),
+            this.prisma.content.findMany({ where: {publicationStatus: 'PendingApproval'}, include: {uploader: {select: { id: true, username: true}}},orderBy: {createdAt: 'asc'},}),
             //tìm content đã được pending
             this.prisma.publisher.findMany({
                 where: {verificationStatus: 'Pending'},

@@ -6,7 +6,7 @@ import { PublisherModule } from './publisher/publisher.module';
 import { AuthorModule } from './author/author.module';
 import { RatingModule } from './rating/rating.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
-import { CommentModule } from './comment/comment.modult';
+import { CommentModule } from './comment/comment.module';
 import { NotificationModule } from './notification/notification.module';
 import { ReportModule } from './report/report.module';
 import { AuthModule } from './user/auth/auth.module';
@@ -14,6 +14,8 @@ import { MangaModule } from './manga/manga.module';
 import { NovelModule } from './novel/novel.module';
 import { HealthModule } from './health/health.module';
 import { AdminModule } from './admin/admin.module';
+import { FavoriteModule } from './favourite/favourite.module';
+import { ReadingProgressModule } from './ReadingProgress/reading-progress.module';
 
 @Module({
   imports: [
@@ -21,17 +23,19 @@ import { AdminModule } from './admin/admin.module';
     PrismaModule,
     ContentModule,
     PublisherModule,
-      AuthorModule,
-      RatingModule,
-      BookmarkModule,
-      CommentModule,
-      NotificationModule,
-      ReportModule,
-      AuthModule,
-      MangaModule,
-      NovelModule,
-      HealthModule,
-      AdminModule
+    AuthorModule,
+    RatingModule,
+    BookmarkModule,
+    CommentModule,
+    NotificationModule,
+    ReportModule,
+    AuthModule,
+    MangaModule,
+    NovelModule,
+    HealthModule,
+    AdminModule,
+    FavoriteModule,
+    ReadingProgressModule,
   ],
 })
 export class AppModule {}
