@@ -31,7 +31,7 @@ export class AuthService {
       },
     });
 
-    return this.issueTokens(user.id, user.role); //phát token lại cho người dùng có id như này và role này 
+    return this.issueTokens(user.id, user.role, user.username); //phát token lại cho người dùng có id như này và role này 
   }
 
   async login(dto: LoginDto) {
@@ -48,7 +48,7 @@ export class AuthService {
 
     if (!passwordValid) throw new UnauthorizedException('wrong password');
 
-    return this.issueTokens(user.id, user.role); //phát lại token và role cho người dùng
+    return this.issueTokens(user.id, user.role, user.username); //phát lại token và role cho người dùng
   }
 // lấy lại token mới khi access token hết hạn 
 
@@ -72,7 +72,7 @@ export class AuthService {
       data: { isRevoked: true },
     }); //hủy bỏ cái token cũ 
 
-    return this.issueTokens(user.id, user.role); //trả lại người dùng token mới và refresh token mới cùng với role của người dùng 
+    return this.issueTokens(user.id, user.role, user.username); //trả lại người dùng token mới và refresh token mới cùng với role của người dùng 
 
   }
 
@@ -84,8 +84,17 @@ export class AuthService {
     }); //hủy bỏ cái token cũ 
     return { message: 'log out successfully' };
   }
-  private async issueTokens(userId: string, role: string) {
-    const payload = { sub: userId, role }; 
+  async getProfile(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, username: true, email: true, role: true, isLocked: true },
+    });
+    if (!user) throw new UnauthorizedException('User not found');
+    return user;
+  }
+
+  private async issueTokens(userId: string, role: string, username?: string) {
+    const payload = { sub: userId, role, ...(username ? { username } : {}) }; 
 
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_SECRET,

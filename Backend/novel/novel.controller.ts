@@ -7,13 +7,13 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('novel')
-@UseGuards(JwtAuthGuard)
 export class NovelController {
   constructor(
     private readonly novelService: NovelService,
     private readonly chapterService: ChapterService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('content/:contentId/chapters')
   createChapter(
     @Param('contentId') contentId: string,
@@ -23,6 +23,7 @@ export class NovelController {
     return this.chapterService.createChapter(contentId, userId, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('chapters/:chapterId/text')
   setText(
     @Param('chapterId') chapterId: string,
@@ -32,6 +33,7 @@ export class NovelController {
     return this.novelService.setChapterText(chapterId, userId, textBody);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('chapters/:chapterId/pdf')
   @UseInterceptors(FileInterceptor('file'))
   setFromPdf(

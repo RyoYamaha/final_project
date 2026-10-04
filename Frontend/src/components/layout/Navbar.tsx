@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { Bell, Bookmark, Heart, LogOut, Search } from 'lucide-react'
+import { api } from '@/lib/api'
 import { useAuthStore } from '@/stores/auth-store'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -30,12 +31,20 @@ export function Navbar() {
     }
 
     const handleLogout = async () => {
-        clearAuth() // dùng được cho cả logout đồng bộ lẫn async
+        const refreshToken = useAuthStore.getState().getRefreshToken()
+        if (refreshToken) {
+            try {
+                await api.post('/auth/logout', { refreshToken })
+            } catch {
+                // Tiếp tục logout phía client kể cả khi backend lỗi
+            }
+        }
+        clearAuth()
         navigate('/login', { replace: true })
     }
 
-    // Chỉnh theo field thật của user trong auth-store
-    const displayName = user?.email ?? 'User'
+    // Ưu tiên hiển thị username, nếu không có thì dùng email
+    const displayName = user?.username ?? user?.email ?? 'User'
     const initial = displayName.charAt(0).toUpperCase()
 
     return (

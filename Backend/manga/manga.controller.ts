@@ -7,13 +7,13 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('manga')
-@UseGuards(JwtAuthGuard)
 export class MangaController {
   constructor(
     private readonly mangaService: MangaService,
     private readonly chapterService: ChapterService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('content/:contentId/chapters')
   createChapter(
     @Param('contentId') contentId: string,
@@ -23,6 +23,7 @@ export class MangaController {
     return this.chapterService.createChapter(contentId, userId, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('chapters/:chapterId/pages')
   @UseInterceptors(FilesInterceptor('pages', 200)) // tối đa 200 trang/chapter
   uploadPages(

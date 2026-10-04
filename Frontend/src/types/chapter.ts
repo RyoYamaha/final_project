@@ -2,17 +2,17 @@
 // 1. TRẠNG THÁI KIỂM DUYỆT (STATUS)
 // ==========================================
 
-export type ChapterModerationStatus = 'Published' | 'PendingReview' | 'Hidden'
+export type ChapterModerationStatus = "Published" | "PendingReview" | "Hidden";
 
 // ==========================================
 // 2. TRANG ẢNH CHAPTER (DÙNG CHO MANGA / PDF)
 // ==========================================
 
 export interface ChapterPage {
-  id: string
-  chapterId: string
-  pageNumber: number // Số thứ tự trang: 1, 2, 3...
-  imageUrl: string   // Link ảnh trên Cloudinary
+  id: string;
+  chapterId: string;
+  pageNumber: number; // Số thứ tự trang: 1, 2, 3...
+  imageUrl: string; // Link ảnh trên Cloudinary
 }
 
 // ==========================================
@@ -20,9 +20,9 @@ export interface ChapterPage {
 // ==========================================
 
 export interface ChapterContent {
-  id: string
-  chapterId: string
-  textBody: string   // Toàn bộ nội dung chữ của chương
+  id: string;
+  chapterId: string;
+  textBody: string; // Toàn bộ nội dung chữ của chương
 }
 
 // ==========================================
@@ -30,14 +30,14 @@ export interface ChapterContent {
 // ==========================================
 
 export interface Chapter {
-  id: string
-  contentId: string
-  number: number     // Chương số mấy: 1, 2, 3...
-  title?: string | null // Tên chương (ví dụ: "Chương 1: Lời mở đầu")
-  moderationStatus: ChapterModerationStatus
-  publishedAt?: string | null
-  createdAt?: string
-  updatedAt?: string
+  id: string;
+  contentId: string;
+  number: number; // Chương số mấy: 1, 2, 3...
+  title?: string | null; // Tên chương (ví dụ: "Chương 1: Lời mở đầu")
+  moderationStatus: ChapterModerationStatus;
+  publishedAt?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // ==========================================
@@ -46,17 +46,17 @@ export interface Chapter {
 
 export interface ChapterDetail extends Chapter {
   // Nếu là Manga -> có danh sách các trang ảnh
-  pages?: ChapterPage[]
+  pages?: ChapterPage[];
 
   // Nếu là Novel -> có nội dung chữ textBody
-  chapterContent?: ChapterContent | null
+  chapterContent?: ChapterContent | null;
 
   // Thông tin tóm tắt của bộ truyện chứa chapter này
   content?: {
-    id: string
-    title: string
-    type: 'Manga' | 'Novel'
-  }
+    id: string;
+    title: string;
+    type: "Manga" | "Novel";
+  };
 }
 
 // ==========================================
@@ -64,6 +64,6 @@ export interface ChapterDetail extends Chapter {
 // ==========================================
 
 export interface CreateChapterDto {
-  number: number
-  title?: string
+  number: number;
+  title?: string;
 }

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ChapterService } from '../core/chapter/chapter.service';
 import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
@@ -90,6 +90,13 @@ export class NovelService {
 
   /** Reader dùng — lấy ảnh từng trang để lật (Chapter nào upload từ PDF mới có) */
   async getChapterPages(chapterId: string) {
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+      select: { moderationStatus: true },
+    });
+    if (!chapter || chapter.moderationStatus !== 'Published') {
+      throw new NotFoundException('Chapter không tồn tại hoặc chưa được xuất bản');
+    }
     return this.prisma.chapterPage.findMany({
       where: { chapterId },
       orderBy: { pageNumber: 'asc' },
@@ -98,6 +105,13 @@ export class NovelService {
 
   /** Reader dùng — lấy text thường (Chapter nào gõ tay text mới có) */
   async getChapterText(chapterId: string) {
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+      select: { moderationStatus: true },
+    });
+    if (!chapter || chapter.moderationStatus !== 'Published') {
+      throw new NotFoundException('Chapter không tồn tại hoặc chưa được xuất bản');
+    }
     const content = await this.prisma.chapterContent.findUnique({ where: { chapterId } });
     if (!content) throw new BadRequestException('Chapter chưa có nội dung text');
     return content;

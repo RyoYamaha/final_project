@@ -50,6 +50,14 @@ export class MangaService {
   }
 
   async getChapterPages(chapterId: string) {
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+      select: { moderationStatus: true },
+    });
+    if (!chapter || chapter.moderationStatus !== 'Published') {
+      throw new NotFoundException('Chapter không tồn tại hoặc chưa được xuất bản');
+    }
+
     return this.prisma.chapterPage.findMany({
       where: { chapterId },
       orderBy: { pageNumber: 'asc' },

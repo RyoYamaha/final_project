@@ -1,34 +1,30 @@
-import type { Chapter } from './chapter'
+import type { Chapter } from "./chapter";
 
 // ==========================================
 // 1. CÁC HẰNG SỐ (ENUM / UNION TYPE)
 // ==========================================
 
-export type ContentType = 'Manga' | 'Novel'
+export type ContentType = "Manga" | "Novel";
 
-export type OwnershipTier = 'Licensed' | 'FanTranslation' | 'Original'
+export type OwnershipTier = "Licensed" | "FanTranslation" | "Original";
 
 export type PublicationStatus =
-  | 'Draft'
-  | 'PendingApproval'
-  | 'Published'
-  | 'Rejected'
-  | 'Hidden'
+  "Draft" | "PendingApproval" | "Published" | "Rejected" | "Hidden";
 
-export type StoryStatus = 'Ongoing' | 'Completed' | 'Hiatus'
+export type StoryStatus = "Ongoing" | "Completed" | "Hiatus";
 
 // ==========================================
 // 2. THỂ LOẠI VÀ THẺ (GENRE & TAG)
 // ==========================================
 
 export interface Genre {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export interface Tag {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 // ==========================================
@@ -37,38 +33,38 @@ export interface Tag {
 
 // Dạng cơ bản hiển thị ở danh sách ngoài trang chủ / tìm kiếm
 export interface ContentListItem {
-  id: string
-  title: string
-  synopsis?: string | null
-  type: ContentType
-  ownershipTier: OwnershipTier
-  publicationStatus: PublicationStatus
-  storyStatus: StoryStatus
-  coverImageUrl?: string | null
-  uploaderId: string
-  publisherId?: string | null
-  parentContentId?: string | null
-  createdAt: string
-  updatedAt: string
-  genres: { genre: Genre }[]
-  tags: { tag: Tag }[]
+  id: string;
+  title: string;
+  synopsis?: string | null;
+  type: ContentType;
+  ownershipTier: OwnershipTier;
+  publicationStatus: PublicationStatus;
+  storyStatus: StoryStatus;
+  coverImageUrl?: string | null;
+  uploaderId: string;
+  publisherId?: string | null;
+  parentContentId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  genres: { genre: Genre }[];
+  tags: { tag: Tag }[];
   uploader: {
-    id: string
-    username: string
-  }
+    id: string;
+    username: string;
+  };
 }
 
 // Dạng chi tiết khi người dùng bấm vào trang xem thông tin truyện
-export interface ContentDetail extends ContentListItem {
-  chapters: Chapter[]
+export interface ContentDetailData extends ContentListItem {
+  chapters: Chapter[];
   parentContent?: {
-    id: string
-    title: string
-  } | null
+    id: string;
+    title: string;
+  } | null;
   publisher?: {
-    id: string
-    organizationName: string
-  } | null
+    id: string;
+    organizationName: string;
+  } | null;
 }
 
 // ==========================================
@@ -76,21 +72,21 @@ export interface ContentDetail extends ContentListItem {
 // ==========================================
 
 export interface QueryContentParams {
-  page?: number
-  limit?: number
-  type?: ContentType
-  ownershipTier?: OwnershipTier
-  publicationStatus?: PublicationStatus
-  search?: string
-  genreId?: string
+  page?: number;
+  limit?: number;
+  type?: ContentType;
+  ownershipTier?: OwnershipTier;
+  publicationStatus?: PublicationStatus;
+  search?: string;
+  genreId?: string;
 }
 
 export interface ContentPaginationResponse {
-  items: ContentListItem[]
+  items: ContentListItem[];
   meta: {
-    page: number
-    limit: number
-    total: number
-    totalPages: number
-  }
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }

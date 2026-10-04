@@ -67,9 +67,10 @@ api.interceptors.response.use(
 
     // Kiểm tra lỗi 401 và request chưa được thử lại lần nào
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
-      // Bỏ qua nếu chính API đăng nhập hoặc refresh bị lỗi 401 (tránh lặp vô hạn)
+      // Bỏ qua nếu chính API đăng nhập, đăng ký hoặc refresh bị lỗi 401 (tránh lặp vô hạn)
       if (
         originalRequest.url?.includes('/auth/login') ||
+        originalRequest.url?.includes('/auth/register') ||
         originalRequest.url?.includes('/auth/refresh')
       ) {
         return Promise.reject(error)

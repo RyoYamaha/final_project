@@ -1,11 +1,10 @@
-import { LayoutDashboard, Library, CloudUpload, ShieldCheck } from 'lucide-react'
+import { LayoutDashboard, Library, ShieldCheck } from 'lucide-react'
 import { SidebarLayout } from './SidebarLayout'
 import type { SidebarItem } from './Sidebar'
 
 const PUBLISHER_ITEMS: SidebarItem[] = [
   { label: 'Bảng điều khiển', to: '/publisher/dashboard', icon: LayoutDashboard, end: true },
   { label: 'Quản lý Catalog', to: '/publisher/catalog', icon: Library },
-  { label: 'Đăng tải hàng loạt', to: '/publisher/bulk', icon: CloudUpload },
   { label: 'Thông tin Bản quyền', to: '/publisher/compliance', icon: ShieldCheck },
 ]
 
