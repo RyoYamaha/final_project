@@ -28,6 +28,7 @@ export type PublisherMinAggregateOutputType = {
   id: string | null
   userId: string | null
   organizationName: string | null
+  verificationDocumentUrl: string | null
   verificationStatus: string | null
 }
 
@@ -35,6 +36,7 @@ export type PublisherMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   organizationName: string | null
+  verificationDocumentUrl: string | null
   verificationStatus: string | null
 }
 
@@ -42,6 +44,7 @@ export type PublisherCountAggregateOutputType = {
   id: number
   userId: number
   organizationName: number
+  verificationDocumentUrl: number
   verificationStatus: number
   _all: number
 }
@@ -51,6 +54,7 @@ export type PublisherMinAggregateInputType = {
   id?: true
   userId?: true
   organizationName?: true
+  verificationDocumentUrl?: true
   verificationStatus?: true
 }
 
@@ -58,6 +62,7 @@ export type PublisherMaxAggregateInputType = {
   id?: true
   userId?: true
   organizationName?: true
+  verificationDocumentUrl?: true
   verificationStatus?: true
 }
 
@@ -65,6 +70,7 @@ export type PublisherCountAggregateInputType = {
   id?: true
   userId?: true
   organizationName?: true
+  verificationDocumentUrl?: true
   verificationStatus?: true
   _all?: true
 }
@@ -145,6 +151,7 @@ export type PublisherGroupByOutputType = {
   id: string
   userId: string
   organizationName: string
+  verificationDocumentUrl: string | null
   verificationStatus: string
   _count: PublisherCountAggregateOutputType | null
   _min: PublisherMinAggregateOutputType | null
@@ -173,6 +180,7 @@ export type PublisherWhereInput = {
   id?: Prisma.StringFilter<"Publisher"> | string
   userId?: Prisma.StringFilter<"Publisher"> | string
   organizationName?: Prisma.StringFilter<"Publisher"> | string
+  verificationDocumentUrl?: Prisma.StringNullableFilter<"Publisher"> | string | null
   verificationStatus?: Prisma.StringFilter<"Publisher"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   contents?: Prisma.ContentListRelationFilter
@@ -182,6 +190,7 @@ export type PublisherOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
+  verificationDocumentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   contents?: Prisma.ContentOrderByRelationAggregateInput
@@ -194,6 +203,7 @@ export type PublisherWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PublisherWhereInput[]
   NOT?: Prisma.PublisherWhereInput | Prisma.PublisherWhereInput[]
   organizationName?: Prisma.StringFilter<"Publisher"> | string
+  verificationDocumentUrl?: Prisma.StringNullableFilter<"Publisher"> | string | null
   verificationStatus?: Prisma.StringFilter<"Publisher"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   contents?: Prisma.ContentListRelationFilter
@@ -203,6 +213,7 @@ export type PublisherOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
+  verificationDocumentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
   _count?: Prisma.PublisherCountOrderByAggregateInput
   _max?: Prisma.PublisherMaxOrderByAggregateInput
@@ -216,12 +227,14 @@ export type PublisherScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Publisher"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Publisher"> | string
   organizationName?: Prisma.StringWithAggregatesFilter<"Publisher"> | string
+  verificationDocumentUrl?: Prisma.StringNullableWithAggregatesFilter<"Publisher"> | string | null
   verificationStatus?: Prisma.StringWithAggregatesFilter<"Publisher"> | string
 }
 
 export type PublisherCreateInput = {
   id?: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
   user: Prisma.UserCreateNestedOneWithoutPublisherProfileInput
   contents?: Prisma.ContentCreateNestedManyWithoutPublisherInput
@@ -231,6 +244,7 @@ export type PublisherUncheckedCreateInput = {
   id?: string
   userId: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutPublisherInput
 }
@@ -238,6 +252,7 @@ export type PublisherUncheckedCreateInput = {
 export type PublisherUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateOneRequiredWithoutPublisherProfileNestedInput
   contents?: Prisma.ContentUpdateManyWithoutPublisherNestedInput
@@ -247,6 +262,7 @@ export type PublisherUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   contents?: Prisma.ContentUncheckedUpdateManyWithoutPublisherNestedInput
 }
@@ -255,12 +271,14 @@ export type PublisherCreateManyInput = {
   id?: string
   userId: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
 }
 
 export type PublisherUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -268,6 +286,7 @@ export type PublisherUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -280,6 +299,7 @@ export type PublisherCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
+  verificationDocumentUrl?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
 }
 
@@ -287,6 +307,7 @@ export type PublisherMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
+  verificationDocumentUrl?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
 }
 
@@ -294,6 +315,7 @@ export type PublisherMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
+  verificationDocumentUrl?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
 }
 
@@ -348,6 +370,7 @@ export type PublisherUncheckedUpdateOneWithoutUserNestedInput = {
 export type PublisherCreateWithoutContentsInput = {
   id?: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
   user: Prisma.UserCreateNestedOneWithoutPublisherProfileInput
 }
@@ -356,6 +379,7 @@ export type PublisherUncheckedCreateWithoutContentsInput = {
   id?: string
   userId: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
 }
 
@@ -378,6 +402,7 @@ export type PublisherUpdateToOneWithWhereWithoutContentsInput = {
 export type PublisherUpdateWithoutContentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateOneRequiredWithoutPublisherProfileNestedInput
 }
@@ -386,12 +411,14 @@ export type PublisherUncheckedUpdateWithoutContentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type PublisherCreateWithoutUserInput = {
   id?: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
   contents?: Prisma.ContentCreateNestedManyWithoutPublisherInput
 }
@@ -399,6 +426,7 @@ export type PublisherCreateWithoutUserInput = {
 export type PublisherUncheckedCreateWithoutUserInput = {
   id?: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus?: string
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutPublisherInput
 }
@@ -422,6 +450,7 @@ export type PublisherUpdateToOneWithWhereWithoutUserInput = {
 export type PublisherUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   contents?: Prisma.ContentUpdateManyWithoutPublisherNestedInput
 }
@@ -429,6 +458,7 @@ export type PublisherUpdateWithoutUserInput = {
 export type PublisherUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
+  verificationDocumentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   contents?: Prisma.ContentUncheckedUpdateManyWithoutPublisherNestedInput
 }
@@ -468,6 +498,7 @@ export type PublisherSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   userId?: boolean
   organizationName?: boolean
+  verificationDocumentUrl?: boolean
   verificationStatus?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   contents?: boolean | Prisma.Publisher$contentsArgs<ExtArgs>
@@ -480,10 +511,11 @@ export type PublisherSelectScalar = {
   id?: boolean
   userId?: boolean
   organizationName?: boolean
+  verificationDocumentUrl?: boolean
   verificationStatus?: boolean
 }
 
-export type PublisherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "organizationName" | "verificationStatus", ExtArgs["result"]["publisher"]>
+export type PublisherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "organizationName" | "verificationDocumentUrl" | "verificationStatus", ExtArgs["result"]["publisher"]>
 export type PublisherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   contents?: boolean | Prisma.Publisher$contentsArgs<ExtArgs>
@@ -500,6 +532,7 @@ export type $PublisherPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     userId: string
     organizationName: string
+    verificationDocumentUrl: string | null
     verificationStatus: string
   }, ExtArgs["result"]["publisher"]>
   composites: {}
@@ -875,6 +908,7 @@ export interface PublisherFieldRefs {
   readonly id: Prisma.FieldRef<"Publisher", 'String'>
   readonly userId: Prisma.FieldRef<"Publisher", 'String'>
   readonly organizationName: Prisma.FieldRef<"Publisher", 'String'>
+  readonly verificationDocumentUrl: Prisma.FieldRef<"Publisher", 'String'>
   readonly verificationStatus: Prisma.FieldRef<"Publisher", 'String'>
 }
     

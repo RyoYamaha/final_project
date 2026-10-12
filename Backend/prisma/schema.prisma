@@ -25,6 +25,7 @@ model Content {
   type              String
   ownershipTier     String
   publicationStatus String   @default("Draft")
+  reviewFeedback    String?  @db.NVarChar(Max)
   storyStatus       String   @default("Ongoing")
   coverImageUrl     String?
 
@@ -147,6 +148,7 @@ model Publisher {
   userId             String    @unique
   user               User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   organizationName   String
+  verificationDocumentUrl String?
   verificationStatus String    @default("Pending")
 
   contents Content[]
@@ -175,6 +177,9 @@ model User {
   refreshTokens   RefreshToken[]
   aiConversations AIConversation[]
   recommendations RecommendationCache[]
+  
+  supportTickets  SupportTicket[] @relation("UserTickets")
+  ticketMessages  TicketMessage[]
 }
 
 model Bookmark {
@@ -311,4 +316,30 @@ model RecommendationCache {
 
   @@unique([userId, contentId])
   @@index([userId, score])
+}
+
+model SupportTicket {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation("UserTickets", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subject   String
+  status    String   @default("Open") // "Open", "Closed"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  messages  TicketMessage[]
+
+  @@index([userId, status])
+}
+
+model TicketMessage {
+  id        String   @id @default(uuid())
+  ticketId  String
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  body      String   @db.NVarChar(Max)
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
 }

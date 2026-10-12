@@ -31,6 +31,7 @@ export type ContentMinAggregateOutputType = {
   type: string | null
   ownershipTier: string | null
   publicationStatus: string | null
+  reviewFeedback: string | null
   storyStatus: string | null
   coverImageUrl: string | null
   uploaderId: string | null
@@ -47,6 +48,7 @@ export type ContentMaxAggregateOutputType = {
   type: string | null
   ownershipTier: string | null
   publicationStatus: string | null
+  reviewFeedback: string | null
   storyStatus: string | null
   coverImageUrl: string | null
   uploaderId: string | null
@@ -63,6 +65,7 @@ export type ContentCountAggregateOutputType = {
   type: number
   ownershipTier: number
   publicationStatus: number
+  reviewFeedback: number
   storyStatus: number
   coverImageUrl: number
   uploaderId: number
@@ -81,6 +84,7 @@ export type ContentMinAggregateInputType = {
   type?: true
   ownershipTier?: true
   publicationStatus?: true
+  reviewFeedback?: true
   storyStatus?: true
   coverImageUrl?: true
   uploaderId?: true
@@ -97,6 +101,7 @@ export type ContentMaxAggregateInputType = {
   type?: true
   ownershipTier?: true
   publicationStatus?: true
+  reviewFeedback?: true
   storyStatus?: true
   coverImageUrl?: true
   uploaderId?: true
@@ -113,6 +118,7 @@ export type ContentCountAggregateInputType = {
   type?: true
   ownershipTier?: true
   publicationStatus?: true
+  reviewFeedback?: true
   storyStatus?: true
   coverImageUrl?: true
   uploaderId?: true
@@ -202,6 +208,7 @@ export type ContentGroupByOutputType = {
   type: string
   ownershipTier: string
   publicationStatus: string
+  reviewFeedback: string | null
   storyStatus: string
   coverImageUrl: string | null
   uploaderId: string
@@ -239,6 +246,7 @@ export type ContentWhereInput = {
   type?: Prisma.StringFilter<"Content"> | string
   ownershipTier?: Prisma.StringFilter<"Content"> | string
   publicationStatus?: Prisma.StringFilter<"Content"> | string
+  reviewFeedback?: Prisma.StringNullableFilter<"Content"> | string | null
   storyStatus?: Prisma.StringFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableFilter<"Content"> | string | null
   uploaderId?: Prisma.StringFilter<"Content"> | string
@@ -272,6 +280,7 @@ export type ContentOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   ownershipTier?: Prisma.SortOrder
   publicationStatus?: Prisma.SortOrder
+  reviewFeedback?: Prisma.SortOrderInput | Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
@@ -308,6 +317,7 @@ export type ContentWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.StringFilter<"Content"> | string
   ownershipTier?: Prisma.StringFilter<"Content"> | string
   publicationStatus?: Prisma.StringFilter<"Content"> | string
+  reviewFeedback?: Prisma.StringNullableFilter<"Content"> | string | null
   storyStatus?: Prisma.StringFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableFilter<"Content"> | string | null
   uploaderId?: Prisma.StringFilter<"Content"> | string
@@ -341,6 +351,7 @@ export type ContentOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   ownershipTier?: Prisma.SortOrder
   publicationStatus?: Prisma.SortOrder
+  reviewFeedback?: Prisma.SortOrderInput | Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
@@ -363,6 +374,7 @@ export type ContentScalarWhereWithAggregatesInput = {
   type?: Prisma.StringWithAggregatesFilter<"Content"> | string
   ownershipTier?: Prisma.StringWithAggregatesFilter<"Content"> | string
   publicationStatus?: Prisma.StringWithAggregatesFilter<"Content"> | string
+  reviewFeedback?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
   storyStatus?: Prisma.StringWithAggregatesFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
   uploaderId?: Prisma.StringWithAggregatesFilter<"Content"> | string
@@ -379,6 +391,7 @@ export type ContentCreateInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -409,6 +422,7 @@ export type ContentUncheckedCreateInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -439,6 +453,7 @@ export type ContentUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -469,6 +484,7 @@ export type ContentUncheckedUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -499,6 +515,7 @@ export type ContentCreateManyInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -515,6 +532,7 @@ export type ContentUpdateManyMutationInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -528,6 +546,7 @@ export type ContentUncheckedUpdateManyInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -559,6 +578,7 @@ export type ContentCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   ownershipTier?: Prisma.SortOrder
   publicationStatus?: Prisma.SortOrder
+  reviewFeedback?: Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
@@ -575,6 +595,7 @@ export type ContentMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   ownershipTier?: Prisma.SortOrder
   publicationStatus?: Prisma.SortOrder
+  reviewFeedback?: Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
@@ -591,6 +612,7 @@ export type ContentMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   ownershipTier?: Prisma.SortOrder
   publicationStatus?: Prisma.SortOrder
+  reviewFeedback?: Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
@@ -948,6 +970,7 @@ export type ContentCreateWithoutFanTranslationsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -977,6 +1000,7 @@ export type ContentUncheckedCreateWithoutFanTranslationsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1011,6 +1035,7 @@ export type ContentCreateWithoutParentContentInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1040,6 +1065,7 @@ export type ContentUncheckedCreateWithoutParentContentInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1089,6 +1115,7 @@ export type ContentUpdateWithoutFanTranslationsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1118,6 +1145,7 @@ export type ContentUncheckedUpdateWithoutFanTranslationsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1166,6 +1194,7 @@ export type ContentScalarWhereInput = {
   type?: Prisma.StringFilter<"Content"> | string
   ownershipTier?: Prisma.StringFilter<"Content"> | string
   publicationStatus?: Prisma.StringFilter<"Content"> | string
+  reviewFeedback?: Prisma.StringNullableFilter<"Content"> | string | null
   storyStatus?: Prisma.StringFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableFilter<"Content"> | string | null
   uploaderId?: Prisma.StringFilter<"Content"> | string
@@ -1182,6 +1211,7 @@ export type ContentCreateWithoutMangaDetailInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1211,6 +1241,7 @@ export type ContentUncheckedCreateWithoutMangaDetailInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1256,6 +1287,7 @@ export type ContentUpdateWithoutMangaDetailInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1285,6 +1317,7 @@ export type ContentUncheckedUpdateWithoutMangaDetailInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1314,6 +1347,7 @@ export type ContentCreateWithoutNovelDetailInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1343,6 +1377,7 @@ export type ContentUncheckedCreateWithoutNovelDetailInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1388,6 +1423,7 @@ export type ContentUpdateWithoutNovelDetailInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1417,6 +1453,7 @@ export type ContentUncheckedUpdateWithoutNovelDetailInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1446,6 +1483,7 @@ export type ContentCreateWithoutChaptersInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1475,6 +1513,7 @@ export type ContentUncheckedCreateWithoutChaptersInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1520,6 +1559,7 @@ export type ContentUpdateWithoutChaptersInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1549,6 +1589,7 @@ export type ContentUncheckedUpdateWithoutChaptersInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1578,6 +1619,7 @@ export type ContentCreateWithoutGenresInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1607,6 +1649,7 @@ export type ContentUncheckedCreateWithoutGenresInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1652,6 +1695,7 @@ export type ContentUpdateWithoutGenresInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1681,6 +1725,7 @@ export type ContentUncheckedUpdateWithoutGenresInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1710,6 +1755,7 @@ export type ContentCreateWithoutTagsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1739,6 +1785,7 @@ export type ContentUncheckedCreateWithoutTagsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1784,6 +1831,7 @@ export type ContentUpdateWithoutTagsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1813,6 +1861,7 @@ export type ContentUncheckedUpdateWithoutTagsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1842,6 +1891,7 @@ export type ContentCreateWithoutPublisherInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1871,6 +1921,7 @@ export type ContentUncheckedCreateWithoutPublisherInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -1925,6 +1976,7 @@ export type ContentCreateWithoutUploaderInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -1954,6 +2006,7 @@ export type ContentUncheckedCreateWithoutUploaderInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   publisherId?: string | null
@@ -2008,6 +2061,7 @@ export type ContentCreateWithoutBookmarksInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2037,6 +2091,7 @@ export type ContentUncheckedCreateWithoutBookmarksInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2082,6 +2137,7 @@ export type ContentUpdateWithoutBookmarksInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2111,6 +2167,7 @@ export type ContentUncheckedUpdateWithoutBookmarksInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2140,6 +2197,7 @@ export type ContentCreateWithoutFavoritesInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2169,6 +2227,7 @@ export type ContentUncheckedCreateWithoutFavoritesInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2214,6 +2273,7 @@ export type ContentUpdateWithoutFavoritesInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2243,6 +2303,7 @@ export type ContentUncheckedUpdateWithoutFavoritesInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2272,6 +2333,7 @@ export type ContentCreateWithoutRatingsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2301,6 +2363,7 @@ export type ContentUncheckedCreateWithoutRatingsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2346,6 +2409,7 @@ export type ContentUpdateWithoutRatingsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2375,6 +2439,7 @@ export type ContentUncheckedUpdateWithoutRatingsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2404,6 +2469,7 @@ export type ContentCreateWithoutCommentsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2433,6 +2499,7 @@ export type ContentUncheckedCreateWithoutCommentsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2478,6 +2545,7 @@ export type ContentUpdateWithoutCommentsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2507,6 +2575,7 @@ export type ContentUncheckedUpdateWithoutCommentsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2536,6 +2605,7 @@ export type ContentCreateWithoutReadingProgressInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2565,6 +2635,7 @@ export type ContentUncheckedCreateWithoutReadingProgressInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2610,6 +2681,7 @@ export type ContentUpdateWithoutReadingProgressInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2639,6 +2711,7 @@ export type ContentUncheckedUpdateWithoutReadingProgressInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2668,6 +2741,7 @@ export type ContentCreateWithoutKnowledgeBaseInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2697,6 +2771,7 @@ export type ContentUncheckedCreateWithoutKnowledgeBaseInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2742,6 +2817,7 @@ export type ContentUpdateWithoutKnowledgeBaseInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2771,6 +2847,7 @@ export type ContentUncheckedUpdateWithoutKnowledgeBaseInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2800,6 +2877,7 @@ export type ContentCreateWithoutAiConversationsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2829,6 +2907,7 @@ export type ContentUncheckedCreateWithoutAiConversationsInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -2874,6 +2953,7 @@ export type ContentUpdateWithoutAiConversationsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2903,6 +2983,7 @@ export type ContentUncheckedUpdateWithoutAiConversationsInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2932,6 +3013,7 @@ export type ContentCreateWithoutRecommendedInInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   createdAt?: Date | string
@@ -2961,6 +3043,7 @@ export type ContentUncheckedCreateWithoutRecommendedInInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -3006,6 +3089,7 @@ export type ContentUpdateWithoutRecommendedInInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3035,6 +3119,7 @@ export type ContentUncheckedUpdateWithoutRecommendedInInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3064,6 +3149,7 @@ export type ContentCreateManyParentContentInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -3079,6 +3165,7 @@ export type ContentUpdateWithoutParentContentInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3108,6 +3195,7 @@ export type ContentUncheckedUpdateWithoutParentContentInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3137,6 +3225,7 @@ export type ContentUncheckedUpdateManyWithoutParentContentInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3152,6 +3241,7 @@ export type ContentCreateManyPublisherInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   uploaderId: string
@@ -3167,6 +3257,7 @@ export type ContentUpdateWithoutPublisherInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3196,6 +3287,7 @@ export type ContentUncheckedUpdateWithoutPublisherInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3225,6 +3317,7 @@ export type ContentUncheckedUpdateManyWithoutPublisherInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3240,6 +3333,7 @@ export type ContentCreateManyUploaderInput = {
   type: string
   ownershipTier: string
   publicationStatus?: string
+  reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
   publisherId?: string | null
@@ -3255,6 +3349,7 @@ export type ContentUpdateWithoutUploaderInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3284,6 +3379,7 @@ export type ContentUncheckedUpdateWithoutUploaderInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3313,6 +3409,7 @@ export type ContentUncheckedUpdateManyWithoutUploaderInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
   publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3449,6 +3546,7 @@ export type ContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   type?: boolean
   ownershipTier?: boolean
   publicationStatus?: boolean
+  reviewFeedback?: boolean
   storyStatus?: boolean
   coverImageUrl?: boolean
   uploaderId?: boolean
@@ -3485,6 +3583,7 @@ export type ContentSelectScalar = {
   type?: boolean
   ownershipTier?: boolean
   publicationStatus?: boolean
+  reviewFeedback?: boolean
   storyStatus?: boolean
   coverImageUrl?: boolean
   uploaderId?: boolean
@@ -3494,7 +3593,7 @@ export type ContentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "synopsis" | "type" | "ownershipTier" | "publicationStatus" | "storyStatus" | "coverImageUrl" | "uploaderId" | "publisherId" | "parentContentId" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
+export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "synopsis" | "type" | "ownershipTier" | "publicationStatus" | "reviewFeedback" | "storyStatus" | "coverImageUrl" | "uploaderId" | "publisherId" | "parentContentId" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
 export type ContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.Content$publisherArgs<ExtArgs>
@@ -3544,6 +3643,7 @@ export type $ContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     type: string
     ownershipTier: string
     publicationStatus: string
+    reviewFeedback: string | null
     storyStatus: string
     coverImageUrl: string | null
     uploaderId: string
@@ -3943,6 +4043,7 @@ export interface ContentFieldRefs {
   readonly type: Prisma.FieldRef<"Content", 'String'>
   readonly ownershipTier: Prisma.FieldRef<"Content", 'String'>
   readonly publicationStatus: Prisma.FieldRef<"Content", 'String'>
+  readonly reviewFeedback: Prisma.FieldRef<"Content", 'String'>
   readonly storyStatus: Prisma.FieldRef<"Content", 'String'>
   readonly coverImageUrl: Prisma.FieldRef<"Content", 'String'>
   readonly uploaderId: Prisma.FieldRef<"Content", 'String'>

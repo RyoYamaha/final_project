@@ -1,15 +1,46 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, ForbiddenException, OnModuleInit } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateContentDto } from './dto/create-content.dto';
 import { QueryContentDto } from './dto/query-content.dto';
+import { UpdateContentDto } from './dto/update-content.dto';
 import { OwnershipTier, PublicationStatus } from '../../common/constants/content.enum';
-import {NotificationService} from '../../notification/notification.service'
+import { NotificationService } from '../../notification/notification.service';
+import { NotificationType } from '../../common/constants/notification.enum';
 
 @Injectable()
-export class ContentService {
-  constructor(private readonly prisma: PrismaService, private readonly notificationservice: NotificationService) {}
+export class ContentService implements OnModuleInit {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationService: NotificationService,
+  ) { }
 
-  async createContent( dto: CreateContentDto, uploaderId: string, ownershipTier: OwnershipTier,
+  async onModuleInit() {
+    await this.seedDefaults();
+  }
+
+  private async seedDefaults() {
+    const defaultTags = ['Magic', 'War', 'Adventure', 'School Life', 'Slice of Life', 'Comedy', 'Drama', 'Romance', 'Fantasy', 'Sci-Fi'];
+    const defaultGenres = ['Action', 'Fantasy', 'Romance', 'Isekai', 'Horror', 'Mystery', 'Thriller', 'Historical'];
+
+    for (const name of defaultTags) {
+      await this.prisma.tag.upsert({
+        where: { name },
+        update: {},
+        create: { name }
+      });
+    }
+
+    for (const name of defaultGenres) {
+      await this.prisma.genre.upsert({
+        where: { name },
+        update: {},
+        create: { name }
+      });
+    }
+    console.log('✅ Default Genres and Tags seeded successfully from ContentService');
+  }
+
+  async createContent(dto: CreateContentDto, uploaderId: string, ownershipTier: OwnershipTier,
     publisherId?: string,
     parentContentId?: string,) {
 
@@ -23,9 +54,9 @@ export class ContentService {
         throw new ForbiddenException('Content gốc không hợp lệ hoặc không phải Licensed');
       }
     }
-      // Truyện người dùng đăng thì không cần parent Id 
+    // Truyện người dùng đăng thì không cần parent Id 
     if (ownershipTier === OwnershipTier.Original && parentContentId) {
-       throw new ForbiddenException('Truyện sáng tác gốc không được gắn Content gốc (parentContentId)');
+      throw new ForbiddenException('Truyện sáng tác gốc không được gắn Content gốc (parentContentId)');
     }
 
     const content = await this.prisma.content.create({
@@ -39,11 +70,23 @@ export class ContentService {
         uploaderId,
         publisherId,
         parentContentId,
-        genres: dto.genreIds //tạo genre
-          ? { create: dto.genreIds.map((genreId) => ({ genreId })) } 
+        genres: dto.genreIds
+          ? {
+            create: dto.genreIds.map((name) => ({
+              genre: {
+                connect: { name },
+              },
+            })),
+          }
           : undefined,
-        tags: dto.tagIds //tạo tag
-          ? { create: dto.tagIds.map((tagId) => ({ tagId })) }
+        tags: dto.tagIds
+          ? {
+            create: dto.tagIds.map((name) => ({
+              tag: {
+                connect: { name },
+              },
+            })),
+          }
           : undefined,
         mangaDetail: dto.type === 'Manga' ? { create: {} } : undefined,
         novelDetail: dto.type === 'Novel' ? { create: {} } : undefined,
@@ -60,7 +103,7 @@ export class ContentService {
   }
 
 
-// Nhận các tham số query từ URL, tạo điều kiện lọc và lấy danh sách Content
+  // Nhận các tham số query từ URL, tạo điều kiện lọc và lấy danh sách Content
 
   async findAll(query: QueryContentDto) {
     const page = query.page ?? 1; //?? nghĩa là nếu bên trái null hoặc undefined thì dùng giá trị bên phải 
@@ -69,9 +112,8 @@ export class ContentService {
     const where = {
       ...(query.type && { type: query.type }),
       ...(query.ownershipTier && { ownershipTier: query.ownershipTier }),
-      // Reader chỉ nên thấy Content Published — filter publicationStatus mặc định ở controller layer,
-      // ở đây cho phép truyền vào để Admin xem được Draft/PendingApproval khi cần
-      ...(query.publicationStatus && { publicationStatus: query.publicationStatus }),
+      // Reader chỉ nên thấy Content Published. Nếu muốn xem loại khác (VD: Admin), phải truyền query
+      publicationStatus: query.publicationStatus || PublicationStatus.Published,
       ...(query.search && { title: { contains: query.search } }),
       ...(query.genreId && { genres: { some: { genreId: query.genreId } } }),
     };
@@ -107,7 +149,9 @@ export class ContentService {
         novelDetail: true,
         genres: { include: { genre: true } },
         tags: { include: { tag: true } },
-        chapters: { orderBy: { number: 'asc' } },
+        chapters: {
+          orderBy: { number: 'asc' },
+        },
         uploader: { select: { id: true, username: true } },
         publisher: true,
         parentContent: { select: { id: true, title: true } },
@@ -118,45 +162,180 @@ export class ContentService {
     return content;
   }
 
+  // Danh mục thể loại (Genres)
+  async getGenres() {
+    return this.prisma.genre.findMany({ orderBy: { name: 'asc' } });
+  }
+
+  // Danh mục thẻ tag (Tags)
+  async getTags() {
+    return this.prisma.tag.findMany({ orderBy: { name: 'asc' } });
+  }
+
+  // Chỉnh sửa truyện (Title, Synopsis, Cover, Status, Genres, Tags)
+  async updateContent(id: string, uploaderId: string, dto: UpdateContentDto) {
+    const content = await this.prisma.content.findUnique({ where: { id } });
+    if (!content) throw new NotFoundException('Không tìm thấy Content');
+    if (content.uploaderId !== uploaderId) {
+      throw new ForbiddenException('Không có quyền chỉnh sửa Content này');
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      if (dto.genreIds) {
+        await tx.contentGenre.deleteMany({ where: { contentId: id } });
+        if (dto.genreIds.length > 0) {
+          const genres = await tx.genre.findMany({
+            where: { name: { in: dto.genreIds } },
+            select: { id: true },
+          });
+          await tx.contentGenre.createMany({
+            data: genres.map((g) => ({ contentId: id, genreId: g.id })),
+          });
+        }
+      }
+
+      if (dto.tagIds) {
+        await tx.contentTag.deleteMany({ where: { contentId: id } });
+        if (dto.tagIds.length > 0) {
+          const tags = await tx.tag.findMany({
+            where: { name: { in: dto.tagIds } },
+            select: { id: true },
+          });
+          await tx.contentTag.createMany({
+            data: tags.map((t) => ({ contentId: id, tagId: t.id })),
+          });
+        }
+      }
+
+      const dataToUpdate: any = {};
+      //tạo biến để update theo data mới của người dùng
+
+      if (dto.title !== undefined) {
+        dataToUpdate.title = dto.title;
+      }
+      if (dto.synopsis !== undefined) {
+        dataToUpdate.synopsis = dto.synopsis;
+      }
+      if (dto.coverImageUrl !== undefined) {
+        dataToUpdate.coverImageUrl = dto.coverImageUrl;
+      }
+      if (dto.storyStatus !== undefined) {
+        dataToUpdate.storyStatus = dto.storyStatus;
+      }
+
+      // Đưa truyện về trạng thái chờ duyệt lại sau khi tác giả chỉnh sửa
+      dataToUpdate.publicationStatus = PublicationStatus.PendingApproval;
+      dataToUpdate.reviewFeedback = null;
+
+      return tx.content.update({
+        where: { id },
+        data: dataToUpdate, //biến chứa toàn bộ data đã update sẽ được cập nhật ở đây
+        include: {
+          genres: { include: { genre: true } },
+          tags: { include: { tag: true } },
+          uploader: { select: { id: true, username: true } },
+        },
+      });
+    });
+  }
+
   /** Chỉ Admin gọi — duyệt Content từ PendingApproval -> Published */
   async approve(id: string) {
-    return this.updateStatusGuarded(id, PublicationStatus.PendingApproval, PublicationStatus.Published);
+    const content = await this.updateStatusGuarded(
+      id,
+      PublicationStatus.PendingApproval,
+      PublicationStatus.Published,
+    );
+    await this.createNotificationSafely(
+      content.uploaderId,
+      NotificationType.ContentApproved,
+      `Truyện "${content.title}" đã được duyệt và xuất bản.`,
+    );
+    return content;
   }
-  // hàm approve, khi admin approve,gán id, đổi trạng thái của publicationstatus  và publicationstatus 
 
   /** Chỉ Admin gọi */
-  async reject(id: string) {
-    return this.updateStatusGuarded(id, PublicationStatus.PendingApproval, PublicationStatus.Rejected);
+  async reject(id: string, reason?: string) {
+    let reviewFeedback = '';
+    if (reason !== undefined) {
+      reviewFeedback = reason.trim();
+    }
+
+    if (reviewFeedback.length === 0) {
+      throw new BadRequestException('Vui lòng nhập lý do từ chối Content');
+    }
+
+    const content = await this.updateStatusGuarded(
+      id,
+      PublicationStatus.PendingApproval,
+      PublicationStatus.Rejected,
+      reviewFeedback,
+    );
+
+    const message = `Truyện "${content.title}" đã bị từ chối. Lý do: ${reviewFeedback}`;
+    await this.createNotificationSafely(content.uploaderId, NotificationType.ContentRejected, message);
+    return content;
   }
-  //ch
 
   async hide(id: string) {
-    return this.updateStatusGuarded(id, PublicationStatus.Published, PublicationStatus.Hidden);
+    const content = await this.updateStatusGuarded(
+      id,
+      PublicationStatus.Published,
+      PublicationStatus.Hidden,
+    );
+    await this.createNotificationSafely(
+      content.uploaderId,
+      NotificationType.ContentHidden,
+      `Truyện "${content.title}" đã bị ẩn.`,
+    );
+    return content;
   }
 
   async restore(id: string) {
-    return this.updateStatusGuarded(id, PublicationStatus.Hidden, PublicationStatus.Published);
+    const content = await this.updateStatusGuarded(
+      id,
+      PublicationStatus.Hidden,
+      PublicationStatus.Published,
+    );
+    await this.createNotificationSafely(
+      content.uploaderId,
+      NotificationType.ContentRestored,
+      `Truyện "${content.title}" đã được khôi phục.`,
+    );
+    return content;
   }
 
   /** Author/Publisher resubmit sau khi bị Reject */
   async resubmit(id: string, uploaderId: string) {
     const content = await this.prisma.content.findUnique({ where: { id } });
-    if (!content) throw new NotFoundException('Không tìm thấy Content');
-    if (content.uploaderId !== uploaderId) { //kiểm tra đúng người upload 
+    if (!content) {
+      throw new NotFoundException('Không tìm thấy Content');
+    }
+
+    if (content.uploaderId !== uploaderId) {
       throw new ForbiddenException('Không có quyền resubmit Content này');
     }
-    if (content.publicationStatus !== PublicationStatus.Rejected) { //kiểmt tra xem trạng thái có đúng là reject 
+
+    if (content.publicationStatus !== PublicationStatus.Rejected) {
       throw new ForbiddenException('Chỉ resubmit được Content đang ở trạng thái Rejected');
     }
-    return this.prisma.content.update({ //đổi trạng thái của content 
+
+    return this.prisma.content.update({
       where: { id },
-      data: { publicationStatus: PublicationStatus.PendingApproval },
+      data: { publicationStatus: PublicationStatus.PendingApproval, reviewFeedback: null },
     });
   }
 
-  private async updateStatusGuarded(id: string, fromStatus: PublicationStatus, toStatus: PublicationStatus) {
+  private async updateStatusGuarded(
+    id: string,
+    fromStatus: PublicationStatus,
+    toStatus: PublicationStatus,
+    reviewFeedback?: string,
+  ) {
     const content = await this.prisma.content.findUnique({ where: { id } });
-    if (!content) throw new NotFoundException('Không tìm thấy Content');
+    if (!content) {
+      throw new NotFoundException('Không tìm thấy Content');
+    }
 
     if (content.publicationStatus !== fromStatus) {
       throw new ForbiddenException(
@@ -164,17 +343,27 @@ export class ContentService {
       );
     }
 
+    const dataToUpdate: {
+      publicationStatus: PublicationStatus;
+      reviewFeedback?: string;
+    } = {
+      publicationStatus: toStatus,
+    };
+
+    if (reviewFeedback !== undefined) {
+      dataToUpdate.reviewFeedback = reviewFeedback;
+    }
+
     return this.prisma.content.update({
       where: { id },
-      data: { publicationStatus: toStatus },
+      data: dataToUpdate,
     });
   }
-  private async safeNotify(userId: string, type: string, message: string){
-    try{
-    const notification = await this.notificationservice.create(userId, type as any, message);
-    }
-    catch{
-      console.error('Failed to create notification');
+  private async createNotificationSafely(userId: string, type: NotificationType, message: string) {
+    try {
+      await this.notificationService.create(userId, type, message);
+    } catch (error) {
+      console.error('Failed to create notification', error);
     }
   }
 }

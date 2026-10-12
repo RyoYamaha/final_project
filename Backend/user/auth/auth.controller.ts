@@ -4,14 +4,20 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { RegisterPublisherExternalDto } from './dto/register-publisher-external.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
+  }
+
+  @Post('register-publisher')
+  async registerPublisher(@Body() dto: RegisterPublisherExternalDto) {
+    return this.authService.registerPublisherExternal(dto);
   }
 
   @Post('login')

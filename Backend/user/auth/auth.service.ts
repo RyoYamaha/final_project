@@ -5,6 +5,7 @@ import * as crypto from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { RegisterPublisherExternalDto } from './dto/register-publisher-external.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,11 +28,49 @@ export class AuthService {
         username: dto.username,
         email: dto.email,
         passwordHash,
-        role: 'Reader', // mặc định luôn là Reader, không cho tự chọn role lúc đăng ký
+        role: dto.role || 'Reader', // lấy role từ DTO hoặc mặc định là Reader
       },
     });
 
     return this.issueTokens(user.id, user.role, user.username); //phát token lại cho người dùng có id như này và role này 
+  }
+
+  // Đăng ký NXB trực tiếp từ bên ngoài (One-step transaction)
+  async registerPublisherExternal(dto: RegisterPublisherExternalDto) {
+    const existing = await this.prisma.user.findFirst({
+      where: { OR: [{ username: dto.username }, { email: dto.email }] },
+    });
+    if (existing) {
+      throw new ConflictException('Username or email has already existed');
+    }
+
+    const passwordHash = await bcrypt.hash(dto.password, 10);
+
+    // Sử dụng transaction để đảm bảo tạo User và Publisher cùng lúc (hoặc cả 2 cùng fail)
+    const user = await this.prisma.$transaction(async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          username: dto.username,
+          email: dto.email,
+          passwordHash,
+          role: 'Publisher', // Ép cứng role là Publisher
+        },
+      });
+
+      await tx.publisher.create({
+        data: {
+          userId: newUser.id,
+          organizationName: dto.organizationName,
+          verificationDocumentUrl: dto.verificationDocumentUrl,
+          verificationStatus: 'Pending',
+        },
+      });
+
+      return newUser;
+    });
+
+    // Sau khi đăng ký xong, cũng cấp luôn token để họ tự đăng nhập và thấy trang Pending
+    return this.issueTokens(user.id, user.role, user.username);
   }
 
   async login(dto: LoginDto) {

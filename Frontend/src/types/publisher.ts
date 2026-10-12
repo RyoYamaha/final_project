@@ -10,3 +10,7 @@ export interface Publisher {
   organizationName: string
   verificationStatus: PublisherVerificationStatus
 }
+
+export interface RegisterPublisherDto {
+  organizationName: string
+}

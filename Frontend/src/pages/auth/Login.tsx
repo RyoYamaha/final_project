@@ -4,13 +4,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { isAxiosError } from 'axios'
-import { api } from '@/lib/api'
 import { decodeJwtPayload } from '@/lib/jwt'
+import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import type { LoginDto, LoginResponse } from '@/types/auth'
+
+import type { LoginDto } from '@/types/auth'
 
 // ==========================================
 // 1. ĐỊNH NGHĨA KHUÔN KIỂM TRA DỮ LIỆU (VALIDATION)
@@ -59,7 +60,7 @@ export function Login() {
     setServerError(null)
     try {
       // 4.1. Gửi dữ liệu (username, password) lên Backend
-      const { data } = await api.post<LoginResponse>('/auth/login', values)
+      const { data } = await authService.login(values)
       
       // 4.2. Giải mã trực tiếp accessToken lấy từ Backend trả về
       // Mục đích: Ép ra được `username`, `role`, `sub` (tức là id) mà không cần gọi API lần 2
@@ -72,8 +73,15 @@ export function Login() {
         username: payload.username,
       })
       
+      let nextPath = from;
+      if (nextPath === '/') {
+          if (payload.role === 'Author') nextPath = '/author/dashboard'
+          else if (payload.role === 'Publisher') nextPath = '/publisher/dashboard'
+          else if (payload.role === 'Admin') nextPath = '/admin/dashboard'
+      }
+
       // 4.4. Đăng nhập thành công! Đưa user về trang họ định vào ban nãy
-      navigate(from, { replace: true })
+      navigate(nextPath, { replace: true })
     } catch (err) {
       // Bắt lỗi từ Backend (Sai pass, khóa tài khoản...)
       const status = isAxiosError(err) ? err.response?.status : undefined
@@ -90,7 +98,10 @@ export function Login() {
   // ==========================================
   return (
     <div className="mx-auto w-full max-w-sm space-y-6 py-10">
-      <h1 className="text-2xl font-bold">Đăng nhập</h1>
+      <h1 className="text-2xl font-bold text-center">Đăng nhập</h1>
+
+
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         {/* Trường nhập Username / Email */}
         <div className="space-y-1.5">

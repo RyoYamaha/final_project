@@ -2,8 +2,7 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { PrismaService } from '../prisma/prisma.service';
 import { ChapterService } from '../core/chapter/chapter.service';
 import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
-// @ts-ignore — pdf-parse không có type export chuẩn ESM
-const pdfParse = require('pdf-parse');
+
 
 @Injectable()
 export class NovelService {
@@ -11,7 +10,7 @@ export class NovelService {
     private readonly prisma: PrismaService,
     private readonly chapterService: ChapterService,
     private readonly cloudinary: CloudinaryService,
-  ) {}
+  ) { }
 
   /** Author/Publisher gõ text trực tiếp — không có ảnh lật trang, đọc dạng text thường */
 
@@ -21,26 +20,27 @@ export class NovelService {
     if (!chapter) throw new BadRequestException('Không tìm thấy Chapter');
     await this.chapterService.verifyOwnership(chapter.contentId, uploaderId);  //kiểm tra xem người dùng có quyền chỉnh sửa hay không 
 
-    return this.prisma.chapterContent.upsert({ //upsert nghĩa làn nếu chapter có content sẵn rồi thì update , còn không thì tự tạo 1 bản ghi mới 
+    const result = await this.prisma.chapterContent.upsert({
       where: { chapterId },
       update: { textBody },
       create: { chapterId, textBody },
     });
+
+    await this.prisma.chapter.update({
+      where: { id: chapterId },
+      data: { moderationStatus: 'PendingReview', publishedAt: null },
+    });
+
+    return result;
   }
 
-//method dùng để xử lý pdf của 1 chapter, chuyển pdf thành từng trang và trích xuất text để lưu cho Ai 
+  //method dùng để xử lý pdf của 1 chapter, chuyển pdf thành từng trang và trích xuất text để lưu cho Ai 
   async setChapterFromPdf(chapterId: string, uploaderId: string, pdfBuffer: Buffer) { //pdfBuffer là nội dung file pdf dưới dạng buffer 
     const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId } });
     if (!chapter) throw new BadRequestException('Không tìm thấy Chapter');
     await this.chapterService.verifyOwnership(chapter.contentId, uploaderId);
 
-    const parsed = await pdfParse(pdfBuffer);
-    const textBody = parsed.text?.trim();
-    if (!textBody) {
-      throw new BadRequestException(
-        'PDF không chứa text layer (có thể là bản scan) — AI cần text để xử lý, vui lòng upload lại file gốc',
-      );
-    }
+
 
     // pdf-img-convert pairs pdf.js with node-canvas. In this Node runtime pdf.js
     // resolves @napi-rs/canvas, so mixing the two canvas implementations makes
@@ -71,6 +71,9 @@ export class NovelService {
     );
 
     await this.prisma.$transaction([
+      this.prisma.chapterPage.deleteMany({
+        where: { chapterId },
+      }),
       this.prisma.chapterPage.createMany({
         data: uploadedUrls.map((imageUrl, index) => ({
           chapterId,
@@ -78,14 +81,14 @@ export class NovelService {
           imageUrl,
         })),
       }),
-      this.prisma.chapterContent.upsert({
-        where: { chapterId },
-        update: { textBody },
-        create: { chapterId, textBody },
-      }),
     ]);
 
-    return { pagesCreated: uploadedUrls.length, hasTextForAI: true };
+    await this.prisma.chapter.update({
+      where: { id: chapterId },
+      data: { moderationStatus: 'PendingReview', publishedAt: null },
+    });
+
+    return { pagesCreated: uploadedUrls.length };
   }
 
   /** Reader dùng — lấy ảnh từng trang để lật (Chapter nào upload từ PDF mới có) */
@@ -117,9 +120,25 @@ export class NovelService {
     return content;
   }
 
-
-  async getChapterTextForAI(chapterId: string): Promise<string> {
+  /** Author dùng — lấy text chapter kể cả khi đang PendingReview */
+  async getChapterTextForAuthor(chapterId: string, uploaderId: string) {
+    const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId } });
+    if (!chapter) throw new NotFoundException('Không tìm thấy Chapter');
+    await this.chapterService.verifyOwnership(chapter.contentId, uploaderId);
     const content = await this.prisma.chapterContent.findUnique({ where: { chapterId } });
-    return content?.textBody ?? '';
+    // Trả về object rỗng thay vì lỗi nếu chưa có nội dung
+    return content ?? { chapterId, textBody: '' };
   }
+
+  /** Author dùng — lấy pages manga chapter kể cả khi đang PendingReview */
+  async getChapterPagesForAuthor(chapterId: string, uploaderId: string) {
+    const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId } });
+    if (!chapter) throw new NotFoundException('Không tìm thấy Chapter');
+    await this.chapterService.verifyOwnership(chapter.contentId, uploaderId);
+    return this.prisma.chapterPage.findMany({
+      where: { chapterId },
+      orderBy: { pageNumber: 'asc' },
+    });
+  }
+
 }

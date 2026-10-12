@@ -39,6 +39,7 @@ export interface ContentListItem {
   type: ContentType;
   ownershipTier: OwnershipTier;
   publicationStatus: PublicationStatus;
+  reviewFeedback?: string | null;
   storyStatus: StoryStatus;
   coverImageUrl?: string | null;
   uploaderId: string;
@@ -90,3 +91,56 @@ export interface ContentPaginationResponse {
     totalPages: number;
   };
 }
+
+// ==========================================
+// 5. CÁC DTO TẠO & SỬA TRUYỆN DÀNH CHO AUTHOR
+// ==========================================
+
+export interface CreateOriginalContentDto {
+  title: string;
+  synopsis?: string;
+  type: ContentType;
+  coverImageUrl?: string;
+  genreIds?: string[];
+  tagIds?: string[];
+}
+
+export interface CreateFanTranslationDto extends CreateOriginalContentDto {
+  parentContentId: string;
+}
+
+export interface UpdateContentDto {
+  title?: string;
+  synopsis?: string;
+  coverImageUrl?: string;
+  storyStatus?: StoryStatus;
+  genreIds?: string[];
+  tagIds?: string[];
+}
+
+export interface LicensedBrowseItem {
+  id: string;
+  title: string;
+  type: ContentType;
+  coverImageUrl?: string | null;
+  synopsis?: string | null;
+}
+
+export interface AuthorDashboardStats {
+  totalContents: number;
+  totalTranslations: number;
+  totalOriginals: number;
+  bookmarkCount: number;
+  averageRating: number;
+  ratingCount: number;
+  commentCount: number;
+  translations?: Array<{ id: string; title: string; publicationStatus: string }>;
+  contents?: Array<{
+    id: string;
+    title: string;
+    type: ContentType;
+    ownershipTier: OwnershipTier;
+    publicationStatus: PublicationStatus;
+  }>;
+}
+

@@ -1,15 +1,12 @@
-import { LayoutDashboard, BookUp, FileUp } from 'lucide-react'
-import { SidebarLayout } from './SidebarLayout'
-import type { SidebarItem } from './Sidebar'
+import { Navigate } from 'react-router'
+import { useAuthStore } from '@/stores/auth-store'
+import { MainLayout } from './MainLayout'
 
-const AUTHOR_ITEMS: SidebarItem[] = [
-  { label: 'Bảng điều khiển', to: '/author/dashboard', icon: LayoutDashboard, end: true },
-  { label: 'Đăng truyện tranh', to: '/author/upload/manga', icon: BookUp },
-  { label: 'Đăng tiểu thuyết', to: '/author/upload/novel', icon: FileUp },
-]
-
-export function AuthorLayout() {
-  return <SidebarLayout items={AUTHOR_ITEMS} title="Khu vực Tác giả" />
+export const AuthorLayout = () => {
+  const user = useAuthStore((s) => s.user)
+  // Optionally check if they are Author
+  if (user?.role !== 'Author' && user?.role !== 'Admin') return <Navigate to="/" replace />
+  
+  return <MainLayout />
 }
-
 export default AuthorLayout

@@ -16,6 +16,7 @@ import { HealthModule } from './health/health.module';
 import { AdminModule } from './admin/admin.module';
 import { FavoriteModule } from './favourite/favourite.module';
 import { ReadingProgressModule } from './ReadingProgress/reading-progress.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ReadingProgressModule } from './ReadingProgress/reading-progress.module
     AdminModule,
     FavoriteModule,
     ReadingProgressModule,
+    TicketModule,
   ],
 })
 export class AppModule {}

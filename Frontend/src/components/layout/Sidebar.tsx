@@ -25,7 +25,7 @@ export function Sidebar({ items, title }: SidebarProps) {
         )}
         {items.map(({ label, to, icon: Icon, end }) => (
           <NavLink
-            key={to}
+            key={`${to}-${label}`}
             to={to}
             end={end}
             className={({ isActive }) =>

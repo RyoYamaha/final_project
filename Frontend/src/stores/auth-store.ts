@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { User } from '@/types/auth'
 
-const REFRESH_TOKEN_KEY = 'refresh_token'
+export const REFRESH_TOKEN_KEY = 'refresh_token'
 
 interface AuthState {
   accessToken: string | null

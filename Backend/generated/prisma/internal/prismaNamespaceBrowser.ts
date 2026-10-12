@@ -73,7 +73,9 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   ContentKnowledgeBase: 'ContentKnowledgeBase',
   AIConversation: 'AIConversation',
-  RecommendationCache: 'RecommendationCache'
+  RecommendationCache: 'RecommendationCache',
+  SupportTicket: 'SupportTicket',
+  TicketMessage: 'TicketMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -100,6 +102,7 @@ export const ContentScalarFieldEnum = {
   type: 'type',
   ownershipTier: 'ownershipTier',
   publicationStatus: 'publicationStatus',
+  reviewFeedback: 'reviewFeedback',
   storyStatus: 'storyStatus',
   coverImageUrl: 'coverImageUrl',
   uploaderId: 'uploaderId',
@@ -195,6 +198,7 @@ export const PublisherScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   organizationName: 'organizationName',
+  verificationDocumentUrl: 'verificationDocumentUrl',
   verificationStatus: 'verificationStatus'
 } as const
 
@@ -338,6 +342,29 @@ export const RecommendationCacheScalarFieldEnum = {
 } as const
 
 export type RecommendationCacheScalarFieldEnum = (typeof RecommendationCacheScalarFieldEnum)[keyof typeof RecommendationCacheScalarFieldEnum]
+
+
+export const SupportTicketScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subject: 'subject',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
+export const TicketMessageScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  senderId: 'senderId',
+  body: 'body',
+  createdAt: 'createdAt'
+} as const
+
+export type TicketMessageScalarFieldEnum = (typeof TicketMessageScalarFieldEnum)[keyof typeof TicketMessageScalarFieldEnum]
 
 
 export const SortOrder = {

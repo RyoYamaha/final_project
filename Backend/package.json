@@ -20,7 +20,7 @@
     "@types/multer": "^2.2.0",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
-    "prisma": "^6.19.3",
+    "prisma": "^7.10.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {

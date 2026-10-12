@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { api } from '@/lib/api'
-import type { ContentDetailData } from '@/types/content'
+import { contentService } from '@/services/content.service'
 
 // ==========================================
 // HOOK TÌM CHƯƠNG TRƯỚC / CHƯƠNG SAU
@@ -10,7 +9,7 @@ export function useChapterNav(contentId?: string, chapterId?: string) {
   const { data: content, isLoading, isError } = useQuery({
     queryKey: ['content', contentId],
     enabled: !!contentId,
-    queryFn: async () => (await api.get<ContentDetailData>(`/content/${contentId}`)).data,
+    queryFn: async () => (await contentService.getDetail(contentId!)).data,
   })
 
   // 2. Lọc bỏ chương bị ẩn/chờ duyệt, chỉ giữ lại chương 'Published' và sắp xếp

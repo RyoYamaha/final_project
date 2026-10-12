@@ -154,3 +154,13 @@ export type AIConversation = Prisma.AIConversationModel
  * 
  */
 export type RecommendationCache = Prisma.RecommendationCacheModel
+/**
+ * Model SupportTicket
+ * 
+ */
+export type SupportTicket = Prisma.SupportTicketModel
+/**
+ * Model TicketMessage
+ * 
+ */
+export type TicketMessage = Prisma.TicketMessageModel

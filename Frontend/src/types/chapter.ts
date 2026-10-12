@@ -67,3 +67,9 @@ export interface CreateChapterDto {
   number: number;
   title?: string;
 }
+
+export interface UpdateChapterDto {
+  number?: number;
+  title?: string;
+}
+

@@ -1,64 +1,30 @@
-import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router'
-import { api } from '@/lib/api'
-import type { Publisher } from '@/types/publisher'
+import { useQuery } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
+import { publisherService } from '@/services/publisher.service'
 
-type CheckState =
-  | { status: 'loading' }
-  | { status: 'not_registered' }
-  | { status: 'needs_review'; publisher: Publisher }
-  | { status: 'approved' }
-  | { status: 'error' }
 
 export function PublisherRoute() {
-  const [check, setCheck] = useState<CheckState>({ status: 'loading' })
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['publisher-me'],
+    retry: false,
+    queryFn: async () => (await publisherService.getMe()).data,
+  })
 
-  useEffect(() => {
-    let cancelled = false
+  if (isLoading) return <p className="p-4 text-sm text-muted-foreground">Đang kiểm tra quyền...</p>
 
-    api
-      .get<Publisher>('/publisher/me')
-      .then((res) => {
-        if (cancelled) {
-          return
-        }
-        if (res.data.verificationStatus === 'Approved') {
-          setCheck({ status: 'approved' })
-        } else {
-          setCheck({ status: 'needs_review', publisher: res.data })
-        }
-      })
-      .catch((err) => {
-        if (cancelled) {
-          return
-        }
-        if (err.response?.status === 404) {
-          setCheck({ status: 'not_registered' })
-        } else {
-          setCheck({ status: 'error' })
-        }
-      })
-
-    return () => {
-      cancelled = true
+  if (isError) {
+    if (isAxiosError(error) && error.response?.status === 404) {
+      return <Navigate to="/publisher/register" replace />
     }
-  }, [])
-
-  if (check.status === 'loading') {
-    return <div>Đang kiểm tra quyền Publisher...</div>
+    return <p className="p-4 text-sm">Không kiểm tra được quyền Publisher. Thử lại sau.</p>
   }
 
-  if (check.status === 'not_registered') {
-    return <Navigate to="/publisher/register" replace />
-  }
-
-  if (check.status === 'needs_review') {
-    return <Navigate to="/publisher/status" replace state={{ publisher: check.publisher }} />
-  }
-
-  if (check.status === 'error') {
-    return <div>Không kiểm tra được trạng thái Publisher. Thử tải lại trang.</div>
+  if (data && data.verificationStatus !== 'Approved') {
+    return <Navigate to="/publisher/status" state={{ publisher: data }} replace />
   }
 
   return <Outlet />
 }
+
+export default PublisherRoute

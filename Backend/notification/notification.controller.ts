@@ -10,7 +10,7 @@ export class NotificationController {
 
   @Get()
   async getNotification(@CurrentUser('id') userId: string) {
-    return await this.service.getMyNotification(userId);
+    return await this.service.getMyNotifications(userId);
   }
 
   @Get('unread-count')

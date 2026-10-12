@@ -1,9 +1,11 @@
-import { Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/constants/roles.enum';
 import { AdminService } from './admin.service';
+import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.Admin)
@@ -16,6 +18,26 @@ export class AdminController {
         return this.service.getReviewQueue();
     }
 
+    @Get('chapters/:id')
+    getChapterDetail(@Param('id') id: string) {
+        return this.service.GetChapterDetail(id);
+    }
+
+    @Patch('chapters/:id/approve')
+    approveChapter(@Param('id') id: string) {
+        return this.service.ApproveChapter(id);
+    }
+
+    @Patch('chapters/:id/reject')
+    rejectChapter(@Param('id') id: string) {
+        return this.service.RejectChapter(id);
+    }
+
+    @Get('content')
+    getAllContents() {
+        return this.service.getAllContents();
+    }
+
     // Content moderation
     @Patch(['content/:id/approve', 'content/:id/approval'])
     approveContent(@Param('id') id: string) {
@@ -23,8 +45,8 @@ export class AdminController {
     }
 
     @Patch('content/:id/reject')
-    rejectContent(@Param('id') id: string) {
-        return this.service.RejectContent(id);
+    rejectContent(@Param('id') id: string, @Body() body: { reason?: string }) {
+        return this.service.RejectContent(id, body?.reason);
     }
 
     @Patch('content/:id/hide')
@@ -49,9 +71,19 @@ export class AdminController {
     }
 
     // User management
+    @Get('users')
+    getAllUsers() {
+        return this.service.getAllUsers();
+    }
+
+    @Patch('users/:id')
+    updateUser(@Param('id') id: string, @Body() dto: UpdateAdminUserDto) {
+        return this.service.updateUser(id, dto);
+    }
+
     @Patch('users/:id/lock')
-    lockUser(@Param('id') id: string) {
-        return this.service.LockUser(id);
+    lockUser(@Param('id') id: string, @CurrentUser('id') adminId: string) {
+        return this.service.LockUser(id, adminId);
     }
 
     @Patch('users/:id/unlock')

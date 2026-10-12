@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ContentService } from './content.service';
-import { ContentController } from './content.controller';
+import { ContentController, GenreController, TagController } from './content.controller';
 
 @Module({
-  controllers: [ContentController],
+  controllers: [ContentController, GenreController, TagController],
   providers: [ContentService],
   exports: [ContentService], 
 })

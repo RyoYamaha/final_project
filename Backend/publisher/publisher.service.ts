@@ -4,21 +4,31 @@ import { ContentService } from '../core/content/content.service';
 import { RegisterPublisherDto } from './dto/register-publisher.dto';
 import { CreatePublisherContentDto } from './dto/create-publisher-content.dto';
 import { OwnershipTier } from '../common/constants/content.enum';
-import {NotificationService} from '../notification/notification.service'
+import { NotificationService } from '../notification/notification.service'
+import { NotificationType } from '../common/constants/notification.enum';
+import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
+import { UpdateContentDto } from '../core/content/dto/update-content.dto';
 
 @Injectable()
 export class PublisherService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly contentService: ContentService,
-    private readonly notificationservice: NotificationService 
-  ) {}
+    private readonly notificationService: NotificationService,
+    private readonly cloudinary: CloudinaryService,
+  ) { }
 
-//Đăng ký publisher 
+  //Đăng ký publisher 
 
   async register(userId: string, dto: RegisterPublisherDto) {
     const existing = await this.prisma.publisher.findUnique({ where: { userId } });
     if (existing) {
+      if (existing.verificationStatus === 'Rejected') {
+        return this.prisma.publisher.update({
+          where: { userId },
+          data: { organizationName: dto.organizationName, verificationStatus: 'Pending' },
+        });
+      }
       throw new ConflictException('Tài khoản này đã đăng ký Publisher rồi');
     }
     return this.prisma.publisher.create({
@@ -26,7 +36,7 @@ export class PublisherService {
     });
   }
 
-//tìm profile publisher 
+  //tìm profile publisher 
 
   async getMyPublisherProfile(userId: string) {
     const publisher = await this.prisma.publisher.findUnique({ where: { userId } });
@@ -34,7 +44,7 @@ export class PublisherService {
     return publisher;
   }
 
-//tạo content cho publisher 
+  //tạo content cho publisher 
 
   async createContent(userId: string, dto: CreatePublisherContentDto) {
     const publisher = await this.getVerifiedPublisher(userId);
@@ -51,8 +61,49 @@ export class PublisherService {
     const publisher = await this.getVerifiedPublisher(userId);
     return this.prisma.content.findMany({ //tìm content với điều kiện gắn với id của publisher và sắp xếp theo thứ tự giảm dần 
       where: { publisherId: publisher.id },
+      include: {
+        genres: { include: { genre: true } },
+        tags: { include: { tag: true } },
+        _count: { select: { chapters: true } },
+      },
       orderBy: { createdAt: 'desc' },
     });
+  }
+
+  // Xem chi tiết truyện của publisher (kèm tất cả các chương kể cả PendingReview)
+  async getPublisherContentDetail(userId: string, contentId: string) {
+    const publisher = await this.getVerifiedPublisher(userId);
+    const content = await this.prisma.content.findUnique({
+      where: { id: contentId },
+      include: {
+        mangaDetail: true,
+        novelDetail: true,
+        genres: { include: { genre: true } },
+        tags: { include: { tag: true } },
+        chapters: { orderBy: { number: 'asc' } },
+        publisher: true,
+      },
+    });
+
+    if (!content) throw new NotFoundException('Không tìm thấy Content');
+    if (content.publisherId !== publisher.id) {
+      throw new ForbiddenException('Không có quyền xem chi tiết truyện này');
+    }
+
+    return content;
+  }
+
+  // Chỉnh sửa truyện của Publisher
+  async updateContent(userId: string, contentId: string, dto: UpdateContentDto) {
+    // Tạm thời xác thực quyền sở hữu
+    await this.getPublisherContentDetail(userId, contentId);
+    return this.contentService.updateContent(contentId, userId, dto);
+  }
+
+  // Upload ảnh bìa cho truyện
+  async uploadCoverImage(file: Express.Multer.File) {
+    const result = await this.cloudinary.uploadImage(file.buffer, 'covers');
+    return { url: result };
   }
 
   //gửi lại content cho bên admin khi bị từ chối 
@@ -61,7 +112,7 @@ export class PublisherService {
     return this.contentService.resubmit(contentId, userId);
   }
 
- //xác nhận publisher có tồn tại không 
+  //xác nhận publisher có tồn tại không 
   private async getVerifiedPublisher(userId: string) {
     const publisher = await this.prisma.publisher.findUnique({ where: { userId } });
     //tìm publisher xem có không
@@ -74,18 +125,35 @@ export class PublisherService {
 
   //hàm (method) dùng để admin update vertification của publisher 
   async approveVerification(publisherId: string) {
-    return this.prisma.publisher.update({ where: { id: publisherId }, data: { verificationStatus: 'Approved' } });
-  } 
- // tương tự 
-  async rejectVerification(publisherId: string) {
-    return this.prisma.publisher.update({ where: { id: publisherId }, data: { verificationStatus: 'Rejected' } });
+    const publisher = await this.prisma.publisher.update({
+      where: { id: publisherId },
+      data: { verificationStatus: 'Approved' },
+    });
+    await this.createNotificationSafely(
+      publisher.userId,
+      NotificationType.PublisherVerified,
+      'Hồ sơ Publisher của bạn đã được xác minh.',
+    );
+    return publisher;
   }
-  private async safeNotify(userId: string, type: string, message: string){
-    try{
-    const notification = await this.notificationservice.create(userId, type as any, message);
-    }
-    catch{
-      console.error('Failed to create notification');
+  // tương tự 
+  async rejectVerification(publisherId: string) {
+    const publisher = await this.prisma.publisher.update({
+      where: { id: publisherId },
+      data: { verificationStatus: 'Rejected' },
+    });
+    await this.createNotificationSafely(
+      publisher.userId,
+      NotificationType.PublisherRejected,
+      'Hồ sơ Publisher của bạn đã bị từ chối.',
+    );
+    return publisher;
+  }
+  private async createNotificationSafely(userId: string, type: NotificationType, message: string) {
+    try {
+      await this.notificationService.create(userId, type, message);
+    } catch (error) {
+      console.error('Failed to create notification', error);
     }
   }
 }

@@ -1,8 +1,9 @@
-import { Controller, Post, Get, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Patch, Get, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { NovelService } from './novel.service';
 import { ChapterService } from '../core/chapter/chapter.service';
 import { CreateChapterDto } from '../core/chapter/dto/create-chapter.dto';
+import { UpdateChapterDto } from '../core/chapter/dto/update-chapter.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
@@ -21,6 +22,16 @@ export class NovelController {
     @Body() dto: CreateChapterDto,
   ) {
     return this.chapterService.createChapter(contentId, userId, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('chapters/:chapterId')
+  updateChapter(
+    @Param('chapterId') chapterId: string,
+    @CurrentUser('id') userId: string,
+    @Body() dto: UpdateChapterDto,
+  ) {
+    return this.chapterService.updateChapter(chapterId, userId, dto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -52,5 +63,14 @@ export class NovelController {
   @Get('chapters/:chapterId/text')
   getText(@Param('chapterId') chapterId: string) {
     return this.novelService.getChapterText(chapterId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('chapters/:chapterId/text/author')
+  getTextForAuthor(
+    @Param('chapterId') chapterId: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return this.novelService.getChapterTextForAuthor(chapterId, userId);
   }
 }

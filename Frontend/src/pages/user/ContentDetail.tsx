@@ -1,14 +1,16 @@
 import { Link, useParams } from 'react-router'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
-import { ImageOff } from 'lucide-react'
-import { api } from '@/lib/api'
+import { ImageOff, AlertTriangle } from 'lucide-react'
+import { contentService } from '@/services/content.service'
 import { Button } from '@/components/ui/button'
-
-// Import khuôn (DTO) để ép kiểu dữ liệu trả về từ API
-import type { ContentDetailData } from '@/types/content'
+import { ContentActions } from '@/components/content/ContentActions'
+import { RatingStars } from '@/components/content/RatingStars'
+import { ReportModal } from '@/components/shared/ReportModal'
 
 export function ContentDetail() {
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false)
   // ==========================================
   // 1. LẤY ID TRUYỆN TỪ URL
   // ==========================================
@@ -30,7 +32,7 @@ export function ContentDetail() {
     retry: (count, err) => !(isAxiosError(err) && err.response?.status === 404) && count < 2,
 
     // Hàm thực sự đi gọi API. Kết quả lấy về sẽ được ép chặt vào khuôn ContentDetailData
-    queryFn: async () => (await api.get<ContentDetailData>(`/content/${id}`)).data,
+    queryFn: async () => (await contentService.getDetail(id!)).data,
   })
 
   // ==========================================
@@ -58,6 +60,7 @@ export function ContentDetail() {
 
   // Trạng thái 3: Nếu không có lỗi nhưng data bị rỗng (đề phòng) thì không hiển thị gì cả
   if (!data) return null
+  console.log('CONTENT_DETAIL_DATA:', data)
 
   // ==========================================
   // 4. CHUẨN BỊ DỮ LIỆU ĐỂ HIỂN THỊ
@@ -66,7 +69,7 @@ export function ContentDetail() {
   // Lớp phòng thủ Frontend: Backend (có thể) đã trả về cả những chương chưa xuất bản (bị ẩn, chờ duyệt...).
   // Do đó, ta PHẢI LỌC lại: Chỉ lấy những chương có moderationStatus === 'Published'.
   // Sau đó sắp xếp theo thứ tự số chương từ bé đến lớn.
-  const chapters = data.chapters
+  const chapters = (data.chapters || [])
     .filter((c) => c.moderationStatus === 'Published')
     .sort((a, b) => a.number - b.number)
 
@@ -98,7 +101,7 @@ export function ContentDetail() {
           <h1 className="text-2xl font-bold">{data.title}</h1>
 
           <p className="text-sm text-muted-foreground">
-            {data.type} · {data.storyStatus} · Đăng bởi {data.uploader.username}
+            {data.type} · {data.storyStatus} · Đăng bởi {data.uploader?.username || 'Unknown'}
             {data.publisher && ` · NXB ${data.publisher.organizationName}`}
           </p>
 
@@ -114,24 +117,41 @@ export function ContentDetail() {
 
           {/* Hiển thị Thể Loại (Genres) và Tags */}
           <div className="flex flex-wrap gap-2">
-            {data.genres.map(({ genre }) => (
+            {(data.genres || []).map(({ genre }) => (
               <span key={genre.id} className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs text-primary">
                 {genre.name}
               </span>
             ))}
-            {data.tags.map(({ tag }) => (
+            {(data.tags || []).map(({ tag }) => (
               <span key={tag.id} className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">
                 #{tag.name}
               </span>
             ))}
           </div>
 
+          <div className="flex flex-wrap gap-2 pt-2 pb-2">
+            <ContentActions contentId={data.id} />
+            <RatingStars contentId={data.id} />
+          </div>
+
           {/* Nút Đọc từ đầu (Lấy ID của chương đầu tiên trong mảng chapters đã lọc) */}
-          {chapters.length > 0 && (
-            <Button asChild>
-              <Link to={readPath(chapters[0].id)}>Đọc từ đầu</Link>
+          <div className="flex gap-2">
+            {chapters.length > 0 && (
+              <Button asChild>
+                <Link to={readPath(chapters[0].id)}>Đọc từ đầu</Link>
+              </Button>
+            )}
+            
+            <Button variant="outline" className="text-destructive hover:bg-destructive hover:text-white" onClick={() => setIsReportModalOpen(true)}>
+              <AlertTriangle className="mr-2 h-4 w-4" /> Báo cáo
             </Button>
-          )}
+          </div>
+          <ReportModal
+            isOpen={isReportModalOpen}
+            onClose={() => setIsReportModalOpen(false)}
+            targetType="Content"
+            targetId={data.id}
+          />
         </div>
       </div>
 
