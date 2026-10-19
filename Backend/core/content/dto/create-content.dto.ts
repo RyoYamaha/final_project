@@ -1,5 +1,18 @@
-import { IsString, IsEnum, IsOptional, IsArray, IsUUID, MaxLength } from 'class-validator';
-import { ContentType } from '../../../common/constants/content.enum';
+import {
+  IsString,
+  IsEnum,
+  IsOptional,
+  IsArray,
+  MaxLength,
+  IsInt,
+  Min,
+  Max,
+  IsBoolean,
+} from 'class-validator';
+import {
+  ContentPricingType,
+  ContentType,
+} from '../../../common/constants/content.enum';
 
 export class CreateContentDto {
   @IsString()
@@ -16,6 +29,26 @@ export class CreateContentDto {
   @IsOptional()
   @IsString()
   coverImageUrl?: string;
+
+  @IsOptional()
+  @IsEnum(ContentPricingType)
+  pricingType?: ContentPricingType;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(2147483647)
+  priceCoins?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(2147483647)
+  freeChapters?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  allowCommunityTranslation?: boolean;
 
   @IsOptional()
   @IsArray()

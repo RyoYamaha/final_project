@@ -1,9 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
+import { randomUUID } from 'crypto';
 import { Readable } from 'stream';
 
 @Injectable()
 export class CloudinaryService {
+  async uploadFile(fileBuffer: Buffer, folder: string, mimeType: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const isPdf = mimeType === 'application/pdf';
+      const upload = cloudinary.uploader.upload_stream(
+        {
+          folder,
+          resource_type: isPdf ? 'raw' : 'image',
+          ...(isPdf && { public_id: `${randomUUID()}.pdf` }),
+        },
+        (error, result) => {
+          if (error || !result) return reject(error);
+          resolve(result.secure_url);
+        },
+      );
+      Readable.from([fileBuffer]).pipe(upload);
+    });
+  }
+
   async uploadImage(fileBuffer: Buffer, folder: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const upload = cloudinary.uploader.upload_stream(

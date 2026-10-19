@@ -8,6 +8,7 @@ export interface Publisher {
   id: string
   userId: string
   organizationName: string
+  verificationDocumentUrl?: string | null
   verificationStatus: PublisherVerificationStatus
 }
 

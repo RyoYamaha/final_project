@@ -1,4 +1,4 @@
-import { Home, Inbox, Library, ShieldCheck, MessageSquare, BookUp, FileUp, LayoutDashboard, ListChecks, Flag, ClipboardList, Users } from 'lucide-react'
+import { Home, Library, History, ShieldCheck, MessageSquare, BookOpen, LayoutDashboard, ListChecks, Flag, ClipboardList, Users, Languages } from 'lucide-react'
 import { SidebarLayout } from './SidebarLayout'
 import type { SidebarItem } from './Sidebar'
 import { useAuthStore } from '@/stores/auth-store'
@@ -12,32 +12,32 @@ export const MainLayout = () => {
 
   // Chỉ hiển thị Thư viện cho Reader
   if (user?.role === 'Reader') {
-    USER_ITEMS.push({ label: 'Thư viện', to: '/library', icon: Library })
+    USER_ITEMS.push(
+      { label: 'Thư viện', to: '/library', icon: Library },
+      { label: 'Lịch sử đọc', to: '/history', icon: History },
+    )
   }
 
   // Các mục chung cho tất cả
-  USER_ITEMS.push({ label: 'Thông báo', to: '/inbox', icon: Inbox })
-  if (user && user.role !== 'Admin') {
+  if (user && user.role !== 'Admin' && user.role !== 'Author') {
     USER_ITEMS.push({ label: 'Báo cáo của tôi', to: '/my-reports', icon: ClipboardList })
   }
 
-  if (user?.role !== 'Admin' && user?.role !== 'Publisher') {
+  if (user?.role !== 'Admin' && user?.role !== 'Publisher' && user?.role !== 'Author') {
     USER_ITEMS.push({ label: 'Hỗ trợ', to: '/support', icon: MessageSquare })
   }
 
   if (user?.role === 'Author') {
     USER_ITEMS.push(
       { label: 'Dashboard Tác giả', to: '/author/dashboard', icon: LayoutDashboard },
-      { label: 'Tạo truyện tranh', to: '/author/upload/manga', icon: BookUp },
-      { label: 'Tạo truyện chữ', to: '/author/upload/novel', icon: FileUp }
+      { label: 'Tạo truyện', to: '/author/create', icon: BookOpen },
+      { label: 'Đăng bản dịch', to: '/author/upload/translation', icon: Languages }
     )
   } else if (user?.role === 'Publisher') {
     USER_ITEMS.push(
-      { label: 'Registration & Verification', to: '/publisher/register', icon: ShieldCheck },
       { label: 'Dashboard Analytics', to: '/publisher/dashboard', icon: LayoutDashboard },
       { label: 'Quản lý danh mục', to: '/publisher/catalog', icon: Library, end: true },
-      { label: 'Tạo truyện tranh', to: '/publisher/upload/manga', icon: BookUp },
-      { label: 'Tạo truyện chữ', to: '/publisher/upload/novel', icon: FileUp },
+      { label: 'Tạo truyện', to: '/publisher/create', icon: BookOpen },
       { label: 'Compliance Center', to: '/publisher/compliance', icon: ShieldCheck }
     )
   } else if (user?.role === 'Admin') {

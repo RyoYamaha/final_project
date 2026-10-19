@@ -19,19 +19,24 @@ datasource db {
 // ReportStatus: "Pending" | "Dismissed" | "Resolved"
 
 model Content {
-  id                String   @id @default(uuid()) //id của chính content 
-  title             String
-  synopsis          String?  @db.NVarChar(Max)
-  type              String
-  ownershipTier     String
-  publicationStatus String   @default("Draft")
-  reviewFeedback    String?  @db.NVarChar(Max)
-  storyStatus       String   @default("Ongoing")
-  coverImageUrl     String?
+  id                        String    @id @default(uuid()) //id của chính content
+  title                     String
+  synopsis                  String?   @db.NVarChar(Max)
+  type                      String
+  ownershipTier             String
+  publicationStatus         String    @default("Draft")
+  reviewFeedback            String?   @db.NVarChar(Max)
+  storyStatus               String    @default("Ongoing")
+  coverImageUrl             String?
+  pricingType               String    @default("free") @db.VarChar(10)
+  priceCoins                Int       @default(0)
+  freeChapters              Int       @default(3)
+  allowCommunityTranslation Boolean   @default(false)
+  pricingChangedAt          DateTime?
 
-  uploaderId String  //ID của user upload content 
+  uploaderId String //ID của user upload content
   uploader   User   @relation("ContentUploader", fields: [uploaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-//id của content là khóa chính của content, có khóa ngoại là uploaderid trỏ đến id của user, nhận id của user là khóa ngoại 
+  //id của content là khóa chính của content, có khóa ngoại là uploaderid trỏ đến id của user, nhận id của user là khóa ngoại
   // suy ra ở đây id của user là khóa ngoại của content
 
   publisherId String?
@@ -91,6 +96,7 @@ model Chapter {
   pages           ChapterPage[]
   chapterContent  ChapterContent?
   readingProgress ReadingProgress[]
+  chapterReads    ChapterRead[]
 
   @@unique([contentId, number])
   @@index([moderationStatus])
@@ -144,12 +150,12 @@ model ContentTag {
 }
 
 model Publisher {
-  id                 String    @id @default(uuid())
-  userId             String    @unique
-  user               User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  organizationName   String
+  id                      String  @id @default(uuid())
+  userId                  String  @unique
+  user                    User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  organizationName        String
   verificationDocumentUrl String?
-  verificationStatus String    @default("Pending")
+  verificationStatus      String  @default("Pending")
 
   contents Content[]
 }
@@ -177,9 +183,86 @@ model User {
   refreshTokens   RefreshToken[]
   aiConversations AIConversation[]
   recommendations RecommendationCache[]
-  
-  supportTickets  SupportTicket[] @relation("UserTickets")
-  ticketMessages  TicketMessage[]
+
+  supportTickets SupportTicket[] @relation("UserTickets")
+  ticketMessages TicketMessage[]
+  chapterReads   ChapterRead[]
+  wallet         Wallet?
+  paymentOrders  PaymentOrder[]
+  walletLedger   WalletLedger[]
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  balance   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ledger WalletLedger[]
+}
+
+model PaymentOrder {
+  id                String    @id @default(uuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  expectedAmount    Int
+  paidAmount        Int?
+  paidCoins         Int?
+  status            String    @default("Pending")
+  transferCode      String    @unique @db.VarChar(32)
+  bankBin           String    @db.VarChar(20)
+  bankName          String
+  bankAccountNumber String    @db.VarChar(30)
+  bankAccountName   String
+  expiresAt         DateTime
+  paidAt            DateTime?
+  createdAt         DateTime  @default(now())
+
+  bankTransactions BankTransaction[]
+
+  @@index([userId, createdAt])
+  @@index([status, expiresAt])
+}
+
+model BankTransaction {
+  id               String        @id @default(uuid())
+  externalId       String        @unique @db.VarChar(100)
+  paymentOrderId   String?
+  paymentOrder     PaymentOrder? @relation(fields: [paymentOrderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  transferType     String        @db.VarChar(10)
+  transferAmount   Int
+  description      String        @db.NVarChar(Max)
+  rawPayload       String        @db.NVarChar(Max)
+  processingStatus String        @db.VarChar(32)
+  receivedAt       DateTime      @default(now())
+
+  @@index([paymentOrderId])
+}
+
+model WalletLedger {
+  id              String   @id @default(uuid())
+  walletId        String
+  wallet          Wallet   @relation(fields: [walletId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  amountCoins     Int
+  balanceAfter    Int
+  transactionType String   @db.VarChar(32)
+  sourceType      String   @db.VarChar(32)
+  sourceReference String   @db.VarChar(100)
+  description     String   @db.NVarChar(500)
+  createdAt       DateTime @default(now())
+
+  @@unique([sourceType, sourceReference])
+  @@index([userId, createdAt])
+}
+
+model SystemSetting {
+  key       String   @id @db.VarChar(100)
+  value     String   @db.NVarChar(1000)
+  updatedAt DateTime @updatedAt
 }
 
 model Bookmark {
@@ -234,17 +317,29 @@ model Comment {
 }
 
 model ReadingProgress {
-  id            String   @id @default(uuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  contentId     String
-  content       Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  lastChapterId String
-  lastChapter   Chapter  @relation(fields: [lastChapterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId      String
+  content        Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  lastChapterId  String
+  lastChapter    Chapter  @relation(fields: [lastChapterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   lastPageNumber Int?
-  lastReadAt    DateTime @default(now())
+  lastReadAt     DateTime @default(now())
 
   @@unique([userId, contentId])
+}
+
+model ChapterRead {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  chapterId   String
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  completedAt DateTime @default(now())
+
+  @@unique([userId, chapterId])
+  @@index([userId])
 }
 
 model Notification {
@@ -326,20 +421,20 @@ model SupportTicket {
   status    String   @default("Open") // "Open", "Closed"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  messages  TicketMessage[]
+
+  messages TicketMessage[]
 
   @@index([userId, status])
 }
 
 model TicketMessage {
-  id        String   @id @default(uuid())
+  id        String        @id @default(uuid())
   ticketId  String
   ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   senderId  String
-  sender    User     @relation(fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  body      String   @db.NVarChar(Max)
-  createdAt DateTime @default(now())
+  sender    User          @relation(fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  body      String        @db.NVarChar(Max)
+  createdAt DateTime      @default(now())
 
   @@index([ticketId])
 }

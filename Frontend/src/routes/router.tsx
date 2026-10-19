@@ -12,6 +12,7 @@ import { AuthorLayout } from '@/components/layout/AuthorLayout'
 import { PublisherLayout } from '@/components/layout/PublisherLayout'
 import { AdminLayout } from '@/components/layout/AdminLayout'
 import { BareLayout } from '@/components/layout/BareLayout'
+import { AuthLayout } from '@/components/layout/AuthLayout'
 
 // ===== Trang Auth =====
 import { Login } from '@/pages/auth/Login'
@@ -35,9 +36,9 @@ function SupportAccessRoute() {
 }
 
 export const router = createBrowserRouter([
-  // Auth: chỉ Navbar, không sidebar
+  // Auth pages use a standalone layout without role navigation.
   {
-    element: <BareLayout />,
+    element: <AuthLayout />,
     errorElement: <RouteError />,
     children: [
       { path: 'login', element: <Login /> },
@@ -61,6 +62,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           { path: 'library', ...lazyPage(() => import('@/pages/user/Library'), 'Library') },
+          { path: 'history', ...lazyPage(() => import('@/pages/user/History'), 'History') },
           { path: 'inbox', ...lazyPage(() => import('@/pages/user/Inbox'), 'Inbox') },
           { path: 'my-reports', ...lazyPage(() => import('@/pages/user/MyReports'), 'MyReports') },
           {
@@ -87,6 +89,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="dashboard" replace /> },
           { path: 'dashboard', ...lazyPage(() => import('@/pages/author/Dashboard'), 'AuthorDashboard') },
+          { path: 'create', ...lazyPage(() => import('@/pages/shared/CreateStory'), 'CreateStory') },
           { path: 'upload/manga', ...lazyPage(() => import('@/pages/author/UploadManga'), 'UploadManga') },
           { path: 'upload/novel', ...lazyPage(() => import('@/pages/author/UploadNovel'), 'UploadNovel') },
           { path: 'upload/translation', ...lazyPage(() => import('@/pages/author/UploadTranslation'), 'UploadTranslation') },
@@ -123,6 +126,7 @@ export const router = createBrowserRouter([
                 element: <PublisherLayout />,
                 children: [
                   { path: 'dashboard', ...lazyPage(() => import('@/pages/publisher/Dashboard'), 'PublisherDashboard') },
+                  { path: 'create', ...lazyPage(() => import('@/pages/shared/CreateStory'), 'CreateStory') },
                   { path: 'catalog', ...lazyPage(() => import('@/pages/publisher/SeriesCatalog'), 'SeriesCatalog') },
                   { path: 'catalog/:id/resubmit', ...lazyPage(() => import('@/pages/publisher/ResubmitSeries'), 'ResubmitSeries') },
                   { path: 'compliance', ...lazyPage(() => import('@/pages/publisher/Compliance'), 'Compliance') },

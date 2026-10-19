@@ -10,14 +10,22 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { TagInput } from '@/components/ui/tag-input'
+import { ContentPricingFields } from '@/components/content/ContentPricingFields'
 import { Clock, ArrowLeft } from 'lucide-react'
 
 const schema = z.object({
   title: z.string().trim().min(1, 'Nhập tên truyện').max(255, 'Tối đa 255 ký tự'),
   synopsis: z.string().trim().optional(),
+  pricingType: z.enum(['free', 'paid']),
+  priceCoins: z.number().int().min(0, 'Giá không được âm'),
+  freeChapters: z.number().int().min(0, 'Số chương đọc thử không được âm'),
+  allowCommunityTranslation: z.boolean(),
   genreIds: z.array(z.string()).optional(),
   tagIds: z.array(z.string()).optional(),
-})
+}).refine(
+  (values) => values.pricingType === 'free' || values.priceCoins >= 1,
+  { path: ['priceCoins'], message: 'Giá phải từ 1 coin trở lên' },
+)
 type FormValues = z.infer<typeof schema>
 
 export function EditManga() {
@@ -47,13 +55,24 @@ export function EditManga() {
 
   const {
     register,
+    watch,
+    setValue,
     handleSubmit,
     reset,
     control,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ 
     resolver: zodResolver(schema),
-    defaultValues: { title: '', synopsis: '', genreIds: [], tagIds: [] }
+    defaultValues: {
+      title: '',
+      synopsis: '',
+      pricingType: 'free',
+      priceCoins: 50,
+      freeChapters: 3,
+      allowCommunityTranslation: false,
+      genreIds: [],
+      tagIds: [],
+    }
   })
 
   useEffect(() => {
@@ -61,6 +80,10 @@ export function EditManga() {
       reset({
         title: contentData.title,
         synopsis: contentData.synopsis || '',
+        pricingType: contentData.pricingType,
+        priceCoins: contentData.priceCoins || 50,
+        freeChapters: contentData.freeChapters,
+        allowCommunityTranslation: false,
         genreIds: contentData.genres?.map((g: any) => g.genre.name) || [],
         tagIds: contentData.tags?.map((t: any) => t.tag.name) || [],
       })
@@ -78,6 +101,18 @@ export function EditManga() {
       return authorService.updateContent(id!, {
         title: v.title,
         synopsis: v.synopsis || undefined,
+        pricingType:
+          contentData?.ownershipTier === 'FanTranslation'
+            ? 'free'
+            : v.pricingType,
+        priceCoins:
+          contentData?.ownershipTier === 'FanTranslation' ||
+          v.pricingType === 'free'
+            ? 0
+            : v.priceCoins,
+        freeChapters:
+          contentData?.ownershipTier === 'FanTranslation' ? 0 : v.freeChapters,
+        allowCommunityTranslation: false,
         coverImageUrl: finalCoverUrl || undefined,
         genreIds: v.genreIds && v.genreIds.length > 0 ? v.genreIds : undefined,
         tagIds: v.tagIds && v.tagIds.length > 0 ? v.tagIds : undefined,
@@ -144,6 +179,30 @@ export function EditManga() {
             {...register('synopsis')}
           />
         </div>
+
+        <ContentPricingFields
+          pricingType={watch('pricingType')}
+          priceCoins={watch('priceCoins')}
+          freeChapters={watch('freeChapters')}
+          allowCommunityTranslation={watch('allowCommunityTranslation')}
+          priceCoinsError={errors.priceCoins?.message}
+          freeChaptersError={errors.freeChapters?.message}
+          onPricingTypeChange={(value) =>
+            setValue('pricingType', value, { shouldValidate: true })
+          }
+          onPriceCoinsChange={(value) =>
+            setValue('priceCoins', value, { shouldValidate: true })
+          }
+          onFreeChaptersChange={(value) =>
+            setValue('freeChapters', value, { shouldValidate: true })
+          }
+          onAllowCommunityTranslationChange={(value) =>
+            setValue('allowCommunityTranslation', value, {
+              shouldValidate: true,
+            })
+          }
+          showPricing={contentData?.ownershipTier === 'Original'}
+        />
 
         <div className="space-y-6 pt-4 border-t border-border/50">
           <h3 className="text-sm font-bold tracking-wider text-muted-foreground uppercase">Genre & Tags</h3>

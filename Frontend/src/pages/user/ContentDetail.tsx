@@ -2,8 +2,10 @@ import { Link, useParams } from 'react-router'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
-import { ImageOff, AlertTriangle } from 'lucide-react'
+import { ImageOff, AlertTriangle, Check } from 'lucide-react'
 import { contentService } from '@/services/content.service'
+import { readingProgressService } from '@/services/reading-progress.service'
+import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
 import { ContentActions } from '@/components/content/ContentActions'
 import { RatingStars } from '@/components/content/RatingStars'
@@ -11,6 +13,7 @@ import { ReportModal } from '@/components/shared/ReportModal'
 
 export function ContentDetail() {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false)
+  const user = useAuthStore((state) => state.user)
   // ==========================================
   // 1. LẤY ID TRUYỆN TỪ URL
   // ==========================================
@@ -33,6 +36,12 @@ export function ContentDetail() {
 
     // Hàm thực sự đi gọi API. Kết quả lấy về sẽ được ép chặt vào khuôn ContentDetailData
     queryFn: async () => (await contentService.getDetail(id!)).data,
+  })
+
+  const completedChapters = useQuery({
+    queryKey: ['reading-progress', id],
+    enabled: !!user && !!id,
+    queryFn: () => readingProgressService.getCompletedChapterIds(id!),
   })
 
   // ==========================================
@@ -76,6 +85,7 @@ export function ContentDetail() {
   // Hàm sinh ra link để đọc truyện. Tùy thuộc truyện là Manga hay Novel mà chèn chữ tương ứng vào link.
   const readPath = (chapterId: string) =>
     `/content/${data.id}/${data.type === 'Manga' ? 'read-manga' : 'read-novel'}/${chapterId}`
+  const completedChapterIds = new Set(completedChapters.data ?? [])
 
   // ==========================================
   // 5. RENDER GIAO DIỆN CHÍNH
@@ -166,6 +176,15 @@ export function ContentDetail() {
       {/* --- PHẦN 3: DANH SÁCH CHƯƠNG --- */}
       <section className="space-y-2">
         <h2 className="text-lg font-semibold">Danh sách chương ({chapters.length})</h2>
+        {user && completedChapters.isError && (
+          <button
+            type="button"
+            onClick={() => completedChapters.refetch()}
+            className="text-sm text-destructive hover:underline"
+          >
+            Không tải được trạng thái đã đọc. Thử lại
+          </button>
+        )}
         {chapters.length === 0 ? (
           <p className="text-sm text-muted-foreground">Chưa có chương nào.</p>
         ) : (
@@ -173,12 +192,23 @@ export function ContentDetail() {
             {chapters.map((c) => (
               <li key={c.id}>
                 {/* Mỗi một dòng là một Link bấm vào sẽ nhảy sang trang đọc truyện tương ứng */}
-                <Link to={readPath(c.id)} className="flex justify-between gap-4 px-4 py-2.5 text-sm hover:bg-muted">
-                  <span className="truncate">
-                    Chương {c.number}
-                    {c.title ? `: ${c.title}` : ''}
+                <Link
+                  to={readPath(c.id)}
+                  className={`flex justify-between gap-4 px-4 py-2.5 text-sm transition-colors ${
+                    completedChapterIds.has(c.id)
+                      ? 'bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/15 dark:text-emerald-400'
+                      : 'text-foreground hover:bg-muted'
+                  }`}
+                  aria-label={`Chương ${c.number}${c.title ? `: ${c.title}` : ''}${completedChapterIds.has(c.id) ? ', đã đọc' : ''}`}
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    {completedChapterIds.has(c.id) && <Check className="h-4 w-4 shrink-0" aria-hidden="true" />}
+                    <span className="truncate">
+                      Chương {c.number}
+                      {c.title ? `: ${c.title}` : ''}
+                    </span>
                   </span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
+                  <span className={`shrink-0 text-xs ${completedChapterIds.has(c.id) ? 'text-emerald-700/80 dark:text-emerald-400/80' : 'text-muted-foreground'}`}>
                     {/* Hiển thị ngày đăng dưới dạng chuẩn Việt Nam */}
                     {(c.publishedAt || c.createdAt)
                       ? new Date(c.publishedAt ?? c.createdAt!).toLocaleDateString('vi-VN')

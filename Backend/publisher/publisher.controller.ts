@@ -13,8 +13,13 @@ export class PublisherController {
   constructor(private readonly publisherService: PublisherService) {}
 
   @Post('register')
-  register(@CurrentUser('id') userId: string, @Body() dto: RegisterPublisherDto) {
-    return this.publisherService.register(userId, dto);
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 10 * 1024 * 1024 } }))
+  register(
+    @CurrentUser('id') userId: string,
+    @Body() dto: RegisterPublisherDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.publisherService.register(userId, dto, file);
   }
 
   @Get('me')

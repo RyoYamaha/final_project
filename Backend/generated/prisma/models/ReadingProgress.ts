@@ -519,14 +519,6 @@ export type ReadingProgressUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ReadingProgressScalarWhereInput | Prisma.ReadingProgressScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ReadingProgressCreateWithoutContentInput = {
   id?: string
   lastPageNumber?: number | null

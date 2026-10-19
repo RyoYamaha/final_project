@@ -5,7 +5,14 @@ import type { CreateContentDto, UpdateContentDto } from '@/types/author'
 
 export const publisherService = {
   getMe: () => api.get<Publisher>('/publisher/me'),
-  register: (data: RegisterPublisherDto) => api.post<Publisher>('/publisher/register', data),
+  register: (data: RegisterPublisherDto, file: File) => {
+    const formData = new FormData()
+    formData.append('organizationName', data.organizationName)
+    formData.append('file', file)
+    return api.post<Publisher>('/publisher/register', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+  },
   getMyContents: () => api.get<ContentListItem[]>('/publisher/content'),
   getContentDetail: (id: string) => api.get<ContentDetailData>(`/publisher/content/${id}`),
   resubmitContent: (id: string) => api.post(`/publisher/content/${id}/resubmit`),

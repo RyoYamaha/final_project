@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, MaxLength, IsOptional, IsUrl } from 'class-validator';
+import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
 
 export class RegisterPublisherExternalDto {
   @IsString()
@@ -18,8 +18,4 @@ export class RegisterPublisherExternalDto {
   @MaxLength(100)
   organizationName: string;
 
-  @IsOptional()
-  @IsString()
-  @IsUrl()
-  verificationDocumentUrl?: string;
 }

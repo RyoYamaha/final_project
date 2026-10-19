@@ -220,6 +220,10 @@ export type UserWhereInput = {
   recommendations?: Prisma.RecommendationCacheListRelationFilter
   supportTickets?: Prisma.SupportTicketListRelationFilter
   ticketMessages?: Prisma.TicketMessageListRelationFilter
+  chapterReads?: Prisma.ChapterReadListRelationFilter
+  wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
+  paymentOrders?: Prisma.PaymentOrderListRelationFilter
+  walletLedger?: Prisma.WalletLedgerListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -245,6 +249,10 @@ export type UserOrderByWithRelationInput = {
   recommendations?: Prisma.RecommendationCacheOrderByRelationAggregateInput
   supportTickets?: Prisma.SupportTicketOrderByRelationAggregateInput
   ticketMessages?: Prisma.TicketMessageOrderByRelationAggregateInput
+  chapterReads?: Prisma.ChapterReadOrderByRelationAggregateInput
+  wallet?: Prisma.WalletOrderByWithRelationInput
+  paymentOrders?: Prisma.PaymentOrderOrderByRelationAggregateInput
+  walletLedger?: Prisma.WalletLedgerOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -273,6 +281,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   recommendations?: Prisma.RecommendationCacheListRelationFilter
   supportTickets?: Prisma.SupportTicketListRelationFilter
   ticketMessages?: Prisma.TicketMessageListRelationFilter
+  chapterReads?: Prisma.ChapterReadListRelationFilter
+  wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
+  paymentOrders?: Prisma.PaymentOrderListRelationFilter
+  walletLedger?: Prisma.WalletLedgerListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -326,6 +338,10 @@ export type UserCreateInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -351,6 +367,10 @@ export type UserUncheckedCreateInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -376,6 +396,10 @@ export type UserUpdateInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -401,6 +425,10 @@ export type UserUncheckedUpdateInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -502,8 +530,46 @@ export type UserUpdateOneRequiredWithoutPublisherProfileNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPublisherProfileInput, Prisma.UserUpdateWithoutPublisherProfileInput>, Prisma.UserUncheckedUpdateWithoutPublisherProfileInput>
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type UserCreateNestedOneWithoutWalletInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWalletNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletInput
+  upsert?: Prisma.UserUpsertWithoutWalletInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletInput, Prisma.UserUpdateWithoutWalletInput>, Prisma.UserUncheckedUpdateWithoutWalletInput>
+}
+
+export type UserCreateNestedOneWithoutPaymentOrdersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentOrdersInput, Prisma.UserUncheckedCreateWithoutPaymentOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPaymentOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentOrdersInput, Prisma.UserUncheckedCreateWithoutPaymentOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentOrdersInput
+  upsert?: Prisma.UserUpsertWithoutPaymentOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentOrdersInput, Prisma.UserUpdateWithoutPaymentOrdersInput>, Prisma.UserUncheckedUpdateWithoutPaymentOrdersInput>
+}
+
+export type UserCreateNestedOneWithoutWalletLedgerInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletLedgerInput, Prisma.UserUncheckedCreateWithoutWalletLedgerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletLedgerInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWalletLedgerNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletLedgerInput, Prisma.UserUncheckedCreateWithoutWalletLedgerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletLedgerInput
+  upsert?: Prisma.UserUpsertWithoutWalletLedgerInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletLedgerInput, Prisma.UserUpdateWithoutWalletLedgerInput>, Prisma.UserUncheckedUpdateWithoutWalletLedgerInput>
 }
 
 export type UserCreateNestedOneWithoutBookmarksInput = {
@@ -574,6 +640,20 @@ export type UserUpdateOneRequiredWithoutReadingProgressNestedInput = {
   upsert?: Prisma.UserUpsertWithoutReadingProgressInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReadingProgressInput, Prisma.UserUpdateWithoutReadingProgressInput>, Prisma.UserUncheckedUpdateWithoutReadingProgressInput>
+}
+
+export type UserCreateNestedOneWithoutChapterReadsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChapterReadsInput, Prisma.UserUncheckedCreateWithoutChapterReadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChapterReadsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChapterReadsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChapterReadsInput, Prisma.UserUncheckedCreateWithoutChapterReadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChapterReadsInput
+  upsert?: Prisma.UserUpsertWithoutChapterReadsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChapterReadsInput, Prisma.UserUpdateWithoutChapterReadsInput>, Prisma.UserUncheckedUpdateWithoutChapterReadsInput>
 }
 
 export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -696,6 +776,10 @@ export type UserCreateWithoutUploadedContentsInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUploadedContentsInput = {
@@ -720,6 +804,10 @@ export type UserUncheckedCreateWithoutUploadedContentsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUploadedContentsInput = {
@@ -760,6 +848,10 @@ export type UserUpdateWithoutUploadedContentsInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUploadedContentsInput = {
@@ -784,6 +876,10 @@ export type UserUncheckedUpdateWithoutUploadedContentsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPublisherProfileInput = {
@@ -808,6 +904,10 @@ export type UserCreateWithoutPublisherProfileInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPublisherProfileInput = {
@@ -832,6 +932,10 @@ export type UserUncheckedCreateWithoutPublisherProfileInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPublisherProfileInput = {
@@ -872,6 +976,10 @@ export type UserUpdateWithoutPublisherProfileInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPublisherProfileInput = {
@@ -896,6 +1004,394 @@ export type UserUncheckedUpdateWithoutPublisherProfileInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWalletInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWalletInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWalletInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
+}
+
+export type UserUpsertWithoutWalletInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletInput, Prisma.UserUncheckedUpdateWithoutWalletInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWalletInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletInput, Prisma.UserUncheckedUpdateWithoutWalletInput>
+}
+
+export type UserUpdateWithoutWalletInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWalletInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPaymentOrdersInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPaymentOrdersInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPaymentOrdersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentOrdersInput, Prisma.UserUncheckedCreateWithoutPaymentOrdersInput>
+}
+
+export type UserUpsertWithoutPaymentOrdersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentOrdersInput, Prisma.UserUncheckedUpdateWithoutPaymentOrdersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentOrdersInput, Prisma.UserUncheckedCreateWithoutPaymentOrdersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaymentOrdersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentOrdersInput, Prisma.UserUncheckedUpdateWithoutPaymentOrdersInput>
+}
+
+export type UserUpdateWithoutPaymentOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaymentOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWalletLedgerInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWalletLedgerInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWalletLedgerInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletLedgerInput, Prisma.UserUncheckedCreateWithoutWalletLedgerInput>
+}
+
+export type UserUpsertWithoutWalletLedgerInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletLedgerInput, Prisma.UserUncheckedUpdateWithoutWalletLedgerInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletLedgerInput, Prisma.UserUncheckedCreateWithoutWalletLedgerInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWalletLedgerInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletLedgerInput, Prisma.UserUncheckedUpdateWithoutWalletLedgerInput>
+}
+
+export type UserUpdateWithoutWalletLedgerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWalletLedgerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBookmarksInput = {
@@ -920,6 +1416,10 @@ export type UserCreateWithoutBookmarksInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -944,6 +1444,10 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -984,6 +1488,10 @@ export type UserUpdateWithoutBookmarksInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -1008,6 +1516,10 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutFavoritesInput = {
@@ -1032,6 +1544,10 @@ export type UserCreateWithoutFavoritesInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -1056,6 +1572,10 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -1096,6 +1616,10 @@ export type UserUpdateWithoutFavoritesInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -1120,6 +1644,10 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRatingsInput = {
@@ -1144,6 +1672,10 @@ export type UserCreateWithoutRatingsInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRatingsInput = {
@@ -1168,6 +1700,10 @@ export type UserUncheckedCreateWithoutRatingsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRatingsInput = {
@@ -1208,6 +1744,10 @@ export type UserUpdateWithoutRatingsInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsInput = {
@@ -1232,6 +1772,10 @@ export type UserUncheckedUpdateWithoutRatingsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -1256,6 +1800,10 @@ export type UserCreateWithoutCommentsInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -1280,6 +1828,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -1320,6 +1872,10 @@ export type UserUpdateWithoutCommentsInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -1344,6 +1900,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReadingProgressInput = {
@@ -1368,6 +1928,10 @@ export type UserCreateWithoutReadingProgressInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReadingProgressInput = {
@@ -1392,6 +1956,10 @@ export type UserUncheckedCreateWithoutReadingProgressInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReadingProgressInput = {
@@ -1432,6 +2000,10 @@ export type UserUpdateWithoutReadingProgressInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReadingProgressInput = {
@@ -1456,6 +2028,138 @@ export type UserUncheckedUpdateWithoutReadingProgressInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutChapterReadsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutChapterReadsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  createdAt?: Date | string
+  uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutChapterReadsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChapterReadsInput, Prisma.UserUncheckedCreateWithoutChapterReadsInput>
+}
+
+export type UserUpsertWithoutChapterReadsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChapterReadsInput, Prisma.UserUncheckedUpdateWithoutChapterReadsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChapterReadsInput, Prisma.UserUncheckedCreateWithoutChapterReadsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChapterReadsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChapterReadsInput, Prisma.UserUncheckedUpdateWithoutChapterReadsInput>
+}
+
+export type UserUpdateWithoutChapterReadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChapterReadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1480,6 +2184,10 @@ export type UserCreateWithoutNotificationsInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1504,6 +2212,10 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1544,6 +2256,10 @@ export type UserUpdateWithoutNotificationsInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1568,6 +2284,10 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsFiledInput = {
@@ -1592,6 +2312,10 @@ export type UserCreateWithoutReportsFiledInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsFiledInput = {
@@ -1616,6 +2340,10 @@ export type UserUncheckedCreateWithoutReportsFiledInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsFiledInput = {
@@ -1656,6 +2384,10 @@ export type UserUpdateWithoutReportsFiledInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsFiledInput = {
@@ -1680,6 +2412,10 @@ export type UserUncheckedUpdateWithoutReportsFiledInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -1704,6 +2440,10 @@ export type UserCreateWithoutRefreshTokensInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1728,6 +2468,10 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1768,6 +2512,10 @@ export type UserUpdateWithoutRefreshTokensInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1792,6 +2540,10 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAiConversationsInput = {
@@ -1816,6 +2568,10 @@ export type UserCreateWithoutAiConversationsInput = {
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAiConversationsInput = {
@@ -1840,6 +2596,10 @@ export type UserUncheckedCreateWithoutAiConversationsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAiConversationsInput = {
@@ -1880,6 +2640,10 @@ export type UserUpdateWithoutAiConversationsInput = {
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAiConversationsInput = {
@@ -1904,6 +2668,10 @@ export type UserUncheckedUpdateWithoutAiConversationsInput = {
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRecommendationsInput = {
@@ -1928,6 +2696,10 @@ export type UserCreateWithoutRecommendationsInput = {
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRecommendationsInput = {
@@ -1952,6 +2724,10 @@ export type UserUncheckedCreateWithoutRecommendationsInput = {
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRecommendationsInput = {
@@ -1992,6 +2768,10 @@ export type UserUpdateWithoutRecommendationsInput = {
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRecommendationsInput = {
@@ -2016,6 +2796,10 @@ export type UserUncheckedUpdateWithoutRecommendationsInput = {
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSupportTicketsInput = {
@@ -2040,6 +2824,10 @@ export type UserCreateWithoutSupportTicketsInput = {
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -2064,6 +2852,10 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSupportTicketsInput = {
@@ -2104,6 +2896,10 @@ export type UserUpdateWithoutSupportTicketsInput = {
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -2128,6 +2924,10 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTicketMessagesInput = {
@@ -2152,6 +2952,10 @@ export type UserCreateWithoutTicketMessagesInput = {
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
   recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTicketMessagesInput = {
@@ -2176,6 +2980,10 @@ export type UserUncheckedCreateWithoutTicketMessagesInput = {
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
   recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTicketMessagesInput = {
@@ -2216,6 +3024,10 @@ export type UserUpdateWithoutTicketMessagesInput = {
   aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
   recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketMessagesInput = {
@@ -2240,6 +3052,10 @@ export type UserUncheckedUpdateWithoutTicketMessagesInput = {
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
   recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2261,6 +3077,9 @@ export type UserCountOutputType = {
   recommendations: number
   supportTickets: number
   ticketMessages: number
+  chapterReads: number
+  paymentOrders: number
+  walletLedger: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2277,6 +3096,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   recommendations?: boolean | UserCountOutputTypeCountRecommendationsArgs
   supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
   ticketMessages?: boolean | UserCountOutputTypeCountTicketMessagesArgs
+  chapterReads?: boolean | UserCountOutputTypeCountChapterReadsArgs
+  paymentOrders?: boolean | UserCountOutputTypeCountPaymentOrdersArgs
+  walletLedger?: boolean | UserCountOutputTypeCountWalletLedgerArgs
 }
 
 /**
@@ -2380,6 +3202,27 @@ export type UserCountOutputTypeCountTicketMessagesArgs<ExtArgs extends runtime.T
   where?: Prisma.TicketMessageWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChapterReadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChapterReadWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaymentOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaymentOrderWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWalletLedgerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WalletLedgerWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2404,6 +3247,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   recommendations?: boolean | Prisma.User$recommendationsArgs<ExtArgs>
   supportTickets?: boolean | Prisma.User$supportTicketsArgs<ExtArgs>
   ticketMessages?: boolean | Prisma.User$ticketMessagesArgs<ExtArgs>
+  chapterReads?: boolean | Prisma.User$chapterReadsArgs<ExtArgs>
+  wallet?: boolean | Prisma.User$walletArgs<ExtArgs>
+  paymentOrders?: boolean | Prisma.User$paymentOrdersArgs<ExtArgs>
+  walletLedger?: boolean | Prisma.User$walletLedgerArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2436,6 +3283,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   recommendations?: boolean | Prisma.User$recommendationsArgs<ExtArgs>
   supportTickets?: boolean | Prisma.User$supportTicketsArgs<ExtArgs>
   ticketMessages?: boolean | Prisma.User$ticketMessagesArgs<ExtArgs>
+  chapterReads?: boolean | Prisma.User$chapterReadsArgs<ExtArgs>
+  wallet?: boolean | Prisma.User$walletArgs<ExtArgs>
+  paymentOrders?: boolean | Prisma.User$paymentOrdersArgs<ExtArgs>
+  walletLedger?: boolean | Prisma.User$walletLedgerArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -2456,6 +3307,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     recommendations: Prisma.$RecommendationCachePayload<ExtArgs>[]
     supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
     ticketMessages: Prisma.$TicketMessagePayload<ExtArgs>[]
+    chapterReads: Prisma.$ChapterReadPayload<ExtArgs>[]
+    wallet: Prisma.$WalletPayload<ExtArgs> | null
+    paymentOrders: Prisma.$PaymentOrderPayload<ExtArgs>[]
+    walletLedger: Prisma.$WalletLedgerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2820,6 +3675,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   recommendations<T extends Prisma.User$recommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecommendationCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supportTickets<T extends Prisma.User$supportTicketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ticketMessages<T extends Prisma.User$ticketMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chapterReads<T extends Prisma.User$chapterReadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chapterReadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  wallet<T extends Prisma.User$walletArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletArgs<ExtArgs>>): Prisma.Prisma__WalletClient<runtime.Types.Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  paymentOrders<T extends Prisma.User$paymentOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  walletLedger<T extends Prisma.User$walletLedgerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletLedgerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletLedgerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3532,6 +4391,97 @@ export type User$ticketMessagesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.TicketMessageScalarFieldEnum | Prisma.TicketMessageScalarFieldEnum[]
+}
+
+/**
+ * User.chapterReads
+ */
+export type User$chapterReadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChapterRead
+   */
+  select?: Prisma.ChapterReadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChapterRead
+   */
+  omit?: Prisma.ChapterReadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChapterReadInclude<ExtArgs> | null
+  where?: Prisma.ChapterReadWhereInput
+  orderBy?: Prisma.ChapterReadOrderByWithRelationInput | Prisma.ChapterReadOrderByWithRelationInput[]
+  cursor?: Prisma.ChapterReadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChapterReadScalarFieldEnum | Prisma.ChapterReadScalarFieldEnum[]
+}
+
+/**
+ * User.wallet
+ */
+export type User$walletArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Wallet
+   */
+  select?: Prisma.WalletSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Wallet
+   */
+  omit?: Prisma.WalletOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WalletInclude<ExtArgs> | null
+  where?: Prisma.WalletWhereInput
+}
+
+/**
+ * User.paymentOrders
+ */
+export type User$paymentOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentOrder
+   */
+  select?: Prisma.PaymentOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentOrder
+   */
+  omit?: Prisma.PaymentOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentOrderInclude<ExtArgs> | null
+  where?: Prisma.PaymentOrderWhereInput
+  orderBy?: Prisma.PaymentOrderOrderByWithRelationInput | Prisma.PaymentOrderOrderByWithRelationInput[]
+  cursor?: Prisma.PaymentOrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaymentOrderScalarFieldEnum | Prisma.PaymentOrderScalarFieldEnum[]
+}
+
+/**
+ * User.walletLedger
+ */
+export type User$walletLedgerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WalletLedger
+   */
+  select?: Prisma.WalletLedgerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WalletLedger
+   */
+  omit?: Prisma.WalletLedgerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WalletLedgerInclude<ExtArgs> | null
+  where?: Prisma.WalletLedgerWhereInput
+  orderBy?: Prisma.WalletLedgerOrderByWithRelationInput | Prisma.WalletLedgerOrderByWithRelationInput[]
+  cursor?: Prisma.WalletLedgerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WalletLedgerScalarFieldEnum | Prisma.WalletLedgerScalarFieldEnum[]
 }
 
 /**

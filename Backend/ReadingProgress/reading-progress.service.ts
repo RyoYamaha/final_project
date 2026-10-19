@@ -14,39 +14,48 @@ export class ReadingProgressService{
         if (chapter.contentId !== contentId){
             throw new ForbiddenException('Chapter is not belong to this content')
         }
-        return this.prisma.readingProgress.upsert({
-        where: {
-            userId_contentId: { userId, contentId },
-        },
-        //update chạy khi user đã có tiến độ, create chạy khi người dùng chưa từng đọc content đó 
-        //update số trang đã đọc xong khi người dùng đã có tiến độ
-        update: {
-            lastChapterId: chapterId,
-            ...(lastPageNumber !== undefined && { lastPageNumber }),
-            lastReadAt: new Date(),
-        },
-        // tạo tiến độ gồm số chap và số trang cuối người dùng đọc nếu người dùng chưa từng đọc qua  
-        create:{ 
-            userId,
-            contentId,
-            lastChapterId: chapterId,
-            lastPageNumber: lastPageNumber ?? null,
-        }
+        return this.prisma.$transaction(async (tx) => {
+            const progress = await tx.readingProgress.upsert({
+                where: {
+                    userId_contentId: { userId, contentId },
+                },
+                update: {
+                    lastChapterId: chapterId,
+                    ...(lastPageNumber !== undefined && { lastPageNumber }),
+                    lastReadAt: new Date(),
+                },
+                create: {
+                    userId,
+                    contentId,
+                    lastChapterId: chapterId,
+                    lastPageNumber: lastPageNumber ?? null,
+                },
+            });
 
+            await tx.chapterRead.upsert({
+                where: { userId_chapterId: { userId, chapterId } },
+                update: {},
+                create: { userId, chapterId },
+            });
 
-        })
+            return progress;
+        });
     }
     async getProgress(userId : string , contentId: string){
         const progress = await this.prisma.readingProgress.findUnique({
             where: {
                 userId_contentId: {userId, contentId},
             },
-            include: { lastChapter: true } //lấy luôn thông tin của chapter thay vì trả về lastChapterId
+            include: { lastChapter: true }
         });
         if (!progress){
             throw new NotFoundException('you do not have reading progress for this content')
         }
-        return progress;
+        const chapterReads = await this.prisma.chapterRead.findMany({
+            where: { userId, chapter: { contentId } },
+            select: { chapterId: true },
+        });
+        return { ...progress, chapterReads };
     }
     getMyProgress(userId: string){
         return this.prisma.readingProgress.findMany({
@@ -64,7 +73,12 @@ export class ReadingProgressService{
             throw new NotFoundException('can not find the reading progress');
 
         }
-        await this.prisma.readingProgress.delete({where: {id:progress.id}});
+        await this.prisma.$transaction([
+            this.prisma.chapterRead.deleteMany({
+                where: { userId, chapter: { contentId } },
+            }),
+            this.prisma.readingProgress.delete({ where: { id: progress.id } }),
+        ]);
         return {remove:true};
     }
 }

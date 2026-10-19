@@ -11,14 +11,22 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { TagInput } from '@/components/ui/tag-input'
+import { ContentPricingFields } from '@/components/content/ContentPricingFields'
 import type { ContentType } from '@/types/content'
 
 const schema = z.object({
   title: z.string().trim().min(1, 'Nhập tên truyện').max(255, 'Tối đa 255 ký tự'),
   synopsis: z.string().trim().optional(),
+  pricingType: z.enum(['free', 'paid']),
+  priceCoins: z.number().int().min(0, 'Giá không được âm'),
+  freeChapters: z.number().int().min(0, 'Số chương đọc thử không được âm'),
+  allowCommunityTranslation: z.boolean(),
   genreIds: z.array(z.string()).optional(),
   tagIds: z.array(z.string()).optional(),
-})
+}).refine(
+  (values) => values.pricingType === 'free' || values.priceCoins >= 1,
+  { path: ['priceCoins'], message: 'Giá phải từ 1 coin trở lên' },
+)
 type FormValues = z.infer<typeof schema>
 
 interface Props {
@@ -43,12 +51,21 @@ export function ContentForm({ type, parentContentId }: Props) {
 
   const {
     register,
+    watch,
+    setValue,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ 
     resolver: zodResolver(schema),
-    defaultValues: { genreIds: [], tagIds: [] } 
+    defaultValues: {
+      pricingType: 'free',
+      priceCoins: 50,
+      freeChapters: 3,
+      allowCommunityTranslation: false,
+      genreIds: [],
+      tagIds: [],
+    }
   })
 
   const onSubmit = async (v: FormValues) => {
@@ -59,7 +76,7 @@ export function ContentForm({ type, parentContentId }: Props) {
       try {
         const res = await authorService.uploadCover(coverFile)
         coverUrl = res.url
-      } catch (err) {
+      } catch {
         setServerError('Tải ảnh bìa thất bại. Vui lòng thử lại.')
         return
       }
@@ -69,6 +86,10 @@ export function ContentForm({ type, parentContentId }: Props) {
       title: v.title,
       type,
       synopsis: v.synopsis || undefined,
+      pricingType: parentContentId ? 'free' : v.pricingType,
+      priceCoins: parentContentId || v.pricingType === 'free' ? 0 : v.priceCoins,
+      freeChapters: parentContentId ? 0 : v.freeChapters,
+      allowCommunityTranslation: false,
       coverImageUrl: coverUrl,
       genreIds: v.genreIds && v.genreIds.length > 0 ? v.genreIds : undefined,
       tagIds: v.tagIds && v.tagIds.length > 0 ? v.tagIds : undefined,
@@ -109,6 +130,30 @@ export function ContentForm({ type, parentContentId }: Props) {
           {...register('synopsis')}
         />
       </div>
+
+      <ContentPricingFields
+        pricingType={watch('pricingType')}
+        priceCoins={watch('priceCoins')}
+        freeChapters={watch('freeChapters')}
+        allowCommunityTranslation={watch('allowCommunityTranslation')}
+        priceCoinsError={errors.priceCoins?.message}
+        freeChaptersError={errors.freeChapters?.message}
+        onPricingTypeChange={(value) =>
+          setValue('pricingType', value, { shouldValidate: true })
+        }
+        onPriceCoinsChange={(value) =>
+          setValue('priceCoins', value, { shouldValidate: true })
+        }
+        onFreeChaptersChange={(value) =>
+          setValue('freeChapters', value, { shouldValidate: true })
+        }
+        onAllowCommunityTranslationChange={(value) =>
+          setValue('allowCommunityTranslation', value, {
+            shouldValidate: true,
+          })
+        }
+        showPricing={!parentContentId}
+      />
 
       <div className="space-y-6 pt-4 border-t border-border/50">
         <h3 className="text-sm font-bold tracking-wider text-muted-foreground uppercase">Genre & Tags</h3>
@@ -161,7 +206,7 @@ export function ContentForm({ type, parentContentId }: Props) {
 
       {serverError && <p className="text-sm text-red-600">{serverError}</p>}
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Đang gửi...' : 'Tạo truyện'}
+        {isSubmitting ? 'Đang gửi...' : parentContentId ? 'Gửi bản dịch' : 'Tạo truyện'}
       </Button>
     </form>
   )

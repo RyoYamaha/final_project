@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ContentService } from '../core/content/content.service';
 import { RegisterPublisherDto } from './dto/register-publisher.dto';
@@ -20,20 +20,52 @@ export class PublisherService {
 
   //Đăng ký publisher 
 
-  async register(userId: string, dto: RegisterPublisherDto) {
+  async register(userId: string, dto: RegisterPublisherDto, file: Express.Multer.File) {
     const existing = await this.prisma.publisher.findUnique({ where: { userId } });
-    if (existing) {
-      if (existing.verificationStatus === 'Rejected') {
-        return this.prisma.publisher.update({
-          where: { userId },
-          data: { organizationName: dto.organizationName, verificationStatus: 'Pending' },
-        });
-      }
+    if (existing && existing.verificationStatus !== 'Rejected') {
       throw new ConflictException('Tài khoản này đã đăng ký Publisher rồi');
     }
+
+    if (!file || !this.isValidVerificationFile(file)) {
+      throw new BadRequestException('Vui lòng gửi ảnh JPEG, PNG, WebP hoặc tệp PDF hợp lệ');
+    }
+
+    const verificationDocumentUrl = await this.cloudinary.uploadFile(
+      file.buffer,
+      'publisher-verifications',
+      file.mimetype,
+    );
+    if (existing) {
+      return this.prisma.publisher.update({
+        where: { userId },
+        data: {
+          organizationName: dto.organizationName,
+          verificationDocumentUrl,
+          verificationStatus: 'Pending',
+        },
+      });
+    }
+
     return this.prisma.publisher.create({
-      data: { userId, organizationName: dto.organizationName, verificationStatus: 'Pending' },
+      data: {
+        userId,
+        organizationName: dto.organizationName,
+        verificationDocumentUrl,
+        verificationStatus: 'Pending',
+      },
     });
+  }
+
+  private isValidVerificationFile(file: Express.Multer.File) {
+    const signatures: Record<string, (buffer: Buffer) => boolean> = {
+      'image/jpeg': (buffer) => buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff,
+      'image/png': (buffer) => buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
+      'image/webp': (buffer) =>
+        buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP',
+      'application/pdf': (buffer) => buffer.toString('ascii', 0, 5) === '%PDF-',
+    };
+    const validateSignature = signatures[file.mimetype];
+    return Boolean(validateSignature && validateSignature(file.buffer));
   }
 
   //tìm profile publisher 

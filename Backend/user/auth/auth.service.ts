@@ -6,12 +6,14 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterPublisherExternalDto } from './dto/register-publisher-external.dto';
+import { CloudinaryService } from '../../common/cloudinary/cloudinary.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly cloudinary: CloudinaryService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -36,7 +38,7 @@ export class AuthService {
   }
 
   // Đăng ký NXB trực tiếp từ bên ngoài (One-step transaction)
-  async registerPublisherExternal(dto: RegisterPublisherExternalDto) {
+  async registerPublisherExternal(dto: RegisterPublisherExternalDto, file: Express.Multer.File) {
     const existing = await this.prisma.user.findFirst({
       where: { OR: [{ username: dto.username }, { email: dto.email }] },
     });
@@ -44,6 +46,11 @@ export class AuthService {
       throw new ConflictException('Username or email has already existed');
     }
 
+    const verificationDocumentUrl = await this.cloudinary.uploadFile(
+      file.buffer,
+      'publisher-verifications',
+      file.mimetype,
+    );
     const passwordHash = await bcrypt.hash(dto.password, 10);
 
     // Sử dụng transaction để đảm bảo tạo User và Publisher cùng lúc (hoặc cả 2 cùng fail)
@@ -61,7 +68,7 @@ export class AuthService {
         data: {
           userId: newUser.id,
           organizationName: dto.organizationName,
-          verificationDocumentUrl: dto.verificationDocumentUrl,
+          verificationDocumentUrl,
           verificationStatus: 'Pending',
         },
       });

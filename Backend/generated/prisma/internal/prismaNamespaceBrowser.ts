@@ -63,11 +63,17 @@ export const ModelName = {
   ContentTag: 'ContentTag',
   Publisher: 'Publisher',
   User: 'User',
+  Wallet: 'Wallet',
+  PaymentOrder: 'PaymentOrder',
+  BankTransaction: 'BankTransaction',
+  WalletLedger: 'WalletLedger',
+  SystemSetting: 'SystemSetting',
   Bookmark: 'Bookmark',
   Favorite: 'Favorite',
   Rating: 'Rating',
   Comment: 'Comment',
   ReadingProgress: 'ReadingProgress',
+  ChapterRead: 'ChapterRead',
   Notification: 'Notification',
   Report: 'Report',
   RefreshToken: 'RefreshToken',
@@ -105,6 +111,11 @@ export const ContentScalarFieldEnum = {
   reviewFeedback: 'reviewFeedback',
   storyStatus: 'storyStatus',
   coverImageUrl: 'coverImageUrl',
+  pricingType: 'pricingType',
+  priceCoins: 'priceCoins',
+  freeChapters: 'freeChapters',
+  allowCommunityTranslation: 'allowCommunityTranslation',
+  pricingChangedAt: 'pricingChangedAt',
   uploaderId: 'uploaderId',
   publisherId: 'publisherId',
   parentContentId: 'parentContentId',
@@ -219,6 +230,77 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const PaymentOrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expectedAmount: 'expectedAmount',
+  paidAmount: 'paidAmount',
+  paidCoins: 'paidCoins',
+  status: 'status',
+  transferCode: 'transferCode',
+  bankBin: 'bankBin',
+  bankName: 'bankName',
+  bankAccountNumber: 'bankAccountNumber',
+  bankAccountName: 'bankAccountName',
+  expiresAt: 'expiresAt',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentOrderScalarFieldEnum = (typeof PaymentOrderScalarFieldEnum)[keyof typeof PaymentOrderScalarFieldEnum]
+
+
+export const BankTransactionScalarFieldEnum = {
+  id: 'id',
+  externalId: 'externalId',
+  paymentOrderId: 'paymentOrderId',
+  transferType: 'transferType',
+  transferAmount: 'transferAmount',
+  description: 'description',
+  rawPayload: 'rawPayload',
+  processingStatus: 'processingStatus',
+  receivedAt: 'receivedAt'
+} as const
+
+export type BankTransactionScalarFieldEnum = (typeof BankTransactionScalarFieldEnum)[keyof typeof BankTransactionScalarFieldEnum]
+
+
+export const WalletLedgerScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  userId: 'userId',
+  amountCoins: 'amountCoins',
+  balanceAfter: 'balanceAfter',
+  transactionType: 'transactionType',
+  sourceType: 'sourceType',
+  sourceReference: 'sourceReference',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletLedgerScalarFieldEnum = (typeof WalletLedgerScalarFieldEnum)[keyof typeof WalletLedgerScalarFieldEnum]
+
+
+export const SystemSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
+
+
 export const BookmarkScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -273,6 +355,16 @@ export const ReadingProgressScalarFieldEnum = {
 } as const
 
 export type ReadingProgressScalarFieldEnum = (typeof ReadingProgressScalarFieldEnum)[keyof typeof ReadingProgressScalarFieldEnum]
+
+
+export const ChapterReadScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  chapterId: 'chapterId',
+  completedAt: 'completedAt'
+} as const
+
+export type ChapterReadScalarFieldEnum = (typeof ChapterReadScalarFieldEnum)[keyof typeof ChapterReadScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

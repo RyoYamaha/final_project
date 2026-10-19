@@ -20,8 +20,20 @@ export type ContentModel = runtime.Types.Result.DefaultSelection<Prisma.$Content
 
 export type AggregateContent = {
   _count: ContentCountAggregateOutputType | null
+  _avg: ContentAvgAggregateOutputType | null
+  _sum: ContentSumAggregateOutputType | null
   _min: ContentMinAggregateOutputType | null
   _max: ContentMaxAggregateOutputType | null
+}
+
+export type ContentAvgAggregateOutputType = {
+  priceCoins: number | null
+  freeChapters: number | null
+}
+
+export type ContentSumAggregateOutputType = {
+  priceCoins: number | null
+  freeChapters: number | null
 }
 
 export type ContentMinAggregateOutputType = {
@@ -34,6 +46,11 @@ export type ContentMinAggregateOutputType = {
   reviewFeedback: string | null
   storyStatus: string | null
   coverImageUrl: string | null
+  pricingType: string | null
+  priceCoins: number | null
+  freeChapters: number | null
+  allowCommunityTranslation: boolean | null
+  pricingChangedAt: Date | null
   uploaderId: string | null
   publisherId: string | null
   parentContentId: string | null
@@ -51,6 +68,11 @@ export type ContentMaxAggregateOutputType = {
   reviewFeedback: string | null
   storyStatus: string | null
   coverImageUrl: string | null
+  pricingType: string | null
+  priceCoins: number | null
+  freeChapters: number | null
+  allowCommunityTranslation: boolean | null
+  pricingChangedAt: Date | null
   uploaderId: string | null
   publisherId: string | null
   parentContentId: string | null
@@ -68,6 +90,11 @@ export type ContentCountAggregateOutputType = {
   reviewFeedback: number
   storyStatus: number
   coverImageUrl: number
+  pricingType: number
+  priceCoins: number
+  freeChapters: number
+  allowCommunityTranslation: number
+  pricingChangedAt: number
   uploaderId: number
   publisherId: number
   parentContentId: number
@@ -76,6 +103,16 @@ export type ContentCountAggregateOutputType = {
   _all: number
 }
 
+
+export type ContentAvgAggregateInputType = {
+  priceCoins?: true
+  freeChapters?: true
+}
+
+export type ContentSumAggregateInputType = {
+  priceCoins?: true
+  freeChapters?: true
+}
 
 export type ContentMinAggregateInputType = {
   id?: true
@@ -87,6 +124,11 @@ export type ContentMinAggregateInputType = {
   reviewFeedback?: true
   storyStatus?: true
   coverImageUrl?: true
+  pricingType?: true
+  priceCoins?: true
+  freeChapters?: true
+  allowCommunityTranslation?: true
+  pricingChangedAt?: true
   uploaderId?: true
   publisherId?: true
   parentContentId?: true
@@ -104,6 +146,11 @@ export type ContentMaxAggregateInputType = {
   reviewFeedback?: true
   storyStatus?: true
   coverImageUrl?: true
+  pricingType?: true
+  priceCoins?: true
+  freeChapters?: true
+  allowCommunityTranslation?: true
+  pricingChangedAt?: true
   uploaderId?: true
   publisherId?: true
   parentContentId?: true
@@ -121,6 +168,11 @@ export type ContentCountAggregateInputType = {
   reviewFeedback?: true
   storyStatus?: true
   coverImageUrl?: true
+  pricingType?: true
+  priceCoins?: true
+  freeChapters?: true
+  allowCommunityTranslation?: true
+  pricingChangedAt?: true
   uploaderId?: true
   publisherId?: true
   parentContentId?: true
@@ -167,6 +219,18 @@ export type ContentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ContentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ContentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ContentMinAggregateInputType
@@ -197,6 +261,8 @@ export type ContentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: ContentCountAggregateInputType | true
+  _avg?: ContentAvgAggregateInputType
+  _sum?: ContentSumAggregateInputType
   _min?: ContentMinAggregateInputType
   _max?: ContentMaxAggregateInputType
 }
@@ -211,12 +277,19 @@ export type ContentGroupByOutputType = {
   reviewFeedback: string | null
   storyStatus: string
   coverImageUrl: string | null
+  pricingType: string
+  priceCoins: number
+  freeChapters: number
+  allowCommunityTranslation: boolean
+  pricingChangedAt: Date | null
   uploaderId: string
   publisherId: string | null
   parentContentId: string | null
   createdAt: Date
   updatedAt: Date
   _count: ContentCountAggregateOutputType | null
+  _avg: ContentAvgAggregateOutputType | null
+  _sum: ContentSumAggregateOutputType | null
   _min: ContentMinAggregateOutputType | null
   _max: ContentMaxAggregateOutputType | null
 }
@@ -249,6 +322,11 @@ export type ContentWhereInput = {
   reviewFeedback?: Prisma.StringNullableFilter<"Content"> | string | null
   storyStatus?: Prisma.StringFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableFilter<"Content"> | string | null
+  pricingType?: Prisma.StringFilter<"Content"> | string
+  priceCoins?: Prisma.IntFilter<"Content"> | number
+  freeChapters?: Prisma.IntFilter<"Content"> | number
+  allowCommunityTranslation?: Prisma.BoolFilter<"Content"> | boolean
+  pricingChangedAt?: Prisma.DateTimeNullableFilter<"Content"> | Date | string | null
   uploaderId?: Prisma.StringFilter<"Content"> | string
   publisherId?: Prisma.StringNullableFilter<"Content"> | string | null
   parentContentId?: Prisma.StringNullableFilter<"Content"> | string | null
@@ -283,6 +361,11 @@ export type ContentOrderByWithRelationInput = {
   reviewFeedback?: Prisma.SortOrderInput | Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricingType?: Prisma.SortOrder
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
+  allowCommunityTranslation?: Prisma.SortOrder
+  pricingChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   publisherId?: Prisma.SortOrderInput | Prisma.SortOrder
   parentContentId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -320,6 +403,11 @@ export type ContentWhereUniqueInput = Prisma.AtLeast<{
   reviewFeedback?: Prisma.StringNullableFilter<"Content"> | string | null
   storyStatus?: Prisma.StringFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableFilter<"Content"> | string | null
+  pricingType?: Prisma.StringFilter<"Content"> | string
+  priceCoins?: Prisma.IntFilter<"Content"> | number
+  freeChapters?: Prisma.IntFilter<"Content"> | number
+  allowCommunityTranslation?: Prisma.BoolFilter<"Content"> | boolean
+  pricingChangedAt?: Prisma.DateTimeNullableFilter<"Content"> | Date | string | null
   uploaderId?: Prisma.StringFilter<"Content"> | string
   publisherId?: Prisma.StringNullableFilter<"Content"> | string | null
   parentContentId?: Prisma.StringNullableFilter<"Content"> | string | null
@@ -354,14 +442,21 @@ export type ContentOrderByWithAggregationInput = {
   reviewFeedback?: Prisma.SortOrderInput | Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricingType?: Prisma.SortOrder
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
+  allowCommunityTranslation?: Prisma.SortOrder
+  pricingChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   publisherId?: Prisma.SortOrderInput | Prisma.SortOrder
   parentContentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ContentCountOrderByAggregateInput
+  _avg?: Prisma.ContentAvgOrderByAggregateInput
   _max?: Prisma.ContentMaxOrderByAggregateInput
   _min?: Prisma.ContentMinOrderByAggregateInput
+  _sum?: Prisma.ContentSumOrderByAggregateInput
 }
 
 export type ContentScalarWhereWithAggregatesInput = {
@@ -377,6 +472,11 @@ export type ContentScalarWhereWithAggregatesInput = {
   reviewFeedback?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
   storyStatus?: Prisma.StringWithAggregatesFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
+  pricingType?: Prisma.StringWithAggregatesFilter<"Content"> | string
+  priceCoins?: Prisma.IntWithAggregatesFilter<"Content"> | number
+  freeChapters?: Prisma.IntWithAggregatesFilter<"Content"> | number
+  allowCommunityTranslation?: Prisma.BoolWithAggregatesFilter<"Content"> | boolean
+  pricingChangedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Content"> | Date | string | null
   uploaderId?: Prisma.StringWithAggregatesFilter<"Content"> | string
   publisherId?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
   parentContentId?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
@@ -394,6 +494,11 @@ export type ContentCreateInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -425,6 +530,11 @@ export type ContentUncheckedCreateInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -456,6 +566,11 @@ export type ContentUpdateInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -487,6 +602,11 @@ export type ContentUncheckedUpdateInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -518,6 +638,11 @@ export type ContentCreateManyInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -535,6 +660,11 @@ export type ContentUpdateManyMutationInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -549,6 +679,11 @@ export type ContentUncheckedUpdateManyInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -581,11 +716,21 @@ export type ContentCountOrderByAggregateInput = {
   reviewFeedback?: Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
+  pricingType?: Prisma.SortOrder
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
+  allowCommunityTranslation?: Prisma.SortOrder
+  pricingChangedAt?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   publisherId?: Prisma.SortOrder
   parentContentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ContentAvgOrderByAggregateInput = {
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
 }
 
 export type ContentMaxOrderByAggregateInput = {
@@ -598,6 +743,11 @@ export type ContentMaxOrderByAggregateInput = {
   reviewFeedback?: Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
+  pricingType?: Prisma.SortOrder
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
+  allowCommunityTranslation?: Prisma.SortOrder
+  pricingChangedAt?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   publisherId?: Prisma.SortOrder
   parentContentId?: Prisma.SortOrder
@@ -615,11 +765,21 @@ export type ContentMinOrderByAggregateInput = {
   reviewFeedback?: Prisma.SortOrder
   storyStatus?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
+  pricingType?: Prisma.SortOrder
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
+  allowCommunityTranslation?: Prisma.SortOrder
+  pricingChangedAt?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   publisherId?: Prisma.SortOrder
   parentContentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ContentSumOrderByAggregateInput = {
+  priceCoins?: Prisma.SortOrder
+  freeChapters?: Prisma.SortOrder
 }
 
 export type ContentScalarRelationFilter = {
@@ -653,6 +813,22 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -973,6 +1149,11 @@ export type ContentCreateWithoutFanTranslationsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1003,6 +1184,11 @@ export type ContentUncheckedCreateWithoutFanTranslationsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -1038,6 +1224,11 @@ export type ContentCreateWithoutParentContentInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1068,6 +1259,11 @@ export type ContentUncheckedCreateWithoutParentContentInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   createdAt?: Date | string
@@ -1118,6 +1314,11 @@ export type ContentUpdateWithoutFanTranslationsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -1148,6 +1349,11 @@ export type ContentUncheckedUpdateWithoutFanTranslationsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1197,6 +1403,11 @@ export type ContentScalarWhereInput = {
   reviewFeedback?: Prisma.StringNullableFilter<"Content"> | string | null
   storyStatus?: Prisma.StringFilter<"Content"> | string
   coverImageUrl?: Prisma.StringNullableFilter<"Content"> | string | null
+  pricingType?: Prisma.StringFilter<"Content"> | string
+  priceCoins?: Prisma.IntFilter<"Content"> | number
+  freeChapters?: Prisma.IntFilter<"Content"> | number
+  allowCommunityTranslation?: Prisma.BoolFilter<"Content"> | boolean
+  pricingChangedAt?: Prisma.DateTimeNullableFilter<"Content"> | Date | string | null
   uploaderId?: Prisma.StringFilter<"Content"> | string
   publisherId?: Prisma.StringNullableFilter<"Content"> | string | null
   parentContentId?: Prisma.StringNullableFilter<"Content"> | string | null
@@ -1214,6 +1425,11 @@ export type ContentCreateWithoutMangaDetailInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1244,6 +1460,11 @@ export type ContentUncheckedCreateWithoutMangaDetailInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -1290,6 +1511,11 @@ export type ContentUpdateWithoutMangaDetailInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -1320,6 +1546,11 @@ export type ContentUncheckedUpdateWithoutMangaDetailInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1350,6 +1581,11 @@ export type ContentCreateWithoutNovelDetailInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1380,6 +1616,11 @@ export type ContentUncheckedCreateWithoutNovelDetailInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -1426,6 +1667,11 @@ export type ContentUpdateWithoutNovelDetailInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -1456,6 +1702,11 @@ export type ContentUncheckedUpdateWithoutNovelDetailInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1486,6 +1737,11 @@ export type ContentCreateWithoutChaptersInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1516,6 +1772,11 @@ export type ContentUncheckedCreateWithoutChaptersInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -1562,6 +1823,11 @@ export type ContentUpdateWithoutChaptersInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -1592,6 +1858,11 @@ export type ContentUncheckedUpdateWithoutChaptersInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1622,6 +1893,11 @@ export type ContentCreateWithoutGenresInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1652,6 +1928,11 @@ export type ContentUncheckedCreateWithoutGenresInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -1698,6 +1979,11 @@ export type ContentUpdateWithoutGenresInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -1728,6 +2014,11 @@ export type ContentUncheckedUpdateWithoutGenresInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1758,6 +2049,11 @@ export type ContentCreateWithoutTagsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1788,6 +2084,11 @@ export type ContentUncheckedCreateWithoutTagsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -1834,6 +2135,11 @@ export type ContentUpdateWithoutTagsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -1864,6 +2170,11 @@ export type ContentUncheckedUpdateWithoutTagsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1894,6 +2205,11 @@ export type ContentCreateWithoutPublisherInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -1924,6 +2240,11 @@ export type ContentUncheckedCreateWithoutPublisherInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   parentContentId?: string | null
   createdAt?: Date | string
@@ -1979,6 +2300,11 @@ export type ContentCreateWithoutUploaderInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publisher?: Prisma.PublisherCreateNestedOneWithoutContentsInput
@@ -2009,6 +2335,11 @@ export type ContentUncheckedCreateWithoutUploaderInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   publisherId?: string | null
   parentContentId?: string | null
   createdAt?: Date | string
@@ -2064,6 +2395,11 @@ export type ContentCreateWithoutBookmarksInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2094,6 +2430,11 @@ export type ContentUncheckedCreateWithoutBookmarksInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2140,6 +2481,11 @@ export type ContentUpdateWithoutBookmarksInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2170,6 +2516,11 @@ export type ContentUncheckedUpdateWithoutBookmarksInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2200,6 +2551,11 @@ export type ContentCreateWithoutFavoritesInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2230,6 +2586,11 @@ export type ContentUncheckedCreateWithoutFavoritesInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2276,6 +2637,11 @@ export type ContentUpdateWithoutFavoritesInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2306,6 +2672,11 @@ export type ContentUncheckedUpdateWithoutFavoritesInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2336,6 +2707,11 @@ export type ContentCreateWithoutRatingsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2366,6 +2742,11 @@ export type ContentUncheckedCreateWithoutRatingsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2412,6 +2793,11 @@ export type ContentUpdateWithoutRatingsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2442,6 +2828,11 @@ export type ContentUncheckedUpdateWithoutRatingsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2472,6 +2863,11 @@ export type ContentCreateWithoutCommentsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2502,6 +2898,11 @@ export type ContentUncheckedCreateWithoutCommentsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2548,6 +2949,11 @@ export type ContentUpdateWithoutCommentsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2578,6 +2984,11 @@ export type ContentUncheckedUpdateWithoutCommentsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2608,6 +3019,11 @@ export type ContentCreateWithoutReadingProgressInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2638,6 +3054,11 @@ export type ContentUncheckedCreateWithoutReadingProgressInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2684,6 +3105,11 @@ export type ContentUpdateWithoutReadingProgressInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2714,6 +3140,11 @@ export type ContentUncheckedUpdateWithoutReadingProgressInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2744,6 +3175,11 @@ export type ContentCreateWithoutKnowledgeBaseInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2774,6 +3210,11 @@ export type ContentUncheckedCreateWithoutKnowledgeBaseInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2820,6 +3261,11 @@ export type ContentUpdateWithoutKnowledgeBaseInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2850,6 +3296,11 @@ export type ContentUncheckedUpdateWithoutKnowledgeBaseInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2880,6 +3331,11 @@ export type ContentCreateWithoutAiConversationsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -2910,6 +3366,11 @@ export type ContentUncheckedCreateWithoutAiConversationsInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -2956,6 +3417,11 @@ export type ContentUpdateWithoutAiConversationsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -2986,6 +3452,11 @@ export type ContentUncheckedUpdateWithoutAiConversationsInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3016,6 +3487,11 @@ export type ContentCreateWithoutRecommendedInInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
@@ -3046,6 +3522,11 @@ export type ContentUncheckedCreateWithoutRecommendedInInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   parentContentId?: string | null
@@ -3092,6 +3573,11 @@ export type ContentUpdateWithoutRecommendedInInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -3122,6 +3608,11 @@ export type ContentUncheckedUpdateWithoutRecommendedInInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3152,6 +3643,11 @@ export type ContentCreateManyParentContentInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   publisherId?: string | null
   createdAt?: Date | string
@@ -3168,6 +3664,11 @@ export type ContentUpdateWithoutParentContentInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -3198,6 +3699,11 @@ export type ContentUncheckedUpdateWithoutParentContentInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3228,6 +3734,11 @@ export type ContentUncheckedUpdateManyWithoutParentContentInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3244,6 +3755,11 @@ export type ContentCreateManyPublisherInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   uploaderId: string
   parentContentId?: string | null
   createdAt?: Date | string
@@ -3260,6 +3776,11 @@ export type ContentUpdateWithoutPublisherInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
@@ -3290,6 +3811,11 @@ export type ContentUncheckedUpdateWithoutPublisherInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3320,6 +3846,11 @@ export type ContentUncheckedUpdateManyWithoutPublisherInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3336,6 +3867,11 @@ export type ContentCreateManyUploaderInput = {
   reviewFeedback?: string | null
   storyStatus?: string
   coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
   publisherId?: string | null
   parentContentId?: string | null
   createdAt?: Date | string
@@ -3352,6 +3888,11 @@ export type ContentUpdateWithoutUploaderInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publisher?: Prisma.PublisherUpdateOneWithoutContentsNestedInput
@@ -3382,6 +3923,11 @@ export type ContentUncheckedUpdateWithoutUploaderInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3412,6 +3958,11 @@ export type ContentUncheckedUpdateManyWithoutUploaderInput = {
   reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
   coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3549,6 +4100,11 @@ export type ContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   reviewFeedback?: boolean
   storyStatus?: boolean
   coverImageUrl?: boolean
+  pricingType?: boolean
+  priceCoins?: boolean
+  freeChapters?: boolean
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: boolean
   uploaderId?: boolean
   publisherId?: boolean
   parentContentId?: boolean
@@ -3586,6 +4142,11 @@ export type ContentSelectScalar = {
   reviewFeedback?: boolean
   storyStatus?: boolean
   coverImageUrl?: boolean
+  pricingType?: boolean
+  priceCoins?: boolean
+  freeChapters?: boolean
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: boolean
   uploaderId?: boolean
   publisherId?: boolean
   parentContentId?: boolean
@@ -3593,7 +4154,7 @@ export type ContentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "synopsis" | "type" | "ownershipTier" | "publicationStatus" | "reviewFeedback" | "storyStatus" | "coverImageUrl" | "uploaderId" | "publisherId" | "parentContentId" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
+export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "synopsis" | "type" | "ownershipTier" | "publicationStatus" | "reviewFeedback" | "storyStatus" | "coverImageUrl" | "pricingType" | "priceCoins" | "freeChapters" | "allowCommunityTranslation" | "pricingChangedAt" | "uploaderId" | "publisherId" | "parentContentId" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
 export type ContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.Content$publisherArgs<ExtArgs>
@@ -3646,6 +4207,11 @@ export type $ContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     reviewFeedback: string | null
     storyStatus: string
     coverImageUrl: string | null
+    pricingType: string
+    priceCoins: number
+    freeChapters: number
+    allowCommunityTranslation: boolean
+    pricingChangedAt: Date | null
     uploaderId: string
     publisherId: string | null
     parentContentId: string | null
@@ -4046,6 +4612,11 @@ export interface ContentFieldRefs {
   readonly reviewFeedback: Prisma.FieldRef<"Content", 'String'>
   readonly storyStatus: Prisma.FieldRef<"Content", 'String'>
   readonly coverImageUrl: Prisma.FieldRef<"Content", 'String'>
+  readonly pricingType: Prisma.FieldRef<"Content", 'String'>
+  readonly priceCoins: Prisma.FieldRef<"Content", 'Int'>
+  readonly freeChapters: Prisma.FieldRef<"Content", 'Int'>
+  readonly allowCommunityTranslation: Prisma.FieldRef<"Content", 'Boolean'>
+  readonly pricingChangedAt: Prisma.FieldRef<"Content", 'DateTime'>
   readonly uploaderId: Prisma.FieldRef<"Content", 'String'>
   readonly publisherId: Prisma.FieldRef<"Content", 'String'>
   readonly parentContentId: Prisma.FieldRef<"Content", 'String'>

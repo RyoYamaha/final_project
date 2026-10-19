@@ -8,6 +8,8 @@ export type ContentType = "Manga" | "Novel";
 
 export type OwnershipTier = "Licensed" | "FanTranslation" | "Original";
 
+export type ContentPricingType = "free" | "paid";
+
 export type PublicationStatus =
   "Draft" | "PendingApproval" | "Published" | "Rejected" | "Hidden";
 
@@ -42,6 +44,10 @@ export interface ContentListItem {
   reviewFeedback?: string | null;
   storyStatus: StoryStatus;
   coverImageUrl?: string | null;
+  pricingType: ContentPricingType;
+  priceCoins: number;
+  freeChapters: number;
+  allowCommunityTranslation: boolean;
   uploaderId: string;
   publisherId?: string | null;
   parentContentId?: string | null;
@@ -80,6 +86,36 @@ export interface QueryContentParams {
   publicationStatus?: PublicationStatus;
   search?: string;
   genreId?: string;
+  tagId?: string;
+}
+
+export type RankingCategory = "ongoing" | "popular-manga" | "popular-novel";
+
+export interface RankingContentParams {
+  category: RankingCategory;
+  page?: number;
+  limit?: number;
+}
+
+export interface RankedContentListItem extends ContentListItem {
+  activeReaders: number;
+}
+
+export interface RankedContentPaginationResponse {
+  items: RankedContentListItem[];
+  meta: ContentPaginationResponse["meta"];
+  popularityWindowDays: number;
+}
+
+export interface PopularTag extends Tag {
+  activeReads: number;
+}
+
+export interface PopularPublisher {
+  id: string;
+  organizationName: string;
+  activeReads: number;
+  publishedContentCount: number;
 }
 
 export interface ContentPaginationResponse {
@@ -124,6 +160,10 @@ export interface LicensedBrowseItem {
   type: ContentType;
   coverImageUrl?: string | null;
   synopsis?: string | null;
+  pricingType: ContentPricingType;
+  priceCoins: number;
+  freeChapters: number;
+  allowCommunityTranslation: boolean;
 }
 
 export interface AuthorDashboardStats {
@@ -143,4 +183,3 @@ export interface AuthorDashboardStats {
     publicationStatus: PublicationStatus;
   }>;
 }
-

@@ -8,7 +8,7 @@ export function ProtectedRoute() {
   // Lấy cờ isAuthenticated từ Zustand store để biết user đã đăng nhập chưa
   const { isAuthenticated } = useAuthStore()
   
-  // hook useLocation lấy thông tin về đường dẫn hiện tại (ví dụ: user đang cố vào /inbox)
+  // hook useLocation lấy thông tin url người dùng đang muốn truy cập hiện tại (ví dụ: user đang cố vào /inbox)
   const location = useLocation()
 
   // ==========================================

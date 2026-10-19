@@ -228,6 +228,7 @@ export type ChapterWhereInput = {
   pages?: Prisma.ChapterPageListRelationFilter
   chapterContent?: Prisma.XOR<Prisma.ChapterContentNullableScalarRelationFilter, Prisma.ChapterContentWhereInput> | null
   readingProgress?: Prisma.ReadingProgressListRelationFilter
+  chapterReads?: Prisma.ChapterReadListRelationFilter
 }
 
 export type ChapterOrderByWithRelationInput = {
@@ -241,6 +242,7 @@ export type ChapterOrderByWithRelationInput = {
   pages?: Prisma.ChapterPageOrderByRelationAggregateInput
   chapterContent?: Prisma.ChapterContentOrderByWithRelationInput
   readingProgress?: Prisma.ReadingProgressOrderByRelationAggregateInput
+  chapterReads?: Prisma.ChapterReadOrderByRelationAggregateInput
 }
 
 export type ChapterWhereUniqueInput = Prisma.AtLeast<{
@@ -258,6 +260,7 @@ export type ChapterWhereUniqueInput = Prisma.AtLeast<{
   pages?: Prisma.ChapterPageListRelationFilter
   chapterContent?: Prisma.XOR<Prisma.ChapterContentNullableScalarRelationFilter, Prisma.ChapterContentWhereInput> | null
   readingProgress?: Prisma.ReadingProgressListRelationFilter
+  chapterReads?: Prisma.ChapterReadListRelationFilter
 }, "id" | "contentId_number">
 
 export type ChapterOrderByWithAggregationInput = {
@@ -296,6 +299,7 @@ export type ChapterCreateInput = {
   pages?: Prisma.ChapterPageCreateNestedManyWithoutChapterInput
   chapterContent?: Prisma.ChapterContentCreateNestedOneWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateInput = {
@@ -308,6 +312,7 @@ export type ChapterUncheckedCreateInput = {
   pages?: Prisma.ChapterPageUncheckedCreateNestedManyWithoutChapterInput
   chapterContent?: Prisma.ChapterContentUncheckedCreateNestedOneWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUpdateInput = {
@@ -320,6 +325,7 @@ export type ChapterUpdateInput = {
   pages?: Prisma.ChapterPageUpdateManyWithoutChapterNestedInput
   chapterContent?: Prisma.ChapterContentUpdateOneWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateInput = {
@@ -332,6 +338,7 @@ export type ChapterUncheckedUpdateInput = {
   pages?: Prisma.ChapterPageUncheckedUpdateManyWithoutChapterNestedInput
   chapterContent?: Prisma.ChapterContentUncheckedUpdateOneWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterCreateManyInput = {
@@ -457,18 +464,6 @@ export type ChapterUncheckedUpdateManyWithoutContentNestedInput = {
   deleteMany?: Prisma.ChapterScalarWhereInput | Prisma.ChapterScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type ChapterCreateNestedOneWithoutPagesInput = {
   create?: Prisma.XOR<Prisma.ChapterCreateWithoutPagesInput, Prisma.ChapterUncheckedCreateWithoutPagesInput>
   connectOrCreate?: Prisma.ChapterCreateOrConnectWithoutPagesInput
@@ -511,6 +506,20 @@ export type ChapterUpdateOneRequiredWithoutReadingProgressNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ChapterUpdateToOneWithWhereWithoutReadingProgressInput, Prisma.ChapterUpdateWithoutReadingProgressInput>, Prisma.ChapterUncheckedUpdateWithoutReadingProgressInput>
 }
 
+export type ChapterCreateNestedOneWithoutChapterReadsInput = {
+  create?: Prisma.XOR<Prisma.ChapterCreateWithoutChapterReadsInput, Prisma.ChapterUncheckedCreateWithoutChapterReadsInput>
+  connectOrCreate?: Prisma.ChapterCreateOrConnectWithoutChapterReadsInput
+  connect?: Prisma.ChapterWhereUniqueInput
+}
+
+export type ChapterUpdateOneRequiredWithoutChapterReadsNestedInput = {
+  create?: Prisma.XOR<Prisma.ChapterCreateWithoutChapterReadsInput, Prisma.ChapterUncheckedCreateWithoutChapterReadsInput>
+  connectOrCreate?: Prisma.ChapterCreateOrConnectWithoutChapterReadsInput
+  upsert?: Prisma.ChapterUpsertWithoutChapterReadsInput
+  connect?: Prisma.ChapterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ChapterUpdateToOneWithWhereWithoutChapterReadsInput, Prisma.ChapterUpdateWithoutChapterReadsInput>, Prisma.ChapterUncheckedUpdateWithoutChapterReadsInput>
+}
+
 export type ChapterCreateWithoutContentInput = {
   id?: string
   number: number
@@ -520,6 +529,7 @@ export type ChapterCreateWithoutContentInput = {
   pages?: Prisma.ChapterPageCreateNestedManyWithoutChapterInput
   chapterContent?: Prisma.ChapterContentCreateNestedOneWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateWithoutContentInput = {
@@ -531,6 +541,7 @@ export type ChapterUncheckedCreateWithoutContentInput = {
   pages?: Prisma.ChapterPageUncheckedCreateNestedManyWithoutChapterInput
   chapterContent?: Prisma.ChapterContentUncheckedCreateNestedOneWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterCreateOrConnectWithoutContentInput = {
@@ -579,6 +590,7 @@ export type ChapterCreateWithoutPagesInput = {
   content: Prisma.ContentCreateNestedOneWithoutChaptersInput
   chapterContent?: Prisma.ChapterContentCreateNestedOneWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateWithoutPagesInput = {
@@ -590,6 +602,7 @@ export type ChapterUncheckedCreateWithoutPagesInput = {
   publishedAt?: Date | string | null
   chapterContent?: Prisma.ChapterContentUncheckedCreateNestedOneWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterCreateOrConnectWithoutPagesInput = {
@@ -617,6 +630,7 @@ export type ChapterUpdateWithoutPagesInput = {
   content?: Prisma.ContentUpdateOneRequiredWithoutChaptersNestedInput
   chapterContent?: Prisma.ChapterContentUpdateOneWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateWithoutPagesInput = {
@@ -628,6 +642,7 @@ export type ChapterUncheckedUpdateWithoutPagesInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   chapterContent?: Prisma.ChapterContentUncheckedUpdateOneWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterCreateWithoutChapterContentInput = {
@@ -639,6 +654,7 @@ export type ChapterCreateWithoutChapterContentInput = {
   content: Prisma.ContentCreateNestedOneWithoutChaptersInput
   pages?: Prisma.ChapterPageCreateNestedManyWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateWithoutChapterContentInput = {
@@ -650,6 +666,7 @@ export type ChapterUncheckedCreateWithoutChapterContentInput = {
   publishedAt?: Date | string | null
   pages?: Prisma.ChapterPageUncheckedCreateNestedManyWithoutChapterInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutLastChapterInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterCreateOrConnectWithoutChapterContentInput = {
@@ -677,6 +694,7 @@ export type ChapterUpdateWithoutChapterContentInput = {
   content?: Prisma.ContentUpdateOneRequiredWithoutChaptersNestedInput
   pages?: Prisma.ChapterPageUpdateManyWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateWithoutChapterContentInput = {
@@ -688,6 +706,7 @@ export type ChapterUncheckedUpdateWithoutChapterContentInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pages?: Prisma.ChapterPageUncheckedUpdateManyWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterCreateWithoutReadingProgressInput = {
@@ -699,6 +718,7 @@ export type ChapterCreateWithoutReadingProgressInput = {
   content: Prisma.ContentCreateNestedOneWithoutChaptersInput
   pages?: Prisma.ChapterPageCreateNestedManyWithoutChapterInput
   chapterContent?: Prisma.ChapterContentCreateNestedOneWithoutChapterInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateWithoutReadingProgressInput = {
@@ -710,6 +730,7 @@ export type ChapterUncheckedCreateWithoutReadingProgressInput = {
   publishedAt?: Date | string | null
   pages?: Prisma.ChapterPageUncheckedCreateNestedManyWithoutChapterInput
   chapterContent?: Prisma.ChapterContentUncheckedCreateNestedOneWithoutChapterInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterCreateOrConnectWithoutReadingProgressInput = {
@@ -737,6 +758,7 @@ export type ChapterUpdateWithoutReadingProgressInput = {
   content?: Prisma.ContentUpdateOneRequiredWithoutChaptersNestedInput
   pages?: Prisma.ChapterPageUpdateManyWithoutChapterNestedInput
   chapterContent?: Prisma.ChapterContentUpdateOneWithoutChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateWithoutReadingProgressInput = {
@@ -748,6 +770,71 @@ export type ChapterUncheckedUpdateWithoutReadingProgressInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pages?: Prisma.ChapterPageUncheckedUpdateManyWithoutChapterNestedInput
   chapterContent?: Prisma.ChapterContentUncheckedUpdateOneWithoutChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
+}
+
+export type ChapterCreateWithoutChapterReadsInput = {
+  id?: string
+  number: number
+  title?: string | null
+  moderationStatus?: string
+  publishedAt?: Date | string | null
+  content: Prisma.ContentCreateNestedOneWithoutChaptersInput
+  pages?: Prisma.ChapterPageCreateNestedManyWithoutChapterInput
+  chapterContent?: Prisma.ChapterContentCreateNestedOneWithoutChapterInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutLastChapterInput
+}
+
+export type ChapterUncheckedCreateWithoutChapterReadsInput = {
+  id?: string
+  contentId: string
+  number: number
+  title?: string | null
+  moderationStatus?: string
+  publishedAt?: Date | string | null
+  pages?: Prisma.ChapterPageUncheckedCreateNestedManyWithoutChapterInput
+  chapterContent?: Prisma.ChapterContentUncheckedCreateNestedOneWithoutChapterInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutLastChapterInput
+}
+
+export type ChapterCreateOrConnectWithoutChapterReadsInput = {
+  where: Prisma.ChapterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChapterCreateWithoutChapterReadsInput, Prisma.ChapterUncheckedCreateWithoutChapterReadsInput>
+}
+
+export type ChapterUpsertWithoutChapterReadsInput = {
+  update: Prisma.XOR<Prisma.ChapterUpdateWithoutChapterReadsInput, Prisma.ChapterUncheckedUpdateWithoutChapterReadsInput>
+  create: Prisma.XOR<Prisma.ChapterCreateWithoutChapterReadsInput, Prisma.ChapterUncheckedCreateWithoutChapterReadsInput>
+  where?: Prisma.ChapterWhereInput
+}
+
+export type ChapterUpdateToOneWithWhereWithoutChapterReadsInput = {
+  where?: Prisma.ChapterWhereInput
+  data: Prisma.XOR<Prisma.ChapterUpdateWithoutChapterReadsInput, Prisma.ChapterUncheckedUpdateWithoutChapterReadsInput>
+}
+
+export type ChapterUpdateWithoutChapterReadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  content?: Prisma.ContentUpdateOneRequiredWithoutChaptersNestedInput
+  pages?: Prisma.ChapterPageUpdateManyWithoutChapterNestedInput
+  chapterContent?: Prisma.ChapterContentUpdateOneWithoutChapterNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutLastChapterNestedInput
+}
+
+export type ChapterUncheckedUpdateWithoutChapterReadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  contentId?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pages?: Prisma.ChapterPageUncheckedUpdateManyWithoutChapterNestedInput
+  chapterContent?: Prisma.ChapterContentUncheckedUpdateOneWithoutChapterNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutLastChapterNestedInput
 }
 
 export type ChapterCreateManyContentInput = {
@@ -767,6 +854,7 @@ export type ChapterUpdateWithoutContentInput = {
   pages?: Prisma.ChapterPageUpdateManyWithoutChapterNestedInput
   chapterContent?: Prisma.ChapterContentUpdateOneWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateWithoutContentInput = {
@@ -778,6 +866,7 @@ export type ChapterUncheckedUpdateWithoutContentInput = {
   pages?: Prisma.ChapterPageUncheckedUpdateManyWithoutChapterNestedInput
   chapterContent?: Prisma.ChapterContentUncheckedUpdateOneWithoutChapterNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutLastChapterNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateManyWithoutContentInput = {
@@ -796,11 +885,13 @@ export type ChapterUncheckedUpdateManyWithoutContentInput = {
 export type ChapterCountOutputType = {
   pages: number
   readingProgress: number
+  chapterReads: number
 }
 
 export type ChapterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pages?: boolean | ChapterCountOutputTypeCountPagesArgs
   readingProgress?: boolean | ChapterCountOutputTypeCountReadingProgressArgs
+  chapterReads?: boolean | ChapterCountOutputTypeCountChapterReadsArgs
 }
 
 /**
@@ -827,6 +918,13 @@ export type ChapterCountOutputTypeCountReadingProgressArgs<ExtArgs extends runti
   where?: Prisma.ReadingProgressWhereInput
 }
 
+/**
+ * ChapterCountOutputType without action
+ */
+export type ChapterCountOutputTypeCountChapterReadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChapterReadWhereInput
+}
+
 
 export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -839,6 +937,7 @@ export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   pages?: boolean | Prisma.Chapter$pagesArgs<ExtArgs>
   chapterContent?: boolean | Prisma.Chapter$chapterContentArgs<ExtArgs>
   readingProgress?: boolean | Prisma.Chapter$readingProgressArgs<ExtArgs>
+  chapterReads?: boolean | Prisma.Chapter$chapterReadsArgs<ExtArgs>
   _count?: boolean | Prisma.ChapterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chapter"]>
 
@@ -859,6 +958,7 @@ export type ChapterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   pages?: boolean | Prisma.Chapter$pagesArgs<ExtArgs>
   chapterContent?: boolean | Prisma.Chapter$chapterContentArgs<ExtArgs>
   readingProgress?: boolean | Prisma.Chapter$readingProgressArgs<ExtArgs>
+  chapterReads?: boolean | Prisma.Chapter$chapterReadsArgs<ExtArgs>
   _count?: boolean | Prisma.ChapterCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -869,6 +969,7 @@ export type $ChapterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pages: Prisma.$ChapterPagePayload<ExtArgs>[]
     chapterContent: Prisma.$ChapterContentPayload<ExtArgs> | null
     readingProgress: Prisma.$ReadingProgressPayload<ExtArgs>[]
+    chapterReads: Prisma.$ChapterReadPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1221,6 +1322,7 @@ export interface Prisma__ChapterClient<T, Null = never, ExtArgs extends runtime.
   pages<T extends Prisma.Chapter$pagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Chapter$pagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterPagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chapterContent<T extends Prisma.Chapter$chapterContentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Chapter$chapterContentArgs<ExtArgs>>): Prisma.Prisma__ChapterContentClient<runtime.Types.Result.GetResult<Prisma.$ChapterContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   readingProgress<T extends Prisma.Chapter$readingProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Chapter$readingProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReadingProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chapterReads<T extends Prisma.Chapter$chapterReadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Chapter$chapterReadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1667,6 +1769,30 @@ export type Chapter$readingProgressArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.ReadingProgressScalarFieldEnum | Prisma.ReadingProgressScalarFieldEnum[]
+}
+
+/**
+ * Chapter.chapterReads
+ */
+export type Chapter$chapterReadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChapterRead
+   */
+  select?: Prisma.ChapterReadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChapterRead
+   */
+  omit?: Prisma.ChapterReadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChapterReadInclude<ExtArgs> | null
+  where?: Prisma.ChapterReadWhereInput
+  orderBy?: Prisma.ChapterReadOrderByWithRelationInput | Prisma.ChapterReadOrderByWithRelationInput[]
+  cursor?: Prisma.ChapterReadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChapterReadScalarFieldEnum | Prisma.ChapterReadScalarFieldEnum[]
 }
 
 /**

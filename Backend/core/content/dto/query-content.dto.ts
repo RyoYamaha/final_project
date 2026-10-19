@@ -24,6 +24,10 @@ export class QueryContentDto {
   genreId?: string;
 
   @IsOptional()
+  @IsString()
+  tagId?: string;
+
+  @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)

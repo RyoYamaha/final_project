@@ -10,7 +10,7 @@ export class GeminiService {
   }
 
   async generateContent(prompt: string): Promise<string> {
-    const model = this.genAi.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = this.genAi.getGenerativeModel({ model: 'gemini-3.5-flash' });
     const result = await model.generateContent(prompt);
     return result.response.text();
   }

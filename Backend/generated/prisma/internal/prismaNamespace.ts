@@ -409,11 +409,17 @@ export const ModelName = {
   ContentTag: 'ContentTag',
   Publisher: 'Publisher',
   User: 'User',
+  Wallet: 'Wallet',
+  PaymentOrder: 'PaymentOrder',
+  BankTransaction: 'BankTransaction',
+  WalletLedger: 'WalletLedger',
+  SystemSetting: 'SystemSetting',
   Bookmark: 'Bookmark',
   Favorite: 'Favorite',
   Rating: 'Rating',
   Comment: 'Comment',
   ReadingProgress: 'ReadingProgress',
+  ChapterRead: 'ChapterRead',
   Notification: 'Notification',
   Report: 'Report',
   RefreshToken: 'RefreshToken',
@@ -437,7 +443,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "content" | "mangaDetail" | "novelDetail" | "chapter" | "chapterPage" | "chapterContent" | "genre" | "tag" | "contentGenre" | "contentTag" | "publisher" | "user" | "bookmark" | "favorite" | "rating" | "comment" | "readingProgress" | "notification" | "report" | "refreshToken" | "contentKnowledgeBase" | "aIConversation" | "recommendationCache" | "supportTicket" | "ticketMessage"
+    modelProps: "content" | "mangaDetail" | "novelDetail" | "chapter" | "chapterPage" | "chapterContent" | "genre" | "tag" | "contentGenre" | "contentTag" | "publisher" | "user" | "wallet" | "paymentOrder" | "bankTransaction" | "walletLedger" | "systemSetting" | "bookmark" | "favorite" | "rating" | "comment" | "readingProgress" | "chapterRead" | "notification" | "report" | "refreshToken" | "contentKnowledgeBase" | "aIConversation" | "recommendationCache" | "supportTicket" | "ticketMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1233,6 +1239,336 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Wallet: {
+      payload: Prisma.$WalletPayload<ExtArgs>
+      fields: Prisma.WalletFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WalletFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WalletFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        findFirst: {
+          args: Prisma.WalletFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WalletFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        findMany: {
+          args: Prisma.WalletFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        create: {
+          args: Prisma.WalletCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        createMany: {
+          args: Prisma.WalletCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.WalletDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        update: {
+          args: Prisma.WalletUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        deleteMany: {
+          args: Prisma.WalletDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WalletUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.WalletUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        aggregate: {
+          args: Prisma.WalletAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWallet>
+        }
+        groupBy: {
+          args: Prisma.WalletGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WalletCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletCountAggregateOutputType> | number
+        }
+      }
+    }
+    PaymentOrder: {
+      payload: Prisma.$PaymentOrderPayload<ExtArgs>
+      fields: Prisma.PaymentOrderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PaymentOrderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PaymentOrderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>
+        }
+        findFirst: {
+          args: Prisma.PaymentOrderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PaymentOrderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>
+        }
+        findMany: {
+          args: Prisma.PaymentOrderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>[]
+        }
+        create: {
+          args: Prisma.PaymentOrderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>
+        }
+        createMany: {
+          args: Prisma.PaymentOrderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PaymentOrderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>
+        }
+        update: {
+          args: Prisma.PaymentOrderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>
+        }
+        deleteMany: {
+          args: Prisma.PaymentOrderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PaymentOrderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PaymentOrderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentOrderPayload>
+        }
+        aggregate: {
+          args: Prisma.PaymentOrderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePaymentOrder>
+        }
+        groupBy: {
+          args: Prisma.PaymentOrderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PaymentOrderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PaymentOrderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PaymentOrderCountAggregateOutputType> | number
+        }
+      }
+    }
+    BankTransaction: {
+      payload: Prisma.$BankTransactionPayload<ExtArgs>
+      fields: Prisma.BankTransactionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BankTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BankTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>
+        }
+        findFirst: {
+          args: Prisma.BankTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BankTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>
+        }
+        findMany: {
+          args: Prisma.BankTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>[]
+        }
+        create: {
+          args: Prisma.BankTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>
+        }
+        createMany: {
+          args: Prisma.BankTransactionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.BankTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>
+        }
+        update: {
+          args: Prisma.BankTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>
+        }
+        deleteMany: {
+          args: Prisma.BankTransactionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BankTransactionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.BankTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BankTransactionPayload>
+        }
+        aggregate: {
+          args: Prisma.BankTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBankTransaction>
+        }
+        groupBy: {
+          args: Prisma.BankTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BankTransactionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BankTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BankTransactionCountAggregateOutputType> | number
+        }
+      }
+    }
+    WalletLedger: {
+      payload: Prisma.$WalletLedgerPayload<ExtArgs>
+      fields: Prisma.WalletLedgerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WalletLedgerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WalletLedgerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>
+        }
+        findFirst: {
+          args: Prisma.WalletLedgerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WalletLedgerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>
+        }
+        findMany: {
+          args: Prisma.WalletLedgerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>[]
+        }
+        create: {
+          args: Prisma.WalletLedgerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>
+        }
+        createMany: {
+          args: Prisma.WalletLedgerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.WalletLedgerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>
+        }
+        update: {
+          args: Prisma.WalletLedgerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>
+        }
+        deleteMany: {
+          args: Prisma.WalletLedgerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WalletLedgerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.WalletLedgerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletLedgerPayload>
+        }
+        aggregate: {
+          args: Prisma.WalletLedgerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWalletLedger>
+        }
+        groupBy: {
+          args: Prisma.WalletLedgerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletLedgerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WalletLedgerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletLedgerCountAggregateOutputType> | number
+        }
+      }
+    }
+    SystemSetting: {
+      payload: Prisma.$SystemSettingPayload<ExtArgs>
+      fields: Prisma.SystemSettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SystemSettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SystemSettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>
+        }
+        findFirst: {
+          args: Prisma.SystemSettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SystemSettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>
+        }
+        findMany: {
+          args: Prisma.SystemSettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>[]
+        }
+        create: {
+          args: Prisma.SystemSettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>
+        }
+        createMany: {
+          args: Prisma.SystemSettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.SystemSettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>
+        }
+        update: {
+          args: Prisma.SystemSettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.SystemSettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SystemSettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.SystemSettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemSettingPayload>
+        }
+        aggregate: {
+          args: Prisma.SystemSettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSystemSetting>
+        }
+        groupBy: {
+          args: Prisma.SystemSettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SystemSettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SystemSettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SystemSettingCountAggregateOutputType> | number
+        }
+      }
+    }
     Bookmark: {
       payload: Prisma.$BookmarkPayload<ExtArgs>
       fields: Prisma.BookmarkFieldRefs
@@ -1560,6 +1896,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ReadingProgressCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ReadingProgressCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChapterRead: {
+      payload: Prisma.$ChapterReadPayload<ExtArgs>
+      fields: Prisma.ChapterReadFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChapterReadFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChapterReadFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>
+        }
+        findFirst: {
+          args: Prisma.ChapterReadFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChapterReadFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>
+        }
+        findMany: {
+          args: Prisma.ChapterReadFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>[]
+        }
+        create: {
+          args: Prisma.ChapterReadCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>
+        }
+        createMany: {
+          args: Prisma.ChapterReadCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ChapterReadDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>
+        }
+        update: {
+          args: Prisma.ChapterReadUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChapterReadDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChapterReadUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ChapterReadUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChapterReadPayload>
+        }
+        aggregate: {
+          args: Prisma.ChapterReadAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChapterRead>
+        }
+        groupBy: {
+          args: Prisma.ChapterReadGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChapterReadGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChapterReadCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChapterReadCountAggregateOutputType> | number
         }
       }
     }
@@ -2141,6 +2543,11 @@ export const ContentScalarFieldEnum = {
   reviewFeedback: 'reviewFeedback',
   storyStatus: 'storyStatus',
   coverImageUrl: 'coverImageUrl',
+  pricingType: 'pricingType',
+  priceCoins: 'priceCoins',
+  freeChapters: 'freeChapters',
+  allowCommunityTranslation: 'allowCommunityTranslation',
+  pricingChangedAt: 'pricingChangedAt',
   uploaderId: 'uploaderId',
   publisherId: 'publisherId',
   parentContentId: 'parentContentId',
@@ -2255,6 +2662,77 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const PaymentOrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expectedAmount: 'expectedAmount',
+  paidAmount: 'paidAmount',
+  paidCoins: 'paidCoins',
+  status: 'status',
+  transferCode: 'transferCode',
+  bankBin: 'bankBin',
+  bankName: 'bankName',
+  bankAccountNumber: 'bankAccountNumber',
+  bankAccountName: 'bankAccountName',
+  expiresAt: 'expiresAt',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentOrderScalarFieldEnum = (typeof PaymentOrderScalarFieldEnum)[keyof typeof PaymentOrderScalarFieldEnum]
+
+
+export const BankTransactionScalarFieldEnum = {
+  id: 'id',
+  externalId: 'externalId',
+  paymentOrderId: 'paymentOrderId',
+  transferType: 'transferType',
+  transferAmount: 'transferAmount',
+  description: 'description',
+  rawPayload: 'rawPayload',
+  processingStatus: 'processingStatus',
+  receivedAt: 'receivedAt'
+} as const
+
+export type BankTransactionScalarFieldEnum = (typeof BankTransactionScalarFieldEnum)[keyof typeof BankTransactionScalarFieldEnum]
+
+
+export const WalletLedgerScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  userId: 'userId',
+  amountCoins: 'amountCoins',
+  balanceAfter: 'balanceAfter',
+  transactionType: 'transactionType',
+  sourceType: 'sourceType',
+  sourceReference: 'sourceReference',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletLedgerScalarFieldEnum = (typeof WalletLedgerScalarFieldEnum)[keyof typeof WalletLedgerScalarFieldEnum]
+
+
+export const SystemSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
+
+
 export const BookmarkScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2309,6 +2787,16 @@ export const ReadingProgressScalarFieldEnum = {
 } as const
 
 export type ReadingProgressScalarFieldEnum = (typeof ReadingProgressScalarFieldEnum)[keyof typeof ReadingProgressScalarFieldEnum]
+
+
+export const ChapterReadScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  chapterId: 'chapterId',
+  completedAt: 'completedAt'
+} as const
+
+export type ChapterReadScalarFieldEnum = (typeof ChapterReadScalarFieldEnum)[keyof typeof ChapterReadScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -2433,13 +2921,6 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -2450,6 +2931,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -2622,11 +3110,17 @@ export type GlobalOmitConfig = {
   contentTag?: Prisma.ContentTagOmit
   publisher?: Prisma.PublisherOmit
   user?: Prisma.UserOmit
+  wallet?: Prisma.WalletOmit
+  paymentOrder?: Prisma.PaymentOrderOmit
+  bankTransaction?: Prisma.BankTransactionOmit
+  walletLedger?: Prisma.WalletLedgerOmit
+  systemSetting?: Prisma.SystemSettingOmit
   bookmark?: Prisma.BookmarkOmit
   favorite?: Prisma.FavoriteOmit
   rating?: Prisma.RatingOmit
   comment?: Prisma.CommentOmit
   readingProgress?: Prisma.ReadingProgressOmit
+  chapterRead?: Prisma.ChapterReadOmit
   notification?: Prisma.NotificationOmit
   report?: Prisma.ReportOmit
   refreshToken?: Prisma.RefreshTokenOmit

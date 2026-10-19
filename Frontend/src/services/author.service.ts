@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import type { ContentListItem } from '@/types/content'
+import type { ContentListItem, LicensedBrowseItem } from '@/types/content'
 import type { AuthorDashboardStats, CreateContentDto, CreateTranslationDto, UpdateContentDto } from '@/types/author'
 
 export const authorService = {
@@ -22,7 +22,7 @@ export const authorService = {
   getMyContents: async () => (await api.get<ContentListItem[]>('/author/content')).data,
 
   browseLicensed: async (search?: string) =>
-    (await api.get<ContentListItem[]>('/author/browse-licensed', { params: { search } })).data,
+    (await api.get<LicensedBrowseItem[]>('/author/browse-licensed', { params: { search } })).data,
 
   resubmitTranslation: async (id: string) =>
     (await api.post(`/author/translations/${id}/resubmit`)).data,

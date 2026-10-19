@@ -9,6 +9,11 @@ export enum OwnershipTier {
   Original = 'Original'
 }
 
+export enum ContentPricingType {
+  Free = 'free',
+  Paid = 'paid',
+}
+
 export enum PublicationStatus {
   Draft = 'Draft',
   PendingApproval = 'PendingApproval',

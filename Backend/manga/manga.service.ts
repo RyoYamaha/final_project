@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PrismaService } from '../prisma/prisma.service';
 import { ChapterService } from '../core/chapter/chapter.service';
 import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
+import { isCommunityTranslationVisible } from '../core/content/content-visibility';
 
 export interface UploadedImageFile {
   buffer: Buffer;
@@ -80,8 +81,25 @@ export class MangaService {
   ///////////////////////////////////////////////
 
   async getChapterPages(chapterId: string) {
-    const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId }, select: { moderationStatus: true },});
-    if (!chapter || chapter.moderationStatus !== 'Published') {
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+      select: {
+        moderationStatus: true,
+        content: {
+          select: {
+            ownershipTier: true,
+            parentContent: {
+              select: { pricingType: true, pricingChangedAt: true },
+            },
+          },
+        },
+      },
+    });
+    if (
+      !chapter ||
+      chapter.moderationStatus !== 'Published' ||
+      !isCommunityTranslationVisible(chapter.content)
+    ) {
       throw new NotFoundException('Chapter không tồn tại hoặc chưa được xuất bản');
     }
 

@@ -1,4 +1,5 @@
-import { Body, Controller, Post, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, HttpCode, HttpStatus, UseGuards, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -16,8 +17,27 @@ export class AuthController {
   }
 
   @Post('register-publisher')
-  async registerPublisher(@Body() dto: RegisterPublisherExternalDto) {
-    return this.authService.registerPublisherExternal(dto);
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 10 * 1024 * 1024 } }))
+  async registerPublisher(
+    @Body() dto: RegisterPublisherExternalDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file || !this.isValidVerificationFile(file)) {
+      throw new BadRequestException('Vui lòng gửi ảnh JPEG, PNG, WebP hoặc tệp PDF hợp lệ');
+    }
+    return this.authService.registerPublisherExternal(dto, file);
+  }
+
+  private isValidVerificationFile(file: Express.Multer.File) {
+    const signatures: Record<string, (buffer: Buffer) => boolean> = {
+      'image/jpeg': (buffer) => buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff,
+      'image/png': (buffer) => buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
+      'image/webp': (buffer) =>
+        buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP',
+      'application/pdf': (buffer) => buffer.toString('ascii', 0, 5) === '%PDF-',
+    };
+    const validateSignature = signatures[file.mimetype];
+    return Boolean(validateSignature && validateSignature(file.buffer));
   }
 
   @Post('login')

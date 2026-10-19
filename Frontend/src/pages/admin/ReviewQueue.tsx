@@ -150,6 +150,21 @@ export function ReviewQueue() {
                       {[p.contactEmail, p.taxId && `MST ${p.taxId}`, p.websiteUrl].filter(Boolean).join(' · ')}
                     </p>
                   )}
+                  {p.verificationDocumentUrl ? (
+                    <a
+                      href={p.verificationDocumentUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      download={/\.pdf(?:$|[?#])/i.test(p.verificationDocumentUrl) ? true : undefined}
+                      className="mt-1 inline-flex text-xs font-medium text-primary underline"
+                    >
+                      {/\.pdf(?:$|[?#])/i.test(p.verificationDocumentUrl)
+                        ? 'Tải giấy tờ PDF để kiểm tra'
+                        : 'Xem giấy tờ xác minh'}
+                    </a>
+                  ) : (
+                    <p className="mt-1 text-xs text-destructive">Chưa có giấy tờ xác minh</p>
+                  )}
                 </div>
                 <div className="flex shrink-0 gap-2">
                   <Button size="sm" disabled={act.isPending} onClick={() => act.mutate(() => adminService.verifyPublisher(p.id))}>

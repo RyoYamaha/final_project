@@ -1,4 +1,4 @@
-import { Controller, Post, Patch, Get, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { BadRequestException, Controller, Post, Patch, Get, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { NovelService } from './novel.service';
 import { ChapterService } from '../core/chapter/chapter.service';
@@ -46,12 +46,15 @@ export class NovelController {
 
   @UseGuards(JwtAuthGuard)
   @Post('chapters/:chapterId/pdf')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 20 * 1024 * 1024 } }))
   setFromPdf(
     @Param('chapterId') chapterId: string,
     @CurrentUser('id') userId: string,
-    @UploadedFile() file: { buffer: Buffer },
+    @UploadedFile() file?: { buffer: Buffer },
   ) {
+    if (!file?.buffer?.length) {
+      throw new BadRequestException('Vui lòng chọn tệp PDF để tải lên');
+    }
     return this.novelService.setChapterFromPdf(chapterId, userId, file.buffer);
   }
 

@@ -22,6 +22,8 @@ export class AuthorService {
    */
   async browseLicensedContents(search?: string) {
     return this.prisma.content.findMany({where: { ownershipTier: OwnershipTier.Licensed, publicationStatus: PublicationStatus.Published,
+        pricingType: 'free',
+        allowCommunityTranslation: true,
         ...(search && { title: { contains: search } }),
       },
       select: {
@@ -30,6 +32,10 @@ export class AuthorService {
         type: true,
         coverImageUrl: true,
         synopsis: true,
+        pricingType: true,
+        priceCoins: true,
+        freeChapters: true,
+        allowCommunityTranslation: true,
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -45,6 +51,14 @@ export class AuthorService {
     }
     if (parent.publicationStatus !== PublicationStatus.Published) {
       throw new ForbiddenException('Content gốc chưa được duyệt, chưa thể dịch');
+    }
+    if (
+      parent.pricingType !== 'free' ||
+      !parent.allowCommunityTranslation
+    ) {
+      throw new ForbiddenException(
+        'Publisher chưa cho phép dịch cộng đồng cho Content này',
+      );
     }
 
     return this.contentService.createContent(

@@ -44,3 +44,10 @@ export interface RegisterDto {
   password: string
   role?: Role
 }
+
+export interface RegisterPublisherExternalDto {
+  username: string
+  email: string
+  password: string
+  organizationName: string
+}

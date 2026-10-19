@@ -112,9 +112,19 @@ export function PublisherStatus() {
         <p className="mt-2 text-sm text-muted-foreground">
           Tổ chức: <span className="font-semibold text-foreground">{publisher.organizationName}</span>
         </p>
+        {publisher.verificationDocumentUrl && (
+          <a
+            href={publisher.verificationDocumentUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-flex text-sm font-medium text-primary underline"
+          >
+            Xem giấy tờ đã gửi
+          </a>
+        )}
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{config.description}</p>
 
-        {/* Các nút hành động: Về trang chủ & Nộp lại hồ sơ nếu bị Rejected */}
+        {/* Nộp lại giấy tờ nếu hồ sơ bị từ chối */}
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             to="/"
@@ -128,7 +138,7 @@ export function PublisherStatus() {
               to="/publisher/register"
               className="inline-flex items-center rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
-              Nộp lại hồ sơ
+              Gửi lại giấy tờ xác minh
             </Link>
           )}
         </div>

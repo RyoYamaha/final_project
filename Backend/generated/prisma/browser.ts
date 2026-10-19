@@ -78,6 +78,31 @@ export type Publisher = Prisma.PublisherModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model Wallet
+ * 
+ */
+export type Wallet = Prisma.WalletModel
+/**
+ * Model PaymentOrder
+ * 
+ */
+export type PaymentOrder = Prisma.PaymentOrderModel
+/**
+ * Model BankTransaction
+ * 
+ */
+export type BankTransaction = Prisma.BankTransactionModel
+/**
+ * Model WalletLedger
+ * 
+ */
+export type WalletLedger = Prisma.WalletLedgerModel
+/**
+ * Model SystemSetting
+ * 
+ */
+export type SystemSetting = Prisma.SystemSettingModel
+/**
  * Model Bookmark
  * 
  */
@@ -102,6 +127,11 @@ export type Comment = Prisma.CommentModel
  * 
  */
 export type ReadingProgress = Prisma.ReadingProgressModel
+/**
+ * Model ChapterRead
+ * 
+ */
+export type ChapterRead = Prisma.ChapterReadModel
 /**
  * Model Notification
  * 

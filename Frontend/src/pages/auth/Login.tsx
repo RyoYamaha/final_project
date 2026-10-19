@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { isAxiosError } from 'axios'
+import { LockKeyhole, UserRound } from 'lucide-react'
 import { decodeJwtPayload } from '@/lib/jwt'
 import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/stores/auth-store'
@@ -97,33 +98,57 @@ export function Login() {
   // 5. HIỂN THỊ GIAO DIỆN (UI)
   // ==========================================
   return (
-    <div className="mx-auto w-full max-w-sm space-y-6 py-10">
-      <h1 className="text-2xl font-bold text-center">Đăng nhập</h1>
+    <div className="mx-auto w-full max-w-md space-y-6 rounded-2xl border border-border/70 bg-card p-6 shadow-lg shadow-black/[0.04] sm:p-8">
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">Chào mừng trở lại</h1>
+        <p className="text-sm text-muted-foreground">Đăng nhập để tiếp tục với NovaManga.</p>
+      </div>
 
-
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
         {/* Trường nhập Username / Email */}
-        <div className="space-y-1.5">
-          <Label htmlFor="usernameOrEmail">Tên đăng nhập hoặc email</Label>
-          <Input id="usernameOrEmail" autoComplete="username" {...register('usernameOrEmail')} />
+        <div className="space-y-2">
+          <Label htmlFor="usernameOrEmail" className="text-sm font-medium">Tên đăng nhập hoặc email</Label>
+          <div className="relative">
+            <UserRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="usernameOrEmail"
+              autoComplete="username"
+              placeholder="Nhập tên đăng nhập hoặc email"
+              className="h-11 rounded-lg bg-background pl-10"
+              {...register('usernameOrEmail')}
+            />
+          </div>
           {errors.usernameOrEmail && (
-            <p className="text-xs text-red-600">{errors.usernameOrEmail.message}</p>
+            <p className="text-xs text-destructive">{errors.usernameOrEmail.message}</p>
           )}
         </div>
         
         {/* Trường nhập Mật khẩu */}
-        <div className="space-y-1.5">
-          <Label htmlFor="password">Mật khẩu</Label>
-          <Input id="password" type="password" autoComplete="current-password" {...register('password')} />
-          {errors.password && <p className="text-xs text-red-600">{errors.password.message}</p>}
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-sm font-medium">Mật khẩu</Label>
+          <div className="relative">
+            <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Nhập mật khẩu"
+              className="h-11 rounded-lg bg-background pl-10"
+              {...register('password')}
+            />
+          </div>
+          {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
         </div>
         
         {/* Hiển thị lỗi từ Backend */}
-        {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+        {serverError && (
+          <p role="alert" className="rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive">
+            {serverError}
+          </p>
+        )}
         
         {/* Nút Submit (Tự động mờ đi khi đang tải) */}
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button type="submit" className="h-11 w-full rounded-lg text-base font-semibold" disabled={isSubmitting}>
           {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
         </Button>
       </form>
@@ -131,7 +156,7 @@ export function Login() {
       {/* Nút Đăng ký nếu chưa có tài khoản */}
       <p className="text-center text-sm text-muted-foreground">
         Chưa có tài khoản?{' '}
-        <Link to="/register" className="underline underline-offset-4">
+        <Link to="/register" className="font-semibold text-primary underline-offset-4 hover:underline">
           Đăng ký
         </Link>
       </p>

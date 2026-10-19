@@ -8,7 +8,6 @@ export type PendingContent = Pick<
 >
 
 export interface PendingPublisher extends Publisher {
-  // GIẢ ĐỊNH theo JSON mẫu, chưa khớp schema đã biết
   contactEmail?: string | null
   websiteUrl?: string | null
   taxId?: string | null
