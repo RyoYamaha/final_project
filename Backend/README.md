@@ -78,7 +78,7 @@ Copy `accessToken` from the response and send it as `Authorization: Bearer <acce
    }
    ```
 
-3. Configure SePay to send bank-change webhooks to `POST /payments/webhook/sepay`
+3. Configure SePay to send incoming bank-transaction webhooks to `POST /payments/webhook/sepay`
    with the `Authorization: Apikey <SEPAY_WEBHOOK_API_KEY>` header.
 4. An authenticated user creates a deposit using `POST /payments/deposits` with
    `{"amountVnd": 50000}`. The backend returns a VietQR image URL and a unique
@@ -92,6 +92,21 @@ Copy `accessToken` from the response and send it as `Authorization: Bearer <acce
 The backend stores bank account settings in `SystemSetting`; the SePay API key is
 kept in the environment and is never returned by the settings API. Expired pending
 orders are reported as expired but are still accepted if a matching transfer arrives.
+When a SePay payload includes `accountNumber`, it must match the receiving account
+stored on the matched deposit order or the transaction is marked `WrongAccount`.
+
+Admins can review pending deposits with `GET /admin/payments/orders?page=1&limit=20`
+and incoming bank transactions with
+`GET /admin/payments/bank-transactions?page=1&limit=20`. The bank-transaction
+endpoint includes unmatched, review-required, wrong-account, and already-paid
+transactions. An unmatched incoming transaction can be linked to a pending order
+with `PATCH /admin/payments/bank-transactions/:id/assign`, including a required
+reason. If no webhook transaction was recorded, an Admin can confirm a pending
+order with `POST /admin/payments/orders/:id/confirm`, providing the bank statement
+transaction ID, amount actually received, and reason. Both Admin actions share
+the same atomic order, wallet, ledger, and bank-transaction update logic as the
+SePay webhook. The supplied bank transaction ID is unique, preventing a later
+webhook for that same transfer from crediting the wallet again.
 
 ## Content pricing and community translations
 
@@ -112,8 +127,8 @@ Example fields in an Author/Publisher content request:
 ```
 
 When `pricingType` is `free`, the backend stores `priceCoins` as zero. The
-Author/Publisher chooses the catalogue price in coins; future purchase routes
-must calculate and debit the actual charge on the server from this stored price.
+Author/Publisher chooses the catalogue price in coins; purchase requests always
+use this server-stored price.
 
 Fan Translations are always stored as free with a zero price. They can only be
 created from a published Licensed title when its Publisher has enabled
@@ -125,6 +140,21 @@ endpoints. Authors can update these fields through their existing
 `PATCH /author/content/:id` endpoint, and Publishers through
 `PATCH /publisher/content/:id`.
 
+## Buying and reading paid content
+
+An authenticated reader can check ownership with `GET /unlock/content/:contentId`
+and buy a published paid title with `POST /unlock/content/:contentId/purchase`.
+The server charges the current `priceCoins` once and records the purchase and
+wallet ledger entry in the same database transaction. Repeating a purchase
+request for a title already owned does not charge again.
+
+The first `freeChapters` chapters of a paid title are readable without purchase.
+Reading a later chapter requires login and ownership. One purchase unlocks all
+current and future chapters of that title, even if its price changes later.
+Free titles and Fan Translations remain readable without purchase. Public
+chapter-reading endpoints accept an optional Bearer token so anonymous readers
+can still access free chapters.
+
 ## Wallet
 
 Authenticated users can check their coin balance with `GET /wallet/balance` and
@@ -133,6 +163,33 @@ The transaction endpoint returns `items`, `page`, `limit`, `total`, and
 `totalPages`; `limit` is capped at 100. A user without a wallet yet has a balance
 of zero and an empty transaction history. Both endpoints are scoped to the user
 identified by the JWT.
+
+## Creator revenue and payouts
+
+When a paid `Original` title is purchased, the uploader receives 60% of the
+sale in creator earnings. When a paid `Licensed` title is purchased, its
+verified Publisher receives 80%. The creator share is rounded down to a whole
+coin; the remaining coins are recorded as the platform share. The revenue
+allocation is committed in the same transaction as the buyer debit, purchase,
+and wallet ledger entry.
+
+Authors and Publishers can view their earnings at `GET /revenue/me` and
+paginated sale history at `GET /revenue/me/history?page=1&limit=20`.
+These endpoints only return revenue belonging to the authenticated creator.
+
+Creators save or update their payout bank profile with `PUT /payout/profile`
+and view it with `GET /payout/profile`. `POST /payout/requests` creates a payout
+request for at least the configured `payout.minimumCoins` amount (default 10).
+Pending requests reserve earnings immediately; rejecting a request releases
+that reservation, and marking it Paid records completion. The bank details are
+copied into each request so later profile edits do not change an existing
+payout destination. The default `payout.holdDays` setting is 0.
+
+Administrators can list pending payouts at `GET /admin/payout/requests`, mark a
+manual bank transfer Paid with `PATCH /admin/payout/requests/:id/paid`, reject
+with `PATCH /admin/payout/requests/:id/reject`, update the minimum using
+`PATCH /admin/payout/settings`, and block or unblock a creator with
+`PATCH /admin/payout/users/:userId/block`.
 
 ## Common problems
 

@@ -11,10 +11,8 @@ ALTER TABLE [dbo].[Content]
         CONSTRAINT [Content_freeChapters_df] DEFAULT 3,
         [allowCommunityTranslation] BIT NOT NULL
         CONSTRAINT [Content_allowCommunityTranslation_df] DEFAULT 0,
-        [pricingChangedAt] DATETIME2;
-
-ALTER TABLE [dbo].[Content]
-    ADD CONSTRAINT [Content_pricingType_check]
+        [pricingChangedAt] DATETIME2,
+    CONSTRAINT [Content_pricingType_check]
         CHECK ([pricingType] IN ('free', 'paid')),
     CONSTRAINT [Content_priceCoins_check]
         CHECK (

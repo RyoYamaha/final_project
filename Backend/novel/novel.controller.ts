@@ -5,6 +5,7 @@ import { ChapterService } from '../core/chapter/chapter.service';
 import { CreateChapterDto } from '../core/chapter/dto/create-chapter.dto';
 import { UpdateChapterDto } from '../core/chapter/dto/update-chapter.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '../common/guards/optional-jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('novel')
@@ -58,14 +59,22 @@ export class NovelController {
     return this.novelService.setChapterFromPdf(chapterId, userId, file.buffer);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get('chapters/:chapterId/pages')
-  getPages(@Param('chapterId') chapterId: string) {
-    return this.novelService.getChapterPages(chapterId);
+  getPages(
+    @Param('chapterId') chapterId: string,
+    @CurrentUser('id') userId?: string,
+  ) {
+    return this.novelService.getChapterPages(chapterId, userId);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get('chapters/:chapterId/text')
-  getText(@Param('chapterId') chapterId: string) {
-    return this.novelService.getChapterText(chapterId);
+  getText(
+    @Param('chapterId') chapterId: string,
+    @CurrentUser('id') userId?: string,
+  ) {
+    return this.novelService.getChapterText(chapterId, userId);
   }
 
   @UseGuards(JwtAuthGuard)

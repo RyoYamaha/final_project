@@ -23,7 +23,7 @@ export class ContentService implements OnModuleInit {
   async onModuleInit() {
     await this.seedDefaults();
   }
-  //HÀM CHỌN TAG GENRE CỦA NGƯỜI DÙNG 
+  //HÀM CHỌN TAG GENRE CỦA NGƯỜI DÙNG
   //- nếu có sẵn data thì cập nhập thêm tag genre của người dùng , nếu không có thì tạo mới
   private async seedDefaults() {
 
@@ -35,7 +35,7 @@ export class ContentService implements OnModuleInit {
 
     // Khởi tạo các Tag mặc định: nếu đã tồn tại thì giữ nguyên, nếu chưa có thì tạo mới.
     for (const name of defaultTags) {
-      await this.prisma.tag.upsert({  
+      await this.prisma.tag.upsert({
         where: { name },
         update: {},
         create: { name }
@@ -121,22 +121,36 @@ export class ContentService implements OnModuleInit {
       }
     }
 
-    const pricingType =
-      ownershipTier === OwnershipTier.FanTranslation
-        ? ContentPricingType.Free
-        : contentData.pricingType ?? ContentPricingType.Free;
-    const priceCoins =
-      ownershipTier === OwnershipTier.FanTranslation ||
-      pricingType === ContentPricingType.Free
-        ? 0
-        : contentData.priceCoins ?? 0;
-    const freeChapters =
-      ownershipTier === OwnershipTier.FanTranslation
-        ? 0
-        : contentData.freeChapters ?? 3;
-    const allowCommunityTranslation =
-      ownershipTier === OwnershipTier.Licensed &&
-      (contentData.allowCommunityTranslation ?? false);
+    let pricingType = ContentPricingType.Free;
+    if (ownershipTier !== OwnershipTier.FanTranslation) {
+      if (contentData.pricingType !== undefined) {
+        pricingType = contentData.pricingType;
+      }
+    }
+
+    let priceCoins = 0;
+    if (
+      ownershipTier !== OwnershipTier.FanTranslation &&
+      pricingType === ContentPricingType.Paid
+    ) {
+      if (contentData.priceCoins !== undefined) {
+        priceCoins = contentData.priceCoins;
+      }
+    }
+
+    let freeChapters = 3;
+    if (ownershipTier === OwnershipTier.FanTranslation) {
+      freeChapters = 0;
+    } else if (contentData.freeChapters !== undefined) {
+      freeChapters = contentData.freeChapters;
+    }
+
+    let allowCommunityTranslation = false;
+    if (ownershipTier === OwnershipTier.Licensed) {
+      if (contentData.allowCommunityTranslation === true) {
+        allowCommunityTranslation = true;
+      }
+    }
 
     if (
       contentData.allowCommunityTranslation === true &&
@@ -157,9 +171,9 @@ export class ContentService implements OnModuleInit {
       );
     }
 
-    //BƯỚC 2: 
+    //BƯỚC 2:
     //vì mối quan hệ giữa 2 bảng content và tag / genre là nhiều nhiều
-    //-> suy ra ta phải tạo bảng trung gian cho dễ truy vấn sau này, liên kết giữa 2 bảng tốt hơn 
+    //-> suy ra ta phải tạo bảng trung gian cho dễ truy vấn sau này, liên kết giữa 2 bảng tốt hơn
 
     //BƯỚC 2.1: CHUẨN BỊ DỮ LIỆU MẪU CHO PRISMA LIÊN KẾT CONTENT VỚI GENRE VÀ TAG (từ tham số người dùng)
     // -> khi gọi prisma.content.create() tạo ra bản ghi tương ứng được gọi ở hàm create ở dưới
@@ -167,14 +181,14 @@ export class ContentService implements OnModuleInit {
     //xét genre mặc định là undefinced
     let genresData: Prisma.ContentCreateInput['genres'] = undefined;
 
-    //kiểm tra xem người dùng có chọn genre hay không 
-    if (contentData.genreIds) { 
+    //kiểm tra xem người dùng có chọn genre hay không
+    if (contentData.genreIds) {
       genresData = { create: contentData.genreIds.map((genreName) => ({
-          genre: {connect: { name: genreName }}, 
+          genre: {connect: { name: genreName }},
         })),
       };
     }
-    //- create: chỉ dẫn cho prisma tạo bản ghi quan hệ 
+    //- create: chỉ dẫn cho prisma tạo bản ghi quan hệ
     //- connect: chỉ dẫn cho prisma liên kết với genre đã tồn tại qua cái name genre người dùng gửi theo
 
 
@@ -258,20 +272,20 @@ export class ContentService implements OnModuleInit {
 
   // Trả danh sách truyện đã xuất bản theo bộ lọc và phân trang.
   async findAll(contentQuery: QueryContentDto) {
-    //BƯỚC 1: SAU KHI ĐƯỢC TRUYỀN DỮ LIỆU VÀO -> XÁC ĐỊNH BẢN GHI VÀ SỐ BẢN GHI 
+    //BƯỚC 1: SAU KHI ĐƯỢC TRUYỀN DỮ LIỆU VÀO -> XÁC ĐỊNH BẢN GHI VÀ SỐ BẢN GHI
     const pageNumber = contentQuery.page;
     const pageSize = contentQuery.limit;
-    
+
     //BƯỚC 2: TẠO BIẾN CONTENTFILTER ĐỂ TẠO ĐIỀU KIỆN LỌC KHÁC NHAU ĐỂ SỬ DỤNG WHERE KHI TRUY VẤN TỐT HƠN
-    const contentFilter: Prisma.ContentWhereInput = {publicationStatus: contentQuery.publicationStatus 
-      //trường trạng thái xuất bản cần lọc 
+    const contentFilter: Prisma.ContentWhereInput = {publicationStatus: contentQuery.publicationStatus
+      //trường trạng thái xuất bản cần lọc
       || PublicationStatus.Published};
-      // trường trạng thái mặc định nếu tham số không có trạng thái cần lọc 
+      // trường trạng thái mặc định nếu tham số không có trạng thái cần lọc
 
     contentFilter.AND = [this.communityTranslationVisibilityFilter()];
-    
 
-    //lọc theo loại nội dung  
+
+    //lọc theo loại nội dung
     if (contentQuery.type) {
       contentFilter.type = contentQuery.type;
     }
@@ -279,7 +293,7 @@ export class ContentService implements OnModuleInit {
     if (contentQuery.ownershipTier) {
       contentFilter.ownershipTier = contentQuery.ownershipTier;
     }
-    // tương tự 
+    // tương tự
     if (contentQuery.search) {
       contentFilter.title = { contains: contentQuery.search };
     }
@@ -295,9 +309,9 @@ export class ContentService implements OnModuleInit {
     //BƯỚC 3 TÌM DATA THEO BỘ LỌC + ĐẾM SỐ CONTENT
 
     const [contentItems, totalContentCount] = await this.prisma.$transaction([
-      //countentItemt nhận kết quả từ truy vấn findmany 
-      //totalcontentcount nhận kết quả sau khi đếm toàn bộ lượng content 
-      this.prisma.content.findMany({ where: contentFilter, 
+      //countentItemt nhận kết quả từ truy vấn findmany
+      //totalcontentcount nhận kết quả sau khi đếm toàn bộ lượng content
+      this.prisma.content.findMany({ where: contentFilter,
         skip: (pageNumber - 1) * pageSize,
         //kiểu đây lấy theo trang
         //vd: người dùng sang trang 2, pagesize chỉ được hiển thị 10
@@ -348,7 +362,7 @@ export class ContentService implements OnModuleInit {
 
     if (!content) throw new NotFoundException('Không tìm thấy Content');
     if (!isCommunityTranslationVisible(content)) {
-      throw new NotFoundException('Fan Translation này đã hết thời gian ân hạn');
+      throw new NotFoundException('Fan Translation này đã hết thời hạn');
     }
     return content;
   }
@@ -366,7 +380,7 @@ export class ContentService implements OnModuleInit {
     if (sortOrder !== 'popular') return tags;
 
 
-    //BƯỚC 3: LẤY THÔNG KÊ ĐỘC GIẢ GẦN ĐÂY 
+    //BƯỚC 3: LẤY THÔNG KÊ ĐỘC GIẢ GẦN ĐÂY
     const recentContentReadCounts = await this.getRecentContentReadCounts();
 
     //BƯỚC 4: TÌM TAG THUỘC NHỮNG NỘI DUNG CỦA THỐNG KÊ
@@ -415,13 +429,13 @@ export class ContentService implements OnModuleInit {
           select: { id: true },
         },
       },
-      orderBy: { organizationName: 'asc' },   
+      orderBy: { organizationName: 'asc' },
     });
     if (sortOrder !== 'popular') {
       return publisherRecords.map(({ contents: publishedContents, ...publisher }) => ({
         ...publisher,
         publishedContentCount: publishedContents.length,
-      }));            
+      }));
     }
 
     const recentContentReadCounts = await this.getRecentContentReadCounts();
@@ -567,19 +581,28 @@ export class ContentService implements OnModuleInit {
       throw new BadRequestException('allowCommunityTranslation phải là boolean');
     }
 
-    const nextPricingType =
-      content.ownershipTier === OwnershipTier.FanTranslation
-        ? ContentPricingType.Free
-        : updateData.pricingType ?? content.pricingType;
-    const nextPriceCoins =
-      content.ownershipTier === OwnershipTier.FanTranslation ||
-      nextPricingType === ContentPricingType.Free
-        ? 0
-        : updateData.priceCoins ?? content.priceCoins;
-    const nextFreeChapters =
-      content.ownershipTier === OwnershipTier.FanTranslation
-        ? 0
-        : updateData.freeChapters ?? content.freeChapters;
+    let nextPricingType = content.pricingType;
+    if (content.ownershipTier === OwnershipTier.FanTranslation) {
+      nextPricingType = ContentPricingType.Free;
+    } else if (updateData.pricingType !== undefined) {
+      nextPricingType = updateData.pricingType;
+    }
+
+    let nextPriceCoins = content.priceCoins;
+    if (content.ownershipTier === OwnershipTier.FanTranslation) {
+      nextPriceCoins = 0;
+    } else if (nextPricingType === ContentPricingType.Free) {
+      nextPriceCoins = 0;
+    } else if (updateData.priceCoins !== undefined) {
+      nextPriceCoins = updateData.priceCoins;
+    }
+
+    let nextFreeChapters = content.freeChapters;
+    if (content.ownershipTier === OwnershipTier.FanTranslation) {
+      nextFreeChapters = 0;
+    } else if (updateData.freeChapters !== undefined) {
+      nextFreeChapters = updateData.freeChapters;
+    }
 
     if (content.ownershipTier === OwnershipTier.FanTranslation) {
       if (

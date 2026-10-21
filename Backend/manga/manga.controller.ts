@@ -5,6 +5,7 @@ import { ChapterService } from '../core/chapter/chapter.service';
 import { CreateChapterDto } from '../core/chapter/dto/create-chapter.dto';
 import { UpdateChapterDto } from '../core/chapter/dto/update-chapter.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '../common/guards/optional-jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('manga')
@@ -45,9 +46,13 @@ export class MangaController {
     return this.mangaService.uploadChapterPages(chapterId, userId, files);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get('chapters/:chapterId/pages')
-  getPages(@Param('chapterId') chapterId: string) {
-    return this.mangaService.getChapterPages(chapterId);
+  getPages(
+    @Param('chapterId') chapterId: string,
+    @CurrentUser('id') userId?: string,
+  ) {
+    return this.mangaService.getChapterPages(chapterId, userId);
   }
 
   @UseGuards(JwtAuthGuard)

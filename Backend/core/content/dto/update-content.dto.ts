@@ -1,14 +1,4 @@
-import {
-  IsString,
-  IsEnum,
-  IsOptional,
-  IsArray,
-  MaxLength,
-  IsInt,
-  Min,
-  Max,
-  IsBoolean,
-} from 'class-validator';
+import { IsString, IsEnum, IsOptional, IsArray, MaxLength, IsInt, Min, Max,IsBoolean} from 'class-validator';
 import {
   ContentPricingType,
   StoryStatus,

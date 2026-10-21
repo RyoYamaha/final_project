@@ -19,6 +19,9 @@ import { ReadingProgressModule } from './ReadingProgress/reading-progress.module
 import { TicketModule } from './ticket/ticket.module';
 import { PaymentModule } from './payment/payment.module';
 import { WalletModule } from './wallet/wallet.module';
+import { UnlockModule } from './unlock/unlock.module';
+import { RevenueModule } from './revenue/revenue.module';
+import { PayoutModule } from './payout/payout.module';
 
 @Module({
   imports: [
@@ -42,6 +45,9 @@ import { WalletModule } from './wallet/wallet.module';
     TicketModule,
     PaymentModule,
     WalletModule,
+    UnlockModule,
+    RevenueModule,
+    PayoutModule,
   ],
 })
 export class AppModule {}

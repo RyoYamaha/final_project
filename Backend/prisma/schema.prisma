@@ -58,6 +58,8 @@ model Content {
   ratings         Rating[]
   comments        Comment[]
   readingProgress ReadingProgress[]
+  purchases       ContentPurchase[]
+  creatorRevenues CreatorRevenue[]
 
   knowledgeBase   ContentKnowledgeBase?
   aiConversations AIConversation[]
@@ -168,6 +170,7 @@ model User {
   role         String   @default("Reader")
   bio          String?
   isLocked     Boolean  @default(false)
+  payoutBlocked Boolean @default(false)
   createdAt    DateTime @default(now())
 
   uploadedContents Content[]  @relation("ContentUploader")
@@ -189,7 +192,13 @@ model User {
   chapterReads   ChapterRead[]
   wallet         Wallet?
   paymentOrders  PaymentOrder[]
+  processedBankTransactions BankTransaction[] @relation("BankTransactionProcessor")
   walletLedger   WalletLedger[]
+  contentPurchases ContentPurchase[]
+  payoutProfile  PayoutProfile?
+  creatorRevenue CreatorRevenue[] @relation("CreatorEarnings")
+  payoutRequests PayoutRequest[] @relation("PayoutOwner")
+  processedPayoutRequests PayoutRequest[] @relation("PayoutProcessor")
 }
 
 model Wallet {
@@ -233,12 +242,17 @@ model BankTransaction {
   paymentOrder     PaymentOrder? @relation(fields: [paymentOrderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   transferType     String        @db.VarChar(10)
   transferAmount   Int
+  destinationAccountNumber String? @db.VarChar(30)
   description      String        @db.NVarChar(Max)
   rawPayload       String        @db.NVarChar(Max)
   processingStatus String        @db.VarChar(32)
+  processedById    String?
+  processedBy      User?          @relation("BankTransactionProcessor", fields: [processedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  adminNote        String?        @db.NVarChar(500)
   receivedAt       DateTime      @default(now())
 
   @@index([paymentOrderId])
+  @@index([processingStatus, receivedAt])
 }
 
 model WalletLedger {
@@ -257,6 +271,68 @@ model WalletLedger {
 
   @@unique([sourceType, sourceReference])
   @@index([userId, createdAt])
+}
+
+model ContentPurchase {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId   String
+  content     Content  @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  priceCoins  Int
+  purchasedAt DateTime @default(now())
+  revenue     CreatorRevenue?
+
+  @@unique([userId, contentId])
+  @@index([contentId, purchasedAt])
+}
+
+model CreatorRevenue {
+  id             String         @id @default(uuid())
+  creatorId      String
+  creator        User           @relation("CreatorEarnings", fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  purchaseId     String         @unique
+  purchase       ContentPurchase @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contentId      String
+  content        Content        @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  grossCoins     Int
+  sharePercent   Int
+  creatorCoins   Int
+  platformCoins  Int
+  createdAt      DateTime       @default(now())
+
+  @@index([creatorId, createdAt])
+}
+
+model PayoutProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  bankName          String   @db.NVarChar(100)
+  bankBin           String   @db.VarChar(20)
+  bankAccountNumber String   @db.VarChar(30)
+  bankAccountName   String   @db.NVarChar(100)
+  updatedAt         DateTime @updatedAt
+}
+
+model PayoutRequest {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation("PayoutOwner", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  amountCoins       Int
+  status            String   @default("Pending")
+  bankName          String   @db.NVarChar(100)
+  bankBin           String   @db.VarChar(20)
+  bankAccountNumber String   @db.VarChar(30)
+  bankAccountName   String   @db.NVarChar(100)
+  requestedAt       DateTime @default(now())
+  processedAt       DateTime?
+  processedById     String?
+  processedBy       User?    @relation("PayoutProcessor", fields: [processedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rejectionReason   String?  @db.NVarChar(500)
+
+  @@index([userId, requestedAt])
+  @@index([status, requestedAt])
 }
 
 model SystemSetting {

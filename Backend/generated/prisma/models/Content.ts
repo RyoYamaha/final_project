@@ -346,6 +346,8 @@ export type ContentWhereInput = {
   ratings?: Prisma.RatingListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   readingProgress?: Prisma.ReadingProgressListRelationFilter
+  purchases?: Prisma.ContentPurchaseListRelationFilter
+  creatorRevenues?: Prisma.CreatorRevenueListRelationFilter
   knowledgeBase?: Prisma.XOR<Prisma.ContentKnowledgeBaseNullableScalarRelationFilter, Prisma.ContentKnowledgeBaseWhereInput> | null
   aiConversations?: Prisma.AIConversationListRelationFilter
   recommendedIn?: Prisma.RecommendationCacheListRelationFilter
@@ -385,6 +387,8 @@ export type ContentOrderByWithRelationInput = {
   ratings?: Prisma.RatingOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   readingProgress?: Prisma.ReadingProgressOrderByRelationAggregateInput
+  purchases?: Prisma.ContentPurchaseOrderByRelationAggregateInput
+  creatorRevenues?: Prisma.CreatorRevenueOrderByRelationAggregateInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseOrderByWithRelationInput
   aiConversations?: Prisma.AIConversationOrderByRelationAggregateInput
   recommendedIn?: Prisma.RecommendationCacheOrderByRelationAggregateInput
@@ -427,6 +431,8 @@ export type ContentWhereUniqueInput = Prisma.AtLeast<{
   ratings?: Prisma.RatingListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   readingProgress?: Prisma.ReadingProgressListRelationFilter
+  purchases?: Prisma.ContentPurchaseListRelationFilter
+  creatorRevenues?: Prisma.CreatorRevenueListRelationFilter
   knowledgeBase?: Prisma.XOR<Prisma.ContentKnowledgeBaseNullableScalarRelationFilter, Prisma.ContentKnowledgeBaseWhereInput> | null
   aiConversations?: Prisma.AIConversationListRelationFilter
   recommendedIn?: Prisma.RecommendationCacheListRelationFilter
@@ -515,6 +521,8 @@ export type ContentCreateInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -551,6 +559,8 @@ export type ContentUncheckedCreateInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -587,6 +597,8 @@ export type ContentUpdateInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -623,6 +635,8 @@ export type ContentUncheckedUpdateInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -1027,6 +1041,34 @@ export type ContentUncheckedUpdateManyWithoutUploaderNestedInput = {
   deleteMany?: Prisma.ContentScalarWhereInput | Prisma.ContentScalarWhereInput[]
 }
 
+export type ContentCreateNestedOneWithoutPurchasesInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutPurchasesInput, Prisma.ContentUncheckedCreateWithoutPurchasesInput>
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutPurchasesInput
+  connect?: Prisma.ContentWhereUniqueInput
+}
+
+export type ContentUpdateOneRequiredWithoutPurchasesNestedInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutPurchasesInput, Prisma.ContentUncheckedCreateWithoutPurchasesInput>
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutPurchasesInput
+  upsert?: Prisma.ContentUpsertWithoutPurchasesInput
+  connect?: Prisma.ContentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentUpdateToOneWithWhereWithoutPurchasesInput, Prisma.ContentUpdateWithoutPurchasesInput>, Prisma.ContentUncheckedUpdateWithoutPurchasesInput>
+}
+
+export type ContentCreateNestedOneWithoutCreatorRevenuesInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutCreatorRevenuesInput, Prisma.ContentUncheckedCreateWithoutCreatorRevenuesInput>
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutCreatorRevenuesInput
+  connect?: Prisma.ContentWhereUniqueInput
+}
+
+export type ContentUpdateOneRequiredWithoutCreatorRevenuesNestedInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutCreatorRevenuesInput, Prisma.ContentUncheckedCreateWithoutCreatorRevenuesInput>
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutCreatorRevenuesInput
+  upsert?: Prisma.ContentUpsertWithoutCreatorRevenuesInput
+  connect?: Prisma.ContentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentUpdateToOneWithWhereWithoutCreatorRevenuesInput, Prisma.ContentUpdateWithoutCreatorRevenuesInput>, Prisma.ContentUncheckedUpdateWithoutCreatorRevenuesInput>
+}
+
 export type ContentCreateNestedOneWithoutBookmarksInput = {
   create?: Prisma.XOR<Prisma.ContentCreateWithoutBookmarksInput, Prisma.ContentUncheckedCreateWithoutBookmarksInput>
   connectOrCreate?: Prisma.ContentCreateOrConnectWithoutBookmarksInput
@@ -1169,6 +1211,8 @@ export type ContentCreateWithoutFanTranslationsInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -1204,6 +1248,8 @@ export type ContentUncheckedCreateWithoutFanTranslationsInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -1244,6 +1290,8 @@ export type ContentCreateWithoutParentContentInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -1279,6 +1327,8 @@ export type ContentUncheckedCreateWithoutParentContentInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -1334,6 +1384,8 @@ export type ContentUpdateWithoutFanTranslationsInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -1369,6 +1421,8 @@ export type ContentUncheckedUpdateWithoutFanTranslationsInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -1445,6 +1499,8 @@ export type ContentCreateWithoutMangaDetailInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -1480,6 +1536,8 @@ export type ContentUncheckedCreateWithoutMangaDetailInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -1531,6 +1589,8 @@ export type ContentUpdateWithoutMangaDetailInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -1566,6 +1626,8 @@ export type ContentUncheckedUpdateWithoutMangaDetailInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -1601,6 +1663,8 @@ export type ContentCreateWithoutNovelDetailInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -1636,6 +1700,8 @@ export type ContentUncheckedCreateWithoutNovelDetailInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -1687,6 +1753,8 @@ export type ContentUpdateWithoutNovelDetailInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -1722,6 +1790,8 @@ export type ContentUncheckedUpdateWithoutNovelDetailInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -1757,6 +1827,8 @@ export type ContentCreateWithoutChaptersInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -1792,6 +1864,8 @@ export type ContentUncheckedCreateWithoutChaptersInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -1843,6 +1917,8 @@ export type ContentUpdateWithoutChaptersInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -1878,6 +1954,8 @@ export type ContentUncheckedUpdateWithoutChaptersInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -1913,6 +1991,8 @@ export type ContentCreateWithoutGenresInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -1948,6 +2028,8 @@ export type ContentUncheckedCreateWithoutGenresInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -1999,6 +2081,8 @@ export type ContentUpdateWithoutGenresInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -2034,6 +2118,8 @@ export type ContentUncheckedUpdateWithoutGenresInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -2069,6 +2155,8 @@ export type ContentCreateWithoutTagsInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2104,6 +2192,8 @@ export type ContentUncheckedCreateWithoutTagsInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2155,6 +2245,8 @@ export type ContentUpdateWithoutTagsInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -2190,6 +2282,8 @@ export type ContentUncheckedUpdateWithoutTagsInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -2225,6 +2319,8 @@ export type ContentCreateWithoutPublisherInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2260,6 +2356,8 @@ export type ContentUncheckedCreateWithoutPublisherInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2320,6 +2418,8 @@ export type ContentCreateWithoutUploaderInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2355,6 +2455,8 @@ export type ContentUncheckedCreateWithoutUploaderInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2383,6 +2485,334 @@ export type ContentUpdateWithWhereUniqueWithoutUploaderInput = {
 export type ContentUpdateManyWithWhereWithoutUploaderInput = {
   where: Prisma.ContentScalarWhereInput
   data: Prisma.XOR<Prisma.ContentUpdateManyMutationInput, Prisma.ContentUncheckedUpdateManyWithoutUploaderInput>
+}
+
+export type ContentCreateWithoutPurchasesInput = {
+  id?: string
+  title: string
+  synopsis?: string | null
+  type: string
+  ownershipTier: string
+  publicationStatus?: string
+  reviewFeedback?: string | null
+  storyStatus?: string
+  coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
+  publisher?: Prisma.PublisherCreateNestedOneWithoutContentsInput
+  parentContent?: Prisma.ContentCreateNestedOneWithoutFanTranslationsInput
+  fanTranslations?: Prisma.ContentCreateNestedManyWithoutParentContentInput
+  mangaDetail?: Prisma.MangaDetailCreateNestedOneWithoutContentInput
+  novelDetail?: Prisma.NovelDetailCreateNestedOneWithoutContentInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutContentInput
+  genres?: Prisma.ContentGenreCreateNestedManyWithoutContentInput
+  tags?: Prisma.ContentTagCreateNestedManyWithoutContentInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutContentInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutContentInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContentInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
+  recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
+}
+
+export type ContentUncheckedCreateWithoutPurchasesInput = {
+  id?: string
+  title: string
+  synopsis?: string | null
+  type: string
+  ownershipTier: string
+  publicationStatus?: string
+  reviewFeedback?: string | null
+  storyStatus?: string
+  coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
+  uploaderId: string
+  publisherId?: string | null
+  parentContentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fanTranslations?: Prisma.ContentUncheckedCreateNestedManyWithoutParentContentInput
+  mangaDetail?: Prisma.MangaDetailUncheckedCreateNestedOneWithoutContentInput
+  novelDetail?: Prisma.NovelDetailUncheckedCreateNestedOneWithoutContentInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutContentInput
+  genres?: Prisma.ContentGenreUncheckedCreateNestedManyWithoutContentInput
+  tags?: Prisma.ContentTagUncheckedCreateNestedManyWithoutContentInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutContentInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutContentInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
+  recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
+}
+
+export type ContentCreateOrConnectWithoutPurchasesInput = {
+  where: Prisma.ContentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContentCreateWithoutPurchasesInput, Prisma.ContentUncheckedCreateWithoutPurchasesInput>
+}
+
+export type ContentUpsertWithoutPurchasesInput = {
+  update: Prisma.XOR<Prisma.ContentUpdateWithoutPurchasesInput, Prisma.ContentUncheckedUpdateWithoutPurchasesInput>
+  create: Prisma.XOR<Prisma.ContentCreateWithoutPurchasesInput, Prisma.ContentUncheckedCreateWithoutPurchasesInput>
+  where?: Prisma.ContentWhereInput
+}
+
+export type ContentUpdateToOneWithWhereWithoutPurchasesInput = {
+  where?: Prisma.ContentWhereInput
+  data: Prisma.XOR<Prisma.ContentUpdateWithoutPurchasesInput, Prisma.ContentUncheckedUpdateWithoutPurchasesInput>
+}
+
+export type ContentUpdateWithoutPurchasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
+  publisher?: Prisma.PublisherUpdateOneWithoutContentsNestedInput
+  parentContent?: Prisma.ContentUpdateOneWithoutFanTranslationsNestedInput
+  fanTranslations?: Prisma.ContentUpdateManyWithoutParentContentNestedInput
+  mangaDetail?: Prisma.MangaDetailUpdateOneWithoutContentNestedInput
+  novelDetail?: Prisma.NovelDetailUpdateOneWithoutContentNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutContentNestedInput
+  genres?: Prisma.ContentGenreUpdateManyWithoutContentNestedInput
+  tags?: Prisma.ContentTagUpdateManyWithoutContentNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutContentNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutContentNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
+  recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
+}
+
+export type ContentUncheckedUpdateWithoutPurchasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fanTranslations?: Prisma.ContentUncheckedUpdateManyWithoutParentContentNestedInput
+  mangaDetail?: Prisma.MangaDetailUncheckedUpdateOneWithoutContentNestedInput
+  novelDetail?: Prisma.NovelDetailUncheckedUpdateOneWithoutContentNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutContentNestedInput
+  genres?: Prisma.ContentGenreUncheckedUpdateManyWithoutContentNestedInput
+  tags?: Prisma.ContentTagUncheckedUpdateManyWithoutContentNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutContentNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutContentNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
+  recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
+}
+
+export type ContentCreateWithoutCreatorRevenuesInput = {
+  id?: string
+  title: string
+  synopsis?: string | null
+  type: string
+  ownershipTier: string
+  publicationStatus?: string
+  reviewFeedback?: string | null
+  storyStatus?: string
+  coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  uploader: Prisma.UserCreateNestedOneWithoutUploadedContentsInput
+  publisher?: Prisma.PublisherCreateNestedOneWithoutContentsInput
+  parentContent?: Prisma.ContentCreateNestedOneWithoutFanTranslationsInput
+  fanTranslations?: Prisma.ContentCreateNestedManyWithoutParentContentInput
+  mangaDetail?: Prisma.MangaDetailCreateNestedOneWithoutContentInput
+  novelDetail?: Prisma.NovelDetailCreateNestedOneWithoutContentInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutContentInput
+  genres?: Prisma.ContentGenreCreateNestedManyWithoutContentInput
+  tags?: Prisma.ContentTagCreateNestedManyWithoutContentInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutContentInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutContentInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContentInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
+  recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
+}
+
+export type ContentUncheckedCreateWithoutCreatorRevenuesInput = {
+  id?: string
+  title: string
+  synopsis?: string | null
+  type: string
+  ownershipTier: string
+  publicationStatus?: string
+  reviewFeedback?: string | null
+  storyStatus?: string
+  coverImageUrl?: string | null
+  pricingType?: string
+  priceCoins?: number
+  freeChapters?: number
+  allowCommunityTranslation?: boolean
+  pricingChangedAt?: Date | string | null
+  uploaderId: string
+  publisherId?: string | null
+  parentContentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fanTranslations?: Prisma.ContentUncheckedCreateNestedManyWithoutParentContentInput
+  mangaDetail?: Prisma.MangaDetailUncheckedCreateNestedOneWithoutContentInput
+  novelDetail?: Prisma.NovelDetailUncheckedCreateNestedOneWithoutContentInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutContentInput
+  genres?: Prisma.ContentGenreUncheckedCreateNestedManyWithoutContentInput
+  tags?: Prisma.ContentTagUncheckedCreateNestedManyWithoutContentInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutContentInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutContentInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
+  recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
+}
+
+export type ContentCreateOrConnectWithoutCreatorRevenuesInput = {
+  where: Prisma.ContentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContentCreateWithoutCreatorRevenuesInput, Prisma.ContentUncheckedCreateWithoutCreatorRevenuesInput>
+}
+
+export type ContentUpsertWithoutCreatorRevenuesInput = {
+  update: Prisma.XOR<Prisma.ContentUpdateWithoutCreatorRevenuesInput, Prisma.ContentUncheckedUpdateWithoutCreatorRevenuesInput>
+  create: Prisma.XOR<Prisma.ContentCreateWithoutCreatorRevenuesInput, Prisma.ContentUncheckedCreateWithoutCreatorRevenuesInput>
+  where?: Prisma.ContentWhereInput
+}
+
+export type ContentUpdateToOneWithWhereWithoutCreatorRevenuesInput = {
+  where?: Prisma.ContentWhereInput
+  data: Prisma.XOR<Prisma.ContentUpdateWithoutCreatorRevenuesInput, Prisma.ContentUncheckedUpdateWithoutCreatorRevenuesInput>
+}
+
+export type ContentUpdateWithoutCreatorRevenuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploader?: Prisma.UserUpdateOneRequiredWithoutUploadedContentsNestedInput
+  publisher?: Prisma.PublisherUpdateOneWithoutContentsNestedInput
+  parentContent?: Prisma.ContentUpdateOneWithoutFanTranslationsNestedInput
+  fanTranslations?: Prisma.ContentUpdateManyWithoutParentContentNestedInput
+  mangaDetail?: Prisma.MangaDetailUpdateOneWithoutContentNestedInput
+  novelDetail?: Prisma.NovelDetailUpdateOneWithoutContentNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutContentNestedInput
+  genres?: Prisma.ContentGenreUpdateManyWithoutContentNestedInput
+  tags?: Prisma.ContentTagUpdateManyWithoutContentNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutContentNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutContentNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
+  recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
+}
+
+export type ContentUncheckedUpdateWithoutCreatorRevenuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  ownershipTier?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingType?: Prisma.StringFieldUpdateOperationsInput | string
+  priceCoins?: Prisma.IntFieldUpdateOperationsInput | number
+  freeChapters?: Prisma.IntFieldUpdateOperationsInput | number
+  allowCommunityTranslation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pricingChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  publisherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentContentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fanTranslations?: Prisma.ContentUncheckedUpdateManyWithoutParentContentNestedInput
+  mangaDetail?: Prisma.MangaDetailUncheckedUpdateOneWithoutContentNestedInput
+  novelDetail?: Prisma.NovelDetailUncheckedUpdateOneWithoutContentNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutContentNestedInput
+  genres?: Prisma.ContentGenreUncheckedUpdateManyWithoutContentNestedInput
+  tags?: Prisma.ContentTagUncheckedUpdateManyWithoutContentNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutContentNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutContentNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
+  recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
 }
 
 export type ContentCreateWithoutBookmarksInput = {
@@ -2415,6 +2845,8 @@ export type ContentCreateWithoutBookmarksInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2450,6 +2882,8 @@ export type ContentUncheckedCreateWithoutBookmarksInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2501,6 +2935,8 @@ export type ContentUpdateWithoutBookmarksInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -2536,6 +2972,8 @@ export type ContentUncheckedUpdateWithoutBookmarksInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -2571,6 +3009,8 @@ export type ContentCreateWithoutFavoritesInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2606,6 +3046,8 @@ export type ContentUncheckedCreateWithoutFavoritesInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2657,6 +3099,8 @@ export type ContentUpdateWithoutFavoritesInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -2692,6 +3136,8 @@ export type ContentUncheckedUpdateWithoutFavoritesInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -2727,6 +3173,8 @@ export type ContentCreateWithoutRatingsInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2762,6 +3210,8 @@ export type ContentUncheckedCreateWithoutRatingsInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2813,6 +3263,8 @@ export type ContentUpdateWithoutRatingsInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -2848,6 +3300,8 @@ export type ContentUncheckedUpdateWithoutRatingsInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -2883,6 +3337,8 @@ export type ContentCreateWithoutCommentsInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutContentInput
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -2918,6 +3374,8 @@ export type ContentUncheckedCreateWithoutCommentsInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutContentInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -2969,6 +3427,8 @@ export type ContentUpdateWithoutCommentsInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutContentNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -3004,6 +3464,8 @@ export type ContentUncheckedUpdateWithoutCommentsInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutContentNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -3039,6 +3501,8 @@ export type ContentCreateWithoutReadingProgressInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutContentInput
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
@@ -3074,6 +3538,8 @@ export type ContentUncheckedCreateWithoutReadingProgressInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutContentInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
@@ -3125,6 +3591,8 @@ export type ContentUpdateWithoutReadingProgressInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutContentNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -3160,6 +3628,8 @@ export type ContentUncheckedUpdateWithoutReadingProgressInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutContentNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -3196,6 +3666,8 @@ export type ContentCreateWithoutKnowledgeBaseInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
 }
@@ -3231,6 +3703,8 @@ export type ContentUncheckedCreateWithoutKnowledgeBaseInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
 }
@@ -3282,6 +3756,8 @@ export type ContentUpdateWithoutKnowledgeBaseInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
 }
@@ -3317,6 +3793,8 @@ export type ContentUncheckedUpdateWithoutKnowledgeBaseInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
 }
@@ -3352,6 +3830,8 @@ export type ContentCreateWithoutAiConversationsInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheCreateNestedManyWithoutContentInput
 }
@@ -3387,6 +3867,8 @@ export type ContentUncheckedCreateWithoutAiConversationsInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutContentInput
 }
@@ -3438,6 +3920,8 @@ export type ContentUpdateWithoutAiConversationsInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
 }
@@ -3473,6 +3957,8 @@ export type ContentUncheckedUpdateWithoutAiConversationsInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
 }
@@ -3508,6 +3994,8 @@ export type ContentCreateWithoutRecommendedInInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationCreateNestedManyWithoutContentInput
 }
@@ -3543,6 +4031,8 @@ export type ContentUncheckedCreateWithoutRecommendedInInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutContentInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContentInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutContentInput
+  purchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutContentInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutContentInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedCreateNestedOneWithoutContentInput
   aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutContentInput
 }
@@ -3594,6 +4084,8 @@ export type ContentUpdateWithoutRecommendedInInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
 }
@@ -3629,6 +4121,8 @@ export type ContentUncheckedUpdateWithoutRecommendedInInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
 }
@@ -3684,6 +4178,8 @@ export type ContentUpdateWithoutParentContentInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -3719,6 +4215,8 @@ export type ContentUncheckedUpdateWithoutParentContentInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -3796,6 +4294,8 @@ export type ContentUpdateWithoutPublisherInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -3831,6 +4331,8 @@ export type ContentUncheckedUpdateWithoutPublisherInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -3908,6 +4410,8 @@ export type ContentUpdateWithoutUploaderInput = {
   ratings?: Prisma.RatingUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUpdateManyWithoutContentNestedInput
@@ -3943,6 +4447,8 @@ export type ContentUncheckedUpdateWithoutUploaderInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutContentNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutContentNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutContentNestedInput
+  purchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutContentNestedInput
+  creatorRevenues?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutContentNestedInput
   knowledgeBase?: Prisma.ContentKnowledgeBaseUncheckedUpdateOneWithoutContentNestedInput
   aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutContentNestedInput
   recommendedIn?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutContentNestedInput
@@ -3984,6 +4490,8 @@ export type ContentCountOutputType = {
   ratings: number
   comments: number
   readingProgress: number
+  purchases: number
+  creatorRevenues: number
   aiConversations: number
   recommendedIn: number
 }
@@ -3998,6 +4506,8 @@ export type ContentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   ratings?: boolean | ContentCountOutputTypeCountRatingsArgs
   comments?: boolean | ContentCountOutputTypeCountCommentsArgs
   readingProgress?: boolean | ContentCountOutputTypeCountReadingProgressArgs
+  purchases?: boolean | ContentCountOutputTypeCountPurchasesArgs
+  creatorRevenues?: boolean | ContentCountOutputTypeCountCreatorRevenuesArgs
   aiConversations?: boolean | ContentCountOutputTypeCountAiConversationsArgs
   recommendedIn?: boolean | ContentCountOutputTypeCountRecommendedInArgs
 }
@@ -4078,6 +4588,20 @@ export type ContentCountOutputTypeCountReadingProgressArgs<ExtArgs extends runti
 /**
  * ContentCountOutputType without action
  */
+export type ContentCountOutputTypeCountPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContentPurchaseWhereInput
+}
+
+/**
+ * ContentCountOutputType without action
+ */
+export type ContentCountOutputTypeCountCreatorRevenuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CreatorRevenueWhereInput
+}
+
+/**
+ * ContentCountOutputType without action
+ */
 export type ContentCountOutputTypeCountAiConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AIConversationWhereInput
 }
@@ -4124,6 +4648,8 @@ export type ContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   ratings?: boolean | Prisma.Content$ratingsArgs<ExtArgs>
   comments?: boolean | Prisma.Content$commentsArgs<ExtArgs>
   readingProgress?: boolean | Prisma.Content$readingProgressArgs<ExtArgs>
+  purchases?: boolean | Prisma.Content$purchasesArgs<ExtArgs>
+  creatorRevenues?: boolean | Prisma.Content$creatorRevenuesArgs<ExtArgs>
   knowledgeBase?: boolean | Prisma.Content$knowledgeBaseArgs<ExtArgs>
   aiConversations?: boolean | Prisma.Content$aiConversationsArgs<ExtArgs>
   recommendedIn?: boolean | Prisma.Content$recommendedInArgs<ExtArgs>
@@ -4170,6 +4696,8 @@ export type ContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   ratings?: boolean | Prisma.Content$ratingsArgs<ExtArgs>
   comments?: boolean | Prisma.Content$commentsArgs<ExtArgs>
   readingProgress?: boolean | Prisma.Content$readingProgressArgs<ExtArgs>
+  purchases?: boolean | Prisma.Content$purchasesArgs<ExtArgs>
+  creatorRevenues?: boolean | Prisma.Content$creatorRevenuesArgs<ExtArgs>
   knowledgeBase?: boolean | Prisma.Content$knowledgeBaseArgs<ExtArgs>
   aiConversations?: boolean | Prisma.Content$aiConversationsArgs<ExtArgs>
   recommendedIn?: boolean | Prisma.Content$recommendedInArgs<ExtArgs>
@@ -4193,6 +4721,8 @@ export type $ContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     ratings: Prisma.$RatingPayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     readingProgress: Prisma.$ReadingProgressPayload<ExtArgs>[]
+    purchases: Prisma.$ContentPurchasePayload<ExtArgs>[]
+    creatorRevenues: Prisma.$CreatorRevenuePayload<ExtArgs>[]
     knowledgeBase: Prisma.$ContentKnowledgeBasePayload<ExtArgs> | null
     aiConversations: Prisma.$AIConversationPayload<ExtArgs>[]
     recommendedIn: Prisma.$RecommendationCachePayload<ExtArgs>[]
@@ -4571,6 +5101,8 @@ export interface Prisma__ContentClient<T, Null = never, ExtArgs extends runtime.
   ratings<T extends Prisma.Content$ratingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.Content$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   readingProgress<T extends Prisma.Content$readingProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$readingProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReadingProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  purchases<T extends Prisma.Content$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  creatorRevenues<T extends Prisma.Content$creatorRevenuesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$creatorRevenuesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreatorRevenuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   knowledgeBase<T extends Prisma.Content$knowledgeBaseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$knowledgeBaseArgs<ExtArgs>>): Prisma.Prisma__ContentKnowledgeBaseClient<runtime.Types.Result.GetResult<Prisma.$ContentKnowledgeBasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   aiConversations<T extends Prisma.Content$aiConversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$aiConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AIConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recommendedIn<T extends Prisma.Content$recommendedInArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Content$recommendedInArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecommendationCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5258,6 +5790,54 @@ export type Content$readingProgressArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.ReadingProgressScalarFieldEnum | Prisma.ReadingProgressScalarFieldEnum[]
+}
+
+/**
+ * Content.purchases
+ */
+export type Content$purchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContentPurchase
+   */
+  select?: Prisma.ContentPurchaseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContentPurchase
+   */
+  omit?: Prisma.ContentPurchaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContentPurchaseInclude<ExtArgs> | null
+  where?: Prisma.ContentPurchaseWhereInput
+  orderBy?: Prisma.ContentPurchaseOrderByWithRelationInput | Prisma.ContentPurchaseOrderByWithRelationInput[]
+  cursor?: Prisma.ContentPurchaseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContentPurchaseScalarFieldEnum | Prisma.ContentPurchaseScalarFieldEnum[]
+}
+
+/**
+ * Content.creatorRevenues
+ */
+export type Content$creatorRevenuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreatorRevenue
+   */
+  select?: Prisma.CreatorRevenueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreatorRevenue
+   */
+  omit?: Prisma.CreatorRevenueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreatorRevenueInclude<ExtArgs> | null
+  where?: Prisma.CreatorRevenueWhereInput
+  orderBy?: Prisma.CreatorRevenueOrderByWithRelationInput | Prisma.CreatorRevenueOrderByWithRelationInput[]
+  cursor?: Prisma.CreatorRevenueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CreatorRevenueScalarFieldEnum | Prisma.CreatorRevenueScalarFieldEnum[]
 }
 
 /**

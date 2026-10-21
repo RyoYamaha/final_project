@@ -40,9 +40,12 @@ export type BankTransactionMinAggregateOutputType = {
   paymentOrderId: string | null
   transferType: string | null
   transferAmount: number | null
+  destinationAccountNumber: string | null
   description: string | null
   rawPayload: string | null
   processingStatus: string | null
+  processedById: string | null
+  adminNote: string | null
   receivedAt: Date | null
 }
 
@@ -52,9 +55,12 @@ export type BankTransactionMaxAggregateOutputType = {
   paymentOrderId: string | null
   transferType: string | null
   transferAmount: number | null
+  destinationAccountNumber: string | null
   description: string | null
   rawPayload: string | null
   processingStatus: string | null
+  processedById: string | null
+  adminNote: string | null
   receivedAt: Date | null
 }
 
@@ -64,9 +70,12 @@ export type BankTransactionCountAggregateOutputType = {
   paymentOrderId: number
   transferType: number
   transferAmount: number
+  destinationAccountNumber: number
   description: number
   rawPayload: number
   processingStatus: number
+  processedById: number
+  adminNote: number
   receivedAt: number
   _all: number
 }
@@ -86,9 +95,12 @@ export type BankTransactionMinAggregateInputType = {
   paymentOrderId?: true
   transferType?: true
   transferAmount?: true
+  destinationAccountNumber?: true
   description?: true
   rawPayload?: true
   processingStatus?: true
+  processedById?: true
+  adminNote?: true
   receivedAt?: true
 }
 
@@ -98,9 +110,12 @@ export type BankTransactionMaxAggregateInputType = {
   paymentOrderId?: true
   transferType?: true
   transferAmount?: true
+  destinationAccountNumber?: true
   description?: true
   rawPayload?: true
   processingStatus?: true
+  processedById?: true
+  adminNote?: true
   receivedAt?: true
 }
 
@@ -110,9 +125,12 @@ export type BankTransactionCountAggregateInputType = {
   paymentOrderId?: true
   transferType?: true
   transferAmount?: true
+  destinationAccountNumber?: true
   description?: true
   rawPayload?: true
   processingStatus?: true
+  processedById?: true
+  adminNote?: true
   receivedAt?: true
   _all?: true
 }
@@ -209,9 +227,12 @@ export type BankTransactionGroupByOutputType = {
   paymentOrderId: string | null
   transferType: string
   transferAmount: number
+  destinationAccountNumber: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  processedById: string | null
+  adminNote: string | null
   receivedAt: Date
   _count: BankTransactionCountAggregateOutputType | null
   _avg: BankTransactionAvgAggregateOutputType | null
@@ -244,11 +265,15 @@ export type BankTransactionWhereInput = {
   paymentOrderId?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
   transferType?: Prisma.StringFilter<"BankTransaction"> | string
   transferAmount?: Prisma.IntFilter<"BankTransaction"> | number
+  destinationAccountNumber?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
   description?: Prisma.StringFilter<"BankTransaction"> | string
   rawPayload?: Prisma.StringFilter<"BankTransaction"> | string
   processingStatus?: Prisma.StringFilter<"BankTransaction"> | string
+  processedById?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
+  adminNote?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
   receivedAt?: Prisma.DateTimeFilter<"BankTransaction"> | Date | string
   paymentOrder?: Prisma.XOR<Prisma.PaymentOrderNullableScalarRelationFilter, Prisma.PaymentOrderWhereInput> | null
+  processedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type BankTransactionOrderByWithRelationInput = {
@@ -257,11 +282,15 @@ export type BankTransactionOrderByWithRelationInput = {
   paymentOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   transferType?: Prisma.SortOrder
   transferAmount?: Prisma.SortOrder
+  destinationAccountNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   processingStatus?: Prisma.SortOrder
+  processedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  adminNote?: Prisma.SortOrderInput | Prisma.SortOrder
   receivedAt?: Prisma.SortOrder
   paymentOrder?: Prisma.PaymentOrderOrderByWithRelationInput
+  processedBy?: Prisma.UserOrderByWithRelationInput
 }
 
 export type BankTransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -273,11 +302,15 @@ export type BankTransactionWhereUniqueInput = Prisma.AtLeast<{
   paymentOrderId?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
   transferType?: Prisma.StringFilter<"BankTransaction"> | string
   transferAmount?: Prisma.IntFilter<"BankTransaction"> | number
+  destinationAccountNumber?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
   description?: Prisma.StringFilter<"BankTransaction"> | string
   rawPayload?: Prisma.StringFilter<"BankTransaction"> | string
   processingStatus?: Prisma.StringFilter<"BankTransaction"> | string
+  processedById?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
+  adminNote?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
   receivedAt?: Prisma.DateTimeFilter<"BankTransaction"> | Date | string
   paymentOrder?: Prisma.XOR<Prisma.PaymentOrderNullableScalarRelationFilter, Prisma.PaymentOrderWhereInput> | null
+  processedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "externalId">
 
 export type BankTransactionOrderByWithAggregationInput = {
@@ -286,9 +319,12 @@ export type BankTransactionOrderByWithAggregationInput = {
   paymentOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   transferType?: Prisma.SortOrder
   transferAmount?: Prisma.SortOrder
+  destinationAccountNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   processingStatus?: Prisma.SortOrder
+  processedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  adminNote?: Prisma.SortOrderInput | Prisma.SortOrder
   receivedAt?: Prisma.SortOrder
   _count?: Prisma.BankTransactionCountOrderByAggregateInput
   _avg?: Prisma.BankTransactionAvgOrderByAggregateInput
@@ -306,9 +342,12 @@ export type BankTransactionScalarWhereWithAggregatesInput = {
   paymentOrderId?: Prisma.StringNullableWithAggregatesFilter<"BankTransaction"> | string | null
   transferType?: Prisma.StringWithAggregatesFilter<"BankTransaction"> | string
   transferAmount?: Prisma.IntWithAggregatesFilter<"BankTransaction"> | number
+  destinationAccountNumber?: Prisma.StringNullableWithAggregatesFilter<"BankTransaction"> | string | null
   description?: Prisma.StringWithAggregatesFilter<"BankTransaction"> | string
   rawPayload?: Prisma.StringWithAggregatesFilter<"BankTransaction"> | string
   processingStatus?: Prisma.StringWithAggregatesFilter<"BankTransaction"> | string
+  processedById?: Prisma.StringNullableWithAggregatesFilter<"BankTransaction"> | string | null
+  adminNote?: Prisma.StringNullableWithAggregatesFilter<"BankTransaction"> | string | null
   receivedAt?: Prisma.DateTimeWithAggregatesFilter<"BankTransaction"> | Date | string
 }
 
@@ -317,11 +356,14 @@ export type BankTransactionCreateInput = {
   externalId: string
   transferType: string
   transferAmount: number
+  destinationAccountNumber?: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  adminNote?: string | null
   receivedAt?: Date | string
   paymentOrder?: Prisma.PaymentOrderCreateNestedOneWithoutBankTransactionsInput
+  processedBy?: Prisma.UserCreateNestedOneWithoutProcessedBankTransactionsInput
 }
 
 export type BankTransactionUncheckedCreateInput = {
@@ -330,9 +372,12 @@ export type BankTransactionUncheckedCreateInput = {
   paymentOrderId?: string | null
   transferType: string
   transferAmount: number
+  destinationAccountNumber?: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  processedById?: string | null
+  adminNote?: string | null
   receivedAt?: Date | string
 }
 
@@ -341,11 +386,14 @@ export type BankTransactionUpdateInput = {
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentOrder?: Prisma.PaymentOrderUpdateOneWithoutBankTransactionsNestedInput
+  processedBy?: Prisma.UserUpdateOneWithoutProcessedBankTransactionsNestedInput
 }
 
 export type BankTransactionUncheckedUpdateInput = {
@@ -354,9 +402,12 @@ export type BankTransactionUncheckedUpdateInput = {
   paymentOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  processedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -366,9 +417,12 @@ export type BankTransactionCreateManyInput = {
   paymentOrderId?: string | null
   transferType: string
   transferAmount: number
+  destinationAccountNumber?: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  processedById?: string | null
+  adminNote?: string | null
   receivedAt?: Date | string
 }
 
@@ -377,9 +431,11 @@ export type BankTransactionUpdateManyMutationInput = {
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -389,9 +445,12 @@ export type BankTransactionUncheckedUpdateManyInput = {
   paymentOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  processedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -411,9 +470,12 @@ export type BankTransactionCountOrderByAggregateInput = {
   paymentOrderId?: Prisma.SortOrder
   transferType?: Prisma.SortOrder
   transferAmount?: Prisma.SortOrder
+  destinationAccountNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   processingStatus?: Prisma.SortOrder
+  processedById?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrder
   receivedAt?: Prisma.SortOrder
 }
 
@@ -427,9 +489,12 @@ export type BankTransactionMaxOrderByAggregateInput = {
   paymentOrderId?: Prisma.SortOrder
   transferType?: Prisma.SortOrder
   transferAmount?: Prisma.SortOrder
+  destinationAccountNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   processingStatus?: Prisma.SortOrder
+  processedById?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrder
   receivedAt?: Prisma.SortOrder
 }
 
@@ -439,14 +504,59 @@ export type BankTransactionMinOrderByAggregateInput = {
   paymentOrderId?: Prisma.SortOrder
   transferType?: Prisma.SortOrder
   transferAmount?: Prisma.SortOrder
+  destinationAccountNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   rawPayload?: Prisma.SortOrder
   processingStatus?: Prisma.SortOrder
+  processedById?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrder
   receivedAt?: Prisma.SortOrder
 }
 
 export type BankTransactionSumOrderByAggregateInput = {
   transferAmount?: Prisma.SortOrder
+}
+
+export type BankTransactionCreateNestedManyWithoutProcessedByInput = {
+  create?: Prisma.XOR<Prisma.BankTransactionCreateWithoutProcessedByInput, Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput> | Prisma.BankTransactionCreateWithoutProcessedByInput[] | Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput[]
+  connectOrCreate?: Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput | Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput[]
+  createMany?: Prisma.BankTransactionCreateManyProcessedByInputEnvelope
+  connect?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+}
+
+export type BankTransactionUncheckedCreateNestedManyWithoutProcessedByInput = {
+  create?: Prisma.XOR<Prisma.BankTransactionCreateWithoutProcessedByInput, Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput> | Prisma.BankTransactionCreateWithoutProcessedByInput[] | Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput[]
+  connectOrCreate?: Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput | Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput[]
+  createMany?: Prisma.BankTransactionCreateManyProcessedByInputEnvelope
+  connect?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+}
+
+export type BankTransactionUpdateManyWithoutProcessedByNestedInput = {
+  create?: Prisma.XOR<Prisma.BankTransactionCreateWithoutProcessedByInput, Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput> | Prisma.BankTransactionCreateWithoutProcessedByInput[] | Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput[]
+  connectOrCreate?: Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput | Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput[]
+  upsert?: Prisma.BankTransactionUpsertWithWhereUniqueWithoutProcessedByInput | Prisma.BankTransactionUpsertWithWhereUniqueWithoutProcessedByInput[]
+  createMany?: Prisma.BankTransactionCreateManyProcessedByInputEnvelope
+  set?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  disconnect?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  delete?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  connect?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  update?: Prisma.BankTransactionUpdateWithWhereUniqueWithoutProcessedByInput | Prisma.BankTransactionUpdateWithWhereUniqueWithoutProcessedByInput[]
+  updateMany?: Prisma.BankTransactionUpdateManyWithWhereWithoutProcessedByInput | Prisma.BankTransactionUpdateManyWithWhereWithoutProcessedByInput[]
+  deleteMany?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
+}
+
+export type BankTransactionUncheckedUpdateManyWithoutProcessedByNestedInput = {
+  create?: Prisma.XOR<Prisma.BankTransactionCreateWithoutProcessedByInput, Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput> | Prisma.BankTransactionCreateWithoutProcessedByInput[] | Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput[]
+  connectOrCreate?: Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput | Prisma.BankTransactionCreateOrConnectWithoutProcessedByInput[]
+  upsert?: Prisma.BankTransactionUpsertWithWhereUniqueWithoutProcessedByInput | Prisma.BankTransactionUpsertWithWhereUniqueWithoutProcessedByInput[]
+  createMany?: Prisma.BankTransactionCreateManyProcessedByInputEnvelope
+  set?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  disconnect?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  delete?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  connect?: Prisma.BankTransactionWhereUniqueInput | Prisma.BankTransactionWhereUniqueInput[]
+  update?: Prisma.BankTransactionUpdateWithWhereUniqueWithoutProcessedByInput | Prisma.BankTransactionUpdateWithWhereUniqueWithoutProcessedByInput[]
+  updateMany?: Prisma.BankTransactionUpdateManyWithWhereWithoutProcessedByInput | Prisma.BankTransactionUpdateManyWithWhereWithoutProcessedByInput[]
+  deleteMany?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
 }
 
 export type BankTransactionCreateNestedManyWithoutPaymentOrderInput = {
@@ -491,15 +601,89 @@ export type BankTransactionUncheckedUpdateManyWithoutPaymentOrderNestedInput = {
   deleteMany?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
 }
 
+export type BankTransactionCreateWithoutProcessedByInput = {
+  id?: string
+  externalId: string
+  transferType: string
+  transferAmount: number
+  destinationAccountNumber?: string | null
+  description: string
+  rawPayload: string
+  processingStatus: string
+  adminNote?: string | null
+  receivedAt?: Date | string
+  paymentOrder?: Prisma.PaymentOrderCreateNestedOneWithoutBankTransactionsInput
+}
+
+export type BankTransactionUncheckedCreateWithoutProcessedByInput = {
+  id?: string
+  externalId: string
+  paymentOrderId?: string | null
+  transferType: string
+  transferAmount: number
+  destinationAccountNumber?: string | null
+  description: string
+  rawPayload: string
+  processingStatus: string
+  adminNote?: string | null
+  receivedAt?: Date | string
+}
+
+export type BankTransactionCreateOrConnectWithoutProcessedByInput = {
+  where: Prisma.BankTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.BankTransactionCreateWithoutProcessedByInput, Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput>
+}
+
+export type BankTransactionCreateManyProcessedByInputEnvelope = {
+  data: Prisma.BankTransactionCreateManyProcessedByInput | Prisma.BankTransactionCreateManyProcessedByInput[]
+}
+
+export type BankTransactionUpsertWithWhereUniqueWithoutProcessedByInput = {
+  where: Prisma.BankTransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.BankTransactionUpdateWithoutProcessedByInput, Prisma.BankTransactionUncheckedUpdateWithoutProcessedByInput>
+  create: Prisma.XOR<Prisma.BankTransactionCreateWithoutProcessedByInput, Prisma.BankTransactionUncheckedCreateWithoutProcessedByInput>
+}
+
+export type BankTransactionUpdateWithWhereUniqueWithoutProcessedByInput = {
+  where: Prisma.BankTransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.BankTransactionUpdateWithoutProcessedByInput, Prisma.BankTransactionUncheckedUpdateWithoutProcessedByInput>
+}
+
+export type BankTransactionUpdateManyWithWhereWithoutProcessedByInput = {
+  where: Prisma.BankTransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.BankTransactionUpdateManyMutationInput, Prisma.BankTransactionUncheckedUpdateManyWithoutProcessedByInput>
+}
+
+export type BankTransactionScalarWhereInput = {
+  AND?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
+  OR?: Prisma.BankTransactionScalarWhereInput[]
+  NOT?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
+  id?: Prisma.StringFilter<"BankTransaction"> | string
+  externalId?: Prisma.StringFilter<"BankTransaction"> | string
+  paymentOrderId?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
+  transferType?: Prisma.StringFilter<"BankTransaction"> | string
+  transferAmount?: Prisma.IntFilter<"BankTransaction"> | number
+  destinationAccountNumber?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
+  description?: Prisma.StringFilter<"BankTransaction"> | string
+  rawPayload?: Prisma.StringFilter<"BankTransaction"> | string
+  processingStatus?: Prisma.StringFilter<"BankTransaction"> | string
+  processedById?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
+  adminNote?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
+  receivedAt?: Prisma.DateTimeFilter<"BankTransaction"> | Date | string
+}
+
 export type BankTransactionCreateWithoutPaymentOrderInput = {
   id?: string
   externalId: string
   transferType: string
   transferAmount: number
+  destinationAccountNumber?: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  adminNote?: string | null
   receivedAt?: Date | string
+  processedBy?: Prisma.UserCreateNestedOneWithoutProcessedBankTransactionsInput
 }
 
 export type BankTransactionUncheckedCreateWithoutPaymentOrderInput = {
@@ -507,9 +691,12 @@ export type BankTransactionUncheckedCreateWithoutPaymentOrderInput = {
   externalId: string
   transferType: string
   transferAmount: number
+  destinationAccountNumber?: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  processedById?: string | null
+  adminNote?: string | null
   receivedAt?: Date | string
 }
 
@@ -538,19 +725,60 @@ export type BankTransactionUpdateManyWithWhereWithoutPaymentOrderInput = {
   data: Prisma.XOR<Prisma.BankTransactionUpdateManyMutationInput, Prisma.BankTransactionUncheckedUpdateManyWithoutPaymentOrderInput>
 }
 
-export type BankTransactionScalarWhereInput = {
-  AND?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
-  OR?: Prisma.BankTransactionScalarWhereInput[]
-  NOT?: Prisma.BankTransactionScalarWhereInput | Prisma.BankTransactionScalarWhereInput[]
-  id?: Prisma.StringFilter<"BankTransaction"> | string
-  externalId?: Prisma.StringFilter<"BankTransaction"> | string
-  paymentOrderId?: Prisma.StringNullableFilter<"BankTransaction"> | string | null
-  transferType?: Prisma.StringFilter<"BankTransaction"> | string
-  transferAmount?: Prisma.IntFilter<"BankTransaction"> | number
-  description?: Prisma.StringFilter<"BankTransaction"> | string
-  rawPayload?: Prisma.StringFilter<"BankTransaction"> | string
-  processingStatus?: Prisma.StringFilter<"BankTransaction"> | string
-  receivedAt?: Prisma.DateTimeFilter<"BankTransaction"> | Date | string
+export type BankTransactionCreateManyProcessedByInput = {
+  id?: string
+  externalId: string
+  paymentOrderId?: string | null
+  transferType: string
+  transferAmount: number
+  destinationAccountNumber?: string | null
+  description: string
+  rawPayload: string
+  processingStatus: string
+  adminNote?: string | null
+  receivedAt?: Date | string
+}
+
+export type BankTransactionUpdateWithoutProcessedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  transferType?: Prisma.StringFieldUpdateOperationsInput | string
+  transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
+  processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  paymentOrder?: Prisma.PaymentOrderUpdateOneWithoutBankTransactionsNestedInput
+}
+
+export type BankTransactionUncheckedUpdateWithoutProcessedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferType?: Prisma.StringFieldUpdateOperationsInput | string
+  transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
+  processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BankTransactionUncheckedUpdateManyWithoutProcessedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transferType?: Prisma.StringFieldUpdateOperationsInput | string
+  transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
+  processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BankTransactionCreateManyPaymentOrderInput = {
@@ -558,9 +786,12 @@ export type BankTransactionCreateManyPaymentOrderInput = {
   externalId: string
   transferType: string
   transferAmount: number
+  destinationAccountNumber?: string | null
   description: string
   rawPayload: string
   processingStatus: string
+  processedById?: string | null
+  adminNote?: string | null
   receivedAt?: Date | string
 }
 
@@ -569,10 +800,13 @@ export type BankTransactionUpdateWithoutPaymentOrderInput = {
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  processedBy?: Prisma.UserUpdateOneWithoutProcessedBankTransactionsNestedInput
 }
 
 export type BankTransactionUncheckedUpdateWithoutPaymentOrderInput = {
@@ -580,9 +814,12 @@ export type BankTransactionUncheckedUpdateWithoutPaymentOrderInput = {
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  processedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -591,9 +828,12 @@ export type BankTransactionUncheckedUpdateManyWithoutPaymentOrderInput = {
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   transferType?: Prisma.StringFieldUpdateOperationsInput | string
   transferAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  destinationAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   rawPayload?: Prisma.StringFieldUpdateOperationsInput | string
   processingStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  processedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -605,11 +845,15 @@ export type BankTransactionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   paymentOrderId?: boolean
   transferType?: boolean
   transferAmount?: boolean
+  destinationAccountNumber?: boolean
   description?: boolean
   rawPayload?: boolean
   processingStatus?: boolean
+  processedById?: boolean
+  adminNote?: boolean
   receivedAt?: boolean
   paymentOrder?: boolean | Prisma.BankTransaction$paymentOrderArgs<ExtArgs>
+  processedBy?: boolean | Prisma.BankTransaction$processedByArgs<ExtArgs>
 }, ExtArgs["result"]["bankTransaction"]>
 
 
@@ -620,21 +864,26 @@ export type BankTransactionSelectScalar = {
   paymentOrderId?: boolean
   transferType?: boolean
   transferAmount?: boolean
+  destinationAccountNumber?: boolean
   description?: boolean
   rawPayload?: boolean
   processingStatus?: boolean
+  processedById?: boolean
+  adminNote?: boolean
   receivedAt?: boolean
 }
 
-export type BankTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "externalId" | "paymentOrderId" | "transferType" | "transferAmount" | "description" | "rawPayload" | "processingStatus" | "receivedAt", ExtArgs["result"]["bankTransaction"]>
+export type BankTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "externalId" | "paymentOrderId" | "transferType" | "transferAmount" | "destinationAccountNumber" | "description" | "rawPayload" | "processingStatus" | "processedById" | "adminNote" | "receivedAt", ExtArgs["result"]["bankTransaction"]>
 export type BankTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   paymentOrder?: boolean | Prisma.BankTransaction$paymentOrderArgs<ExtArgs>
+  processedBy?: boolean | Prisma.BankTransaction$processedByArgs<ExtArgs>
 }
 
 export type $BankTransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BankTransaction"
   objects: {
     paymentOrder: Prisma.$PaymentOrderPayload<ExtArgs> | null
+    processedBy: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -642,9 +891,12 @@ export type $BankTransactionPayload<ExtArgs extends runtime.Types.Extensions.Int
     paymentOrderId: string | null
     transferType: string
     transferAmount: number
+    destinationAccountNumber: string | null
     description: string
     rawPayload: string
     processingStatus: string
+    processedById: string | null
+    adminNote: string | null
     receivedAt: Date
   }, ExtArgs["result"]["bankTransaction"]>
   composites: {}
@@ -987,6 +1239,7 @@ readonly fields: BankTransactionFieldRefs;
 export interface Prisma__BankTransactionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   paymentOrder<T extends Prisma.BankTransaction$paymentOrderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BankTransaction$paymentOrderArgs<ExtArgs>>): Prisma.Prisma__PaymentOrderClient<runtime.Types.Result.GetResult<Prisma.$PaymentOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  processedBy<T extends Prisma.BankTransaction$processedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BankTransaction$processedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1021,9 +1274,12 @@ export interface BankTransactionFieldRefs {
   readonly paymentOrderId: Prisma.FieldRef<"BankTransaction", 'String'>
   readonly transferType: Prisma.FieldRef<"BankTransaction", 'String'>
   readonly transferAmount: Prisma.FieldRef<"BankTransaction", 'Int'>
+  readonly destinationAccountNumber: Prisma.FieldRef<"BankTransaction", 'String'>
   readonly description: Prisma.FieldRef<"BankTransaction", 'String'>
   readonly rawPayload: Prisma.FieldRef<"BankTransaction", 'String'>
   readonly processingStatus: Prisma.FieldRef<"BankTransaction", 'String'>
+  readonly processedById: Prisma.FieldRef<"BankTransaction", 'String'>
+  readonly adminNote: Prisma.FieldRef<"BankTransaction", 'String'>
   readonly receivedAt: Prisma.FieldRef<"BankTransaction", 'DateTime'>
 }
     
@@ -1388,6 +1644,25 @@ export type BankTransaction$paymentOrderArgs<ExtArgs extends runtime.Types.Exten
    */
   include?: Prisma.PaymentOrderInclude<ExtArgs> | null
   where?: Prisma.PaymentOrderWhereInput
+}
+
+/**
+ * BankTransaction.processedBy
+ */
+export type BankTransaction$processedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

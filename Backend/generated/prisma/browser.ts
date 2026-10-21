@@ -98,6 +98,26 @@ export type BankTransaction = Prisma.BankTransactionModel
  */
 export type WalletLedger = Prisma.WalletLedgerModel
 /**
+ * Model ContentPurchase
+ * 
+ */
+export type ContentPurchase = Prisma.ContentPurchaseModel
+/**
+ * Model CreatorRevenue
+ * 
+ */
+export type CreatorRevenue = Prisma.CreatorRevenueModel
+/**
+ * Model PayoutProfile
+ * 
+ */
+export type PayoutProfile = Prisma.PayoutProfileModel
+/**
+ * Model PayoutRequest
+ * 
+ */
+export type PayoutRequest = Prisma.PayoutRequestModel
+/**
  * Model SystemSetting
  * 
  */

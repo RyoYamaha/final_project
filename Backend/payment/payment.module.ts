@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PaymentController } from './payment.controller';
 import { PaymentService } from './payment.service';
+import { AdminPaymentController } from './admin-payment.controller';
 import { PaymentSettingsController } from './payment-settings.controller';
 import { SepayWebhookController } from './sepay-webhook.controller';
 import { SepayWebhookGuard } from './sepay-webhook.guard';
@@ -8,6 +9,7 @@ import { SepayWebhookGuard } from './sepay-webhook.guard';
 @Module({
   controllers: [
     PaymentController,
+    AdminPaymentController,
     PaymentSettingsController,
     SepayWebhookController,
   ],
