@@ -38,14 +38,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  Logger,
-  NotFoundException,
-  ServiceUnavailableException,
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException, ServiceUnavailableException} from '@nestjs/common';
 import { randomBytes } from 'node:crypto';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -56,7 +49,6 @@ import { QueryAdminBankTransactionsDto } from './dto/query-admin-bank-transactio
 import { UpdateBankSettingsDto } from './dto/update-bank-settings.dto';
 
 
-// //////4. CÁC BIẾN VÀ CẤU TRÚC HỖ TRỢ/////////
 //////// CÁC BIẾN VÀ CẤU TRÚC HỖ TRỢ/////////
 
 //BANK_SETTING_KEYS: NƠI TẬP TRUNG CÁC KEY CÀI ĐẶT NGÂN HÀNG ĐỂ SỬ DỤNG TRONG CODE
@@ -94,7 +86,7 @@ function isUniqueConstraintError(error: unknown): boolean {
   );
 }
 
-// //////2. LUỒNG NHẬN VÀ XỬ LÝ WEBHOOK SEPAY/////////
+// ////// LUỒNG NHẬN VÀ XỬ LÝ WEBHOOK SEPAY/////////
 
 //isRecord(): Kiểm tra payload có phải object hợp lệ để xử lý không
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -206,7 +198,7 @@ export class PaymentService {
 
 
 
-  ///////////////////NGƯỜI DÙNG DÙNG TẠO ĐƠN NẠP TIỀN/////////////////////////////
+  ///////////////////1. NGƯỜI DÙNG DÙNG TẠO ĐƠN NẠP TIỀN/////////////////////////////
   async createDeposit(userId: string, dto: CreateDepositDto) {
 
     //BƯỚC 1: KIỂM TRA THÔNG TIN NGÂN HÀNG NHẬN TIỀN ĐÃ ĐƯỢC CẤU HÌNH
@@ -280,7 +272,7 @@ export class PaymentService {
 
 
 
-  //////////////////LẤY THÔNG TIN THANH TOÁN////////////////////////
+  //////////////////2. LẤY THÔNG TIN THANH TOÁN////////////////////////
   async getPaymentOrder(userId: string, paymentOrderId: string) {
     const order = await this.prisma.paymentOrder.findFirst({
       where: { id: paymentOrderId, userId },
@@ -291,6 +283,10 @@ export class PaymentService {
         paidCoins: true,
         status: true,
         transferCode: true,
+        bankBin: true,
+        bankName: true,
+        bankAccountNumber: true,
+        bankAccountName: true,
         expiresAt: true,
         paidAt: true,
         createdAt: true,
@@ -303,12 +299,13 @@ export class PaymentService {
 
     return {
       ...order,
+      qrUrl: this.createQrUrl(order),
       isExpired:
         order.status === 'Pending' && order.expiresAt.getTime() < Date.now(),
     };
   }
 
-  //////////////////LẤY THÔNG TIN TÀI KHOẢN NGÂN HÀNG NHẬN TIỀN////////////////////////
+  //////////////////3. LẤY THÔNG TIN TÀI KHOẢN NGÂN HÀNG NHẬN TIỀN////////////////////////
   async getBankSettings() {
     const settings = await this.readBankSettings();
     return {
@@ -321,7 +318,7 @@ export class PaymentService {
   }
 
 
-  ////////////////SỬA LẠI THÔNG TIN TÀI KHOẢN NGÂN HÀNG NHẬN TIỀN//////////////////////////
+  ////////////////4. SỬA LẠI THÔNG TIN TÀI KHOẢN NGÂN HÀNG NHẬN TIỀN//////////////////////////
   async updateBankSettings(dto: UpdateBankSettingsDto) {
 
     //BƯỚC 1: TẠO 1 MẢNG LƯU CÁC CẶP GIÁ TRỊ
@@ -354,7 +351,13 @@ export class PaymentService {
     return this.getBankSettings();
   }
 
+
+////////////////////5. ADMIN LẤY DANH SÁCH ĐƠN NẠP TRẠNG THÁI PENDING//////////////////////////
+
   async getAdminPaymentOrders(page: number, limit: number) {
+
+    //BƯỚC 1: TRUY VẤN DANH SÁCH VÀ TỔNG SỐ ĐƠN 
+
     const [items, total] = await this.prisma.$transaction([
       this.prisma.paymentOrder.findMany({
         where: { status: 'Pending' },
@@ -386,22 +389,33 @@ export class PaymentService {
       totalPages: Math.ceil(total / limit),
     };
   }
+////////////////////6. LẤY CÁC GIAO DỊCH NGÂN HÀNG TIỀN VÀO CẦN ADMIN XỬ LÝ ĐỐI SOÁT/////////////////
+  
+async getAdminBankTransactions(query: QueryAdminBankTransactionsDto) {
 
-  async getAdminBankTransactions(query: QueryAdminBankTransactionsDto) {
-    const page = query.page;
+  //BƯỚC 1: THIẾT LẬP THAM SỐ PHÂN TRANG
+
+
+    const page = query.page; 
+    
     const limit = query.limit;
+
+  //BƯỚC 2: CHỌN TRẠNG THÁI CẦN LẤY 
+
     let statuses = ['Unmatched', 'NeedsReview', 'WrongAccount', 'OrderAlreadyPaid'];
+
+    //nếu tham số có status 
     if (query.status) {
+      //statues sẽ bằng status tương ứng trong mảng 
       statuses = [query.status];
     }
-    const where: Prisma.BankTransactionWhereInput = {
-      processingStatus: { in: statuses },
-      transferType: 'in',
-    };
 
+
+    // BƯỚC 3: LẤY DỮ LIỆU VÀ CÁC THÔNG TIN LIÊN QUAN 
     const [items, total] = await this.prisma.$transaction([
       this.prisma.bankTransaction.findMany({
-        where,
+        where: { processingStatus: { in: statuses }, transferType: 'in', },
+         //trạng thái xử lý phải trong cái mảng statues và phải là loại chuyển tiền vào 
         select: {
           id: true,
           externalId: true,
@@ -427,7 +441,7 @@ export class PaymentService {
         skip: (page - 1) * limit,
         take: limit,
       }),
-      this.prisma.bankTransaction.count({ where }),
+      this.prisma.bankTransaction.count({ where: {processingStatus: { in: statuses }, transferType: 'in',} }),
     ]);
 
     return {
@@ -439,67 +453,69 @@ export class PaymentService {
     };
   }
 
-  async assignBankTransaction(
-    adminId: string,
-    bankTransactionId: string,
-    dto: AssignBankTransactionDto,
-  ) {
+
+////////////////////7. HÀM ADMIN LẤY GIAO DỊCH NGÂN HÀNG GÁN VÀO ĐƠN NẠP////////////////////
+
+  async assignBankTransaction( adminId: string, bankTransactionId: string, dto: AssignBankTransactionDto) {
+    // adminId: Admin nào đang thực hiện thao tác.
+    //bankTransactionId: Giao dịch ngân hàng cần gán.
+    //dto.paymentOrderId: Đơn nạp muốn gán giao dịch vào.
+    //dto.reason: Lý do Admin thực hiện đối soát.
+    
+
+    //BƯỚC 1: KIỂM TRA LÝ DO ĐỐI SOÁT
     const reason = dto.reason.trim();
     if (reason.length < 3) {
       throw new BadRequestException('Vui lòng nhập lý do đối soát hợp lệ');
     }
 
+    //BƯỚC 2 TÌM GIAO DỊCH NGÂN HÀNG 
+
     try {
       return await this.prisma.$transaction(
         async (tx) => {
-          const bankTransaction = await tx.bankTransaction.findUnique({
-            where: { id: bankTransactionId },
-          });
+          //BƯỚC 2.1 TÌM GIAO DỊCH NGÂN HÀNG 
+          const bankTransaction = await tx.bankTransaction.findUnique({ where: { id: bankTransactionId }});
 
           if (!bankTransaction) {
             throw new NotFoundException('Không tìm thấy giao dịch ngân hàng');
           }
-
-          if (
-            bankTransaction.transferType !== 'in' ||
-            bankTransaction.processingStatus !== 'Unmatched' ||
-            bankTransaction.paymentOrderId !== null
-          ) {
+          //BƯỚC 2.2 : TÌM GIAO DỊCH CÓ ĐỦ ĐIỀU KIỆN GÁN KHÔNG , VÀ GÁN 
+          if ( bankTransaction.transferType !== 'in' || bankTransaction.processingStatus !== 'Unmatched' || bankTransaction.paymentOrderId !== null) {
             throw new ConflictException(
               'Chỉ giao dịch tiền vào chưa khớp mới được gán vào đơn nạp',
             );
           }
 
-          const paymentOrder = await tx.paymentOrder.findUnique({
-            where: { id: dto.paymentOrderId },
-          });
+
+      //BƯỚC 3: TÌM ĐƠN NẠP CẦN GÁN 
+
+          const paymentOrder = await tx.paymentOrder.findUnique({  where: { id: dto.paymentOrderId }});
 
           if (!paymentOrder) {
             throw new NotFoundException('Không tìm thấy đơn nạp tiền');
           }
 
-          if (
-            bankTransaction.destinationAccountNumber !== null &&
-            bankTransaction.destinationAccountNumber !==
-              paymentOrder.bankAccountNumber
-          ) {
-            throw new BadRequestException(
-              'Giao dịch được chuyển vào tài khoản ngân hàng khác với đơn nạp',
-            );
+
+          if ( bankTransaction.destinationAccountNumber !== null && bankTransaction.destinationAccountNumber !== paymentOrder.bankAccountNumber) {
+            //nếu giao dịch có thông tin số tài khoản nhận tiền , số tài khoản phải trùng với tài khoản đơn nạp 
+
+
+            throw new BadRequestException( 'Giao dịch được chuyển vào tài khoản ngân hàng khác với đơn nạp');
           }
 
-          if (
-            bankTransaction.transferAmount <= 0 ||
-            bankTransaction.transferAmount % 1_000 !== 0
-          ) {
+        //BƯỚC 4: KIỂM TRA SỐ TIỀN GIA0 DỊCH
+        
+          if ( bankTransaction.transferAmount <= 0 || bankTransaction.transferAmount % 1_000 !== 0) {
+            //nếu số tiền nhỏ hơn 0 hoặc không chia hết cho 1000
             throw new BadRequestException(
               'Số tiền giao dịch chưa thể quy đổi chính xác thành coin',
             );
           }
 
+          //BƯỚC 5: GHI NHẬN GIAO DỊCH NGÂN HÀNG ĐÃ ĐƯỢC GHÉP VỚI ĐƠN 
           if (paymentOrder.status !== 'Pending') {
-            await tx.bankTransaction.update({
-              where: { id: bankTransaction.id },
+            await tx.bankTransaction.update({ where: { id: bankTransaction.id },
               data: {
                 paymentOrderId: paymentOrder.id,
                 processingStatus: 'OrderAlreadyPaid',
@@ -513,9 +529,10 @@ export class PaymentService {
               creditedCoins: 0,
               processingStatus: 'OrderAlreadyPaid',
             };
-          }
+          } 
+         // BƯỚC 6 NẾU ĐƠN VẪN CÒN PENDING , XÁC NHẬN ADMIN ĐÃ NHẬN  
 
-          await tx.bankTransaction.update({
+          await tx.bankTransaction.update({ 
             where: { id: bankTransaction.id },
             data: {
               paymentOrderId: paymentOrder.id,
@@ -547,14 +564,20 @@ export class PaymentService {
     }
   }
 
-  async confirmPaymentOrderManually(
-    adminId: string,
-    paymentOrderId: string,
-    dto: ConfirmPaymentOrderDto,
-  ) {
+  ///////////////////////////////8. HÀM XÁC NHẬN THỦ CÔNG ĐƠN NẠP TIỀN CỦA ADMIN/////////////////////////
+  async confirmPaymentOrderManually( adminId: string, paymentOrderId: string, dto: ConfirmPaymentOrderDto) {
+    //adminId: Admin đang thực hiện xác nhận.
+    // paymentOrderId: đơn nạp cần xác nhận.
+    // externalId: mã giao dịch ngân hàng.
+    // reason: lý do xác nhận.
+    // paidAmount: số tiền Admin xác nhận đã nhận.
+
+
     const externalId = dto.externalId.trim();
     const reason = dto.reason.trim();
 
+
+    //BƯỚC 1 KIỂM TRA XEM CÁC THAM SỐ HỢP LỆ HAY KHÔNG
     if (!externalId || externalId.length > 100) {
       throw new BadRequestException('Mã giao dịch ngân hàng không hợp lệ');
     }
@@ -563,11 +586,7 @@ export class PaymentService {
       throw new BadRequestException('Vui lòng nhập lý do xác nhận hợp lệ');
     }
 
-    if (
-      !Number.isSafeInteger(dto.paidAmount) ||
-      dto.paidAmount <= 0 ||
-      dto.paidAmount % 1_000 !== 0
-    ) {
+    if (!Number.isSafeInteger(dto.paidAmount) || dto.paidAmount <= 0 || dto.paidAmount % 1_000 !== 0) {
       throw new BadRequestException(
         'Số tiền xác nhận phải là số nguyên dương chia hết cho 1.000 đồng',
       );
@@ -576,9 +595,10 @@ export class PaymentService {
     try {
       return await this.prisma.$transaction(
         async (tx) => {
-          const paymentOrder = await tx.paymentOrder.findUnique({
-            where: { id: paymentOrderId },
-          });
+
+          //BƯỚC 2: TÌM ĐƠN NẠP TIỀN ĐANG CHỜ THANH TOÁN
+          const paymentOrder = await tx.paymentOrder.findUnique({ where: { id: paymentOrderId }});
+          
 
           if (!paymentOrder) {
             throw new NotFoundException('Không tìm thấy đơn nạp tiền');
@@ -590,6 +610,7 @@ export class PaymentService {
             );
           }
 
+          //BƯỚC 3: TÌM TRA XEM MÃ GIAO DỊCH CÓ TỒN TẠI TRONG NGÂN HÀNG KHÔNG (THỦ CÔNG THÌ CHỖ NÀY THƯỜNG LÀ KHÔNG)
           const existingTransaction = await tx.bankTransaction.findUnique({
             where: { externalId },
             select: { id: true, processingStatus: true },
@@ -600,7 +621,7 @@ export class PaymentService {
               `Giao dịch ngân hàng đã tồn tại với trạng thái ${existingTransaction.processingStatus}`,
             );
           }
-
+          //BƯỚC 4: TẠO GIAO DỊCH NGÂN HÀNG GẮN ĐƠN NẠP TIỀN 
           const bankTransaction = await tx.bankTransaction.create({
             data: {
               externalId,
@@ -644,7 +665,7 @@ export class PaymentService {
 
 
 
-  ///////////////////HÀM XỬ LÝ WEBHOOK: GHI NHẬN GIAO DỊCH VÀ CỘNG COIN///////////////////
+  ///////////////////9. HÀM XỬ LÝ WEBHOOK: GHI NHẬN GIAO DỊCH VÀ CỘNG COIN///////////////////
 
   //LƯU Ý: đơn nạp tiền là yêu cầu người dùng
   //còn giao dịch ngân hàng là sự kiện chuyển tiền xảy ra từ ngân hàng
@@ -785,19 +806,6 @@ export class PaymentService {
         }
 
 
-        //chuyển số tiền người dùng nạp vào thành coin
-        //vd 50.000 % 1000 = 500
-        //lưu thời điểm thanh toán được ghi nhận
-        //BƯỚC 7: KIỂM TRA ĐƠN NẠP TIỀN ĐÃ ĐƯỢC THANH TOÁN HAY CHƯA
-        //đảm bảo đơn nạp tiền chỉ ghi nhận thanh toán 1 lần
-        //trong trường hợp không cập nhật được
-        //đổi trạng thái giao địch sang orderalreadypaid
-        //không thực hiện + xu
-        //BƯỚC 8: CỘNG XU VÀO VÍ
-        //cộng xu vào ví bằng upsert
-        //nếu ví chưa tồn tại thì tạo không thì cập nhật ví
-        //BƯỚC 9: GHI LỊCH SỬ THAY ĐỔI SỐ DƯ VÀO WALLETLEDGER
-        //BƯỚC 10: ĐÁNH DẤU GIAO DỊCH ĐÃ ĐƯỢC THỰC HIỆN THÀNH CÔNG
         return this.applyConfirmedDeposit(
           tx,
           order,
@@ -822,27 +830,24 @@ export class PaymentService {
         }
       }
       throw error;
+
     }
   }
 
-  private async applyConfirmedDeposit(
-    tx: Prisma.TransactionClient,
-    paymentOrder: { id: string; userId: string },
-    bankTransactionId: string,
-    externalId: string,
-    paidAmount: number,
-    description: string,
-  ) {
-    if (
-      !Number.isSafeInteger(paidAmount) ||
-      paidAmount <= 0 ||
-      paidAmount % 1_000 !== 0
+
+//////////////////////10. CỘNG COIN VÀO VÍ SAU KHI ADMIN XÁC NHẬN NGÂN HÀNG HỢP LỆ//////////////////
+  private async applyConfirmedDeposit( tx: Prisma.TransactionClient, paymentOrder: { id: string; userId: string },bankTransactionId: string,
+    externalId: string,paidAmount: number, description: string) {
+
+    //BƯỚC 1: KIỂM TRA SỐ TIỀN  
+    if ( !Number.isSafeInteger(paidAmount) || paidAmount <= 0 || paidAmount % 1_000 !== 0
     ) {
       throw new BadRequestException(
         'Số tiền xác nhận phải là số nguyên dương chia hết cho 1.000 đồng',
       );
     }
 
+    //BƯỚC 2: ĐỔI TIỀN THÀNH COIN RỒI UPDATE VÀO ĐƠN NẠP TIỀN 
     const paidCoins = paidAmount / 1_000;
     const paymentClaim = await tx.paymentOrder.updateMany({
       where: { id: paymentOrder.id, status: 'Pending' },
@@ -853,7 +858,7 @@ export class PaymentService {
         paidAt: new Date(),
       },
     });
-
+    //BƯỚC 3: UPDATE GIAO DỊCH NGÂN HÀNG LÀ ĐÃ TRẢ TIỀN 
     if (paymentClaim.count !== 1) {
       await tx.bankTransaction.update({
         where: { id: bankTransactionId },
@@ -867,17 +872,21 @@ export class PaymentService {
       };
     }
 
+    //BƯỚC 4: UPDATE VÍ TIỀN 
     const wallet = await tx.wallet.upsert({
       where: { userId: paymentOrder.userId },
       create: {
+        //nếu chưa có giao dịch trước đây thì số dư ban đầu là số tiền người dùng nạp vào
         userId: paymentOrder.userId,
-        balance: paidCoins,
+        balance: paidCoins, 
       },
+      //nếu có giao dịch rồi thì côgnj vào số dư 
       update: {
         balance: { increment: paidCoins },
       },
     });
 
+    //BƯỚC 5: TẠO LỊCH SỬ GIAO DỊCH VÍ TIỀN 
     await tx.walletLedger.create({
       data: {
         walletId: wallet.id,
@@ -891,6 +900,10 @@ export class PaymentService {
       },
     });
 
+    //BƯỚC 6: GIAO DỊCH ÁP DỤNG VÀO HỆ THỐNG THÀNH CÔNG 
+    // Đến đây, hệ thống đã chuyển đơn nạp thành Paid, cập nhật ví và tạo lịch sử ví.
+    // giao dịch ngân hàng được đổi sang trạng thái Applied, nghĩa là giao dịch đã được áp dụng vào hệ thống thành công.
+    
     await tx.bankTransaction.update({
       where: { id: bankTransactionId },
       data: { processingStatus: 'Applied' },

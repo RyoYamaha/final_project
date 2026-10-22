@@ -5,8 +5,13 @@
 1. Start SQL Server from the repository root:
 
    ```powershell
-   docker compose up -d sqlserver
+   docker.exe compose up -d sqlserver
    ```
+
+   On some Windows installations, typing `docker` opens an app-selection dialog
+   because `C:\Windows\System32\docker` shadows Docker Desktop's CLI. Use
+   `docker.exe` in PowerShell instead. Confirm the engine and SQL Server are ready
+   with `docker.exe version` and `docker.exe compose ps`.
 
 2. Copy `.env.example` to `.env`. `DATABASE_URL` and `MSSQL_SA_PASSWORD` must use the same SQL Server password.
 
@@ -80,6 +85,14 @@ Copy `accessToken` from the response and send it as `Authorization: Bearer <acce
 
 3. Configure SePay to send incoming bank-transaction webhooks to `POST /payments/webhook/sepay`
    with the `Authorization: Apikey <SEPAY_WEBHOOK_API_KEY>` header.
+   The API key must be set to the same secret in `Backend/.env` and in SePay's
+   webhook security settings. Restart the backend after changing the environment
+   variable. Do not expose or commit this key.
+   SePay must be able to reach the backend over the public internet; `localhost`
+   and a private Docker/network address will not work. For local testing, expose
+   the backend through a secure HTTPS tunnel and use that public URL in SePay.
+   Use SePay's test-webhook feature and webhook log to verify the endpoint returns
+   HTTP 200 with `{"success":true}`.
 4. An authenticated user creates a deposit using `POST /payments/deposits` with
    `{"amountVnd": 50000}`. The backend returns a VietQR image URL and a unique
    transfer code. Deposit amounts must be multiples of 1,000 VND.

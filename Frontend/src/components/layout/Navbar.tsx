@@ -191,6 +191,25 @@ export function Navbar() {
                 {user.role === 'Reader' && (
                   <DropdownMenuItem onClick={() => navigate('/library')}>Thư viện</DropdownMenuItem>
                 )}
+
+                <DropdownMenuItem onClick={() => navigate('/wallet')}>Ví coin</DropdownMenuItem>
+
+                {(user.role === 'Author' || user.role === 'Publisher') && (
+                  <DropdownMenuItem onClick={() => navigate('/earnings')}>
+                    Doanh thu và rút coin
+                  </DropdownMenuItem>
+                )}
+
+                {user.role === 'Admin' && (
+                  <>
+                    <DropdownMenuItem onClick={() => navigate('/admin/payments')}>
+                      Quản lý nạp coin
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate('/admin/payouts')}>
+                      Quản lý payout
+                    </DropdownMenuItem>
+                  </>
+                )}
                 
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-red-600">

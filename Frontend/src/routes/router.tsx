@@ -65,6 +65,8 @@ export const router = createBrowserRouter([
           { path: 'history', ...lazyPage(() => import('@/pages/user/History'), 'History') },
           { path: 'inbox', ...lazyPage(() => import('@/pages/user/Inbox'), 'Inbox') },
           { path: 'my-reports', ...lazyPage(() => import('@/pages/user/MyReports'), 'MyReports') },
+          { path: 'wallet', ...lazyPage(() => import('@/pages/user/Wallet'), 'Wallet') },
+          { path: 'earnings', ...lazyPage(() => import('@/pages/author/Earnings'), 'Earnings') },
           {
             element: <SupportAccessRoute />,
             children: [
@@ -163,6 +165,8 @@ export const router = createBrowserRouter([
           { path: 'reports', ...lazyPage(() => import('@/pages/admin/Reports'), 'Reports') },
           { path: 'users', ...lazyPage(() => import('@/pages/admin/Users'), 'Users') },
           { path: 'tickets', ...lazyPage(() => import('@/pages/admin/AdminTickets'), 'AdminTickets') },
+          { path: 'payments', ...lazyPage(() => import('@/pages/admin/Payments'), 'Payments') },
+          { path: 'payouts', ...lazyPage(() => import('@/pages/admin/Payouts'), 'Payouts') },
         ],
       },
     ],
