@@ -125,6 +125,17 @@ model Genre {
   id       String         @id @default(uuid())
   name     String         @unique
   contents ContentGenre[]
+  userPreferences UserGenrePreference[]
+}
+
+model UserGenrePreference {
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  genreId String
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userId, genreId])
+  @@index([genreId])
 }
 
 model Tag {
@@ -172,6 +183,7 @@ model User {
   isLocked     Boolean  @default(false)
   payoutBlocked Boolean @default(false)
   createdAt    DateTime @default(now())
+  onboardingCompletedAt DateTime?
 
   uploadedContents Content[]  @relation("ContentUploader")
   publisherProfile Publisher?
@@ -179,6 +191,7 @@ model User {
   bookmarks       Bookmark[]
   favorites       Favorite[]
   ratings         Rating[]
+  genrePreferences UserGenrePreference[]
   comments        Comment[]
   readingProgress ReadingProgress[]
   notifications   Notification[]
@@ -339,6 +352,12 @@ model SystemSetting {
   key       String   @id @db.VarChar(100)
   value     String   @db.NVarChar(1000)
   updatedAt DateTime @updatedAt
+}
+
+model NovelModerationKeyword {
+  id        String   @id @default(uuid())
+  keyword   String   @unique @db.NVarChar(200)
+  createdAt DateTime @default(now())
 }
 
 model Bookmark {

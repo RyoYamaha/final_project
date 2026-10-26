@@ -1,16 +1,21 @@
-import { Home, Library, History, ShieldCheck, MessageSquare, BookOpen, LayoutDashboard, ListChecks, Flag, ClipboardList, Users, Languages, Wallet, ChartNoAxesCombined, Banknote } from 'lucide-react'
+import { Home, Library, History, ShieldCheck, MessageSquare, BookOpen, LayoutDashboard, ListChecks, Flag, ClipboardList, Users, Languages, Wallet, Banknote, ChartNoAxesCombined, Settings, ShieldAlert } from 'lucide-react'
+import { Navigate } from 'react-router'
 import { SidebarLayout } from './SidebarLayout'
 import type { SidebarItem } from './Sidebar'
 import { useAuthStore } from '@/stores/auth-store'
 
 export const MainLayout = () => {
   const user = useAuthStore((s) => s.user)
+
+  if (user?.role === 'Reader' && !user.onboardingCompletedAt) {
+    return <Navigate to="/onboarding" replace />
+  }
   
   const USER_ITEMS: SidebarItem[] = [
     { label: 'Trang chủ', to: '/', icon: Home, end: true },
   ]
 
-  if (user) {
+  if (user?.role === 'Reader') {
     USER_ITEMS.push({ label: 'Ví coin', to: '/wallet', icon: Wallet })
   }
 
@@ -19,6 +24,7 @@ export const MainLayout = () => {
     USER_ITEMS.push(
       { label: 'Thư viện', to: '/library', icon: Library },
       { label: 'Lịch sử đọc', to: '/history', icon: History },
+      { label: 'Sở thích thể loại', to: '/settings/preferences', icon: Settings },
     )
   }
 
@@ -52,6 +58,7 @@ export const MainLayout = () => {
       { label: 'Truyện đã xuất bản', to: '/admin/content/published', icon: LayoutDashboard },
       { label: 'Truyện chưa xuất bản', to: '/admin/content/unpublished', icon: ListChecks },
       { label: 'Báo cáo vi phạm', to: '/admin/reports', icon: Flag },
+      { label: 'Từ khóa cảnh báo Novel', to: '/admin/novel-moderation', icon: ShieldAlert },
       { label: 'Quản lý người dùng', to: '/admin/users', icon: Users },
       { label: 'Yêu cầu hỗ trợ', to: '/admin/tickets', icon: MessageSquare },
       { label: 'Quản lý nạp coin', to: '/admin/payments', icon: Banknote },

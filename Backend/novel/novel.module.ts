@@ -4,10 +4,12 @@ import { NovelController } from './novel.controller';
 import { ChapterModule } from '../core/chapter/chapter.module';
 import { CloudinaryModule } from '../common/cloudinary/cloudinary.module';
 import { UnlockModule } from '../unlock/unlock.module';
+import { NovelModerationService } from './novel-moderation.service';
 
 @Module({
   imports: [ChapterModule, CloudinaryModule, UnlockModule],
   controllers: [NovelController],
-  providers: [NovelService],
+  providers: [NovelService, NovelModerationService],
+  exports: [NovelModerationService],
 })
 export class NovelModule {}

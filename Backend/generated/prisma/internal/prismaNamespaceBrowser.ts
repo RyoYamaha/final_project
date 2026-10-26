@@ -58,6 +58,7 @@ export const ModelName = {
   ChapterPage: 'ChapterPage',
   ChapterContent: 'ChapterContent',
   Genre: 'Genre',
+  UserGenrePreference: 'UserGenrePreference',
   Tag: 'Tag',
   ContentGenre: 'ContentGenre',
   ContentTag: 'ContentTag',
@@ -72,6 +73,7 @@ export const ModelName = {
   PayoutProfile: 'PayoutProfile',
   PayoutRequest: 'PayoutRequest',
   SystemSetting: 'SystemSetting',
+  NovelModerationKeyword: 'NovelModerationKeyword',
   Bookmark: 'Bookmark',
   Favorite: 'Favorite',
   Rating: 'Rating',
@@ -185,6 +187,14 @@ export const GenreScalarFieldEnum = {
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
 
 
+export const UserGenrePreferenceScalarFieldEnum = {
+  userId: 'userId',
+  genreId: 'genreId'
+} as const
+
+export type UserGenrePreferenceScalarFieldEnum = (typeof UserGenrePreferenceScalarFieldEnum)[keyof typeof UserGenrePreferenceScalarFieldEnum]
+
+
 export const TagScalarFieldEnum = {
   id: 'id',
   name: 'name'
@@ -229,7 +239,8 @@ export const UserScalarFieldEnum = {
   bio: 'bio',
   isLocked: 'isLocked',
   payoutBlocked: 'payoutBlocked',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  onboardingCompletedAt: 'onboardingCompletedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -364,6 +375,15 @@ export const SystemSettingScalarFieldEnum = {
 } as const
 
 export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
+
+
+export const NovelModerationKeywordScalarFieldEnum = {
+  id: 'id',
+  keyword: 'keyword',
+  createdAt: 'createdAt'
+} as const
+
+export type NovelModerationKeywordScalarFieldEnum = (typeof NovelModerationKeywordScalarFieldEnum)[keyof typeof NovelModerationKeywordScalarFieldEnum]
 
 
 export const BookmarkScalarFieldEnum = {

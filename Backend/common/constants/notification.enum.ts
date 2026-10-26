@@ -9,5 +9,6 @@ export enum NotificationType {
         ContentFavorited = 'ContentFavorited',
         PublisherVerified = 'PublisherVerified',
         PublisherRejected = 'PublisherRejected',
-        CommentReply = 'CommentReply'
+        CommentReply = 'CommentReply',
+        NovelModerationAlert = 'NovelModerationAlert'
 }

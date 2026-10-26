@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Flag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 import {
   reportService,
   type ReportStatus,
@@ -30,6 +31,7 @@ const targetTypeLabels = {
 
 export function Reports() {
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const [statusFilter, setStatusFilter] = useState<ReportStatus | undefined>()
   const [selectedReportId, setSelectedReportId] = useState<string>()
 
@@ -77,6 +79,18 @@ export function Reports() {
   })
 
   const report = selectedReportQuery.data
+
+  const confirmReportAction = async (action: 'dismiss' | 'resolve') => {
+    if (!report) return
+    const resolved = action === 'resolve'
+    const confirmed = await confirm({
+      title: resolved ? 'Xác nhận giải quyết báo cáo' : 'Xác nhận bỏ qua báo cáo',
+      description: `${resolved ? 'Đánh dấu đã giải quyết' : 'Bỏ qua'} báo cáo về ${targetTypeLabels[report.targetType].toLowerCase()} này?`,
+      confirmLabel: resolved ? 'Đã giải quyết' : 'Bỏ qua báo cáo',
+      tone: resolved ? 'default' : 'destructive',
+    })
+    if (confirmed) updateStatusMutation.mutate(action)
+  }
 
   return (
     <div className="space-y-4">
@@ -232,14 +246,14 @@ export function Reports() {
                 <div className="flex flex-wrap gap-2 border-t border-border pt-4">
                   <Button
                     disabled={updateStatusMutation.isPending}
-                    onClick={() => updateStatusMutation.mutate('resolve')}
+                    onClick={() => void confirmReportAction('resolve')}
                   >
                     Đánh dấu đã giải quyết
                   </Button>
                   <Button
                     variant="outline"
                     disabled={updateStatusMutation.isPending}
-                    onClick={() => updateStatusMutation.mutate('dismiss')}
+                    onClick={() => void confirmReportAction('dismiss')}
                   >
                     Bỏ qua báo cáo
                   </Button>

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { adminService, type AdminUser } from '@/services/admin.service'
 import { useAuthStore } from '@/stores/auth-store'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 
 type EditableUserRole = 'Reader' | 'Author' | 'Publisher'
 
@@ -31,6 +32,7 @@ const roleLabels: Record<AdminUser['role'], string> = {
 
 export function Users() {
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const currentUser = useAuthStore((state) => state.user)
   const [searchText, setSearchText] = useState('')
   const [form, setForm] = useState<UserForm>(emptyForm)
@@ -73,9 +75,19 @@ export function Users() {
     onSuccess: refreshUsers,
   })
 
-  const handleUpdate = (event: FormEvent<HTMLFormElement>) => {
+  const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!editingUserId) return
+    const existingUser = users.find((user) => user.id === editingUserId)
+    if (existingUser && existingUser.role !== form.role) {
+      const confirmed = await confirm({
+        title: 'Xác nhận thay đổi vai trò',
+        description: `Thay đổi vai trò của "${existingUser.username}" từ ${roleLabels[existingUser.role]} thành ${roleLabels[form.role]}? Việc này sẽ thay đổi quyền truy cập của tài khoản.`,
+        confirmLabel: 'Thay đổi vai trò',
+        tone: 'destructive',
+      })
+      if (!confirmed) return
+    }
     updateUserMutation.mutate({
       userId: editingUserId,
       values: {
@@ -87,18 +99,29 @@ export function Users() {
     })
   }
 
-  const handleLockUser = (user: AdminUser) => {
-    const shouldLock = window.confirm(
-      `Khóa tài khoản "${user.username}"? Tài khoản và dữ liệu của họ vẫn được giữ lại.`,
-    )
-    if (shouldLock) {
-      lockUserMutation.mutate(user.id)
+  const handleLockUser = async (user: AdminUser) => {
+    const shouldLock = await confirm({
+      title: 'Xác nhận khóa tài khoản',
+      description: `Bạn có chắc muốn khóa tài khoản "${user.username}"? Tài khoản và dữ liệu vẫn được giữ lại.`,
+      confirmLabel: 'Khóa tài khoản',
+      tone: 'destructive',
+    })
+    if (shouldLock) lockUserMutation.mutate(user.id)
+  }
+
+  const handleUnlockUser = async (user: AdminUser) => {
+    const shouldUnlock = await confirm({
+      title: 'Xác nhận mở khóa tài khoản',
+      description: `Mở khóa tài khoản "${user.username}" để người dùng có thể đăng nhập lại?`,
+      confirmLabel: 'Mở khóa',
+    })
+    if (shouldUnlock) {
+      unlockUserMutation.mutate(user.id)
     }
   }
 
   const startEditing = (user: AdminUser) => {
     if (user.role === 'Admin') return
-    setIsCreating(false)
     setEditingUserId(user.id)
     setForm({
       username: user.username,
@@ -261,7 +284,7 @@ export function Users() {
                                 size="sm"
                                 variant="outline"
                                 disabled={isChangingStatus}
-                                onClick={() => unlockUserMutation.mutate(user.id)}
+                                onClick={() => void handleUnlockUser(user)}
                               >
                                 <UserRound className="mr-1 h-3.5 w-3.5" />
                                 Mở khóa

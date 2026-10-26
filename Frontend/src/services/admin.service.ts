@@ -19,10 +19,22 @@ export interface AdminUserInput {
   bio?: string
 }
 
+export interface NovelModerationKeyword {
+  id: string
+  keyword: string
+  createdAt: string
+}
+
 export const adminService = {
   getReviewQueue: async () => (await api.get<ReviewQueue>('/admin/review-queue')).data,
   getAllContents: async () => (await api.get<ContentListItem[]>('/admin/content')).data,
   getChapterDetail: async (id: string) => (await api.get<AdminChapterDetail>(`/admin/chapters/${id}`)).data,
+  getNovelModerationKeywords: async () =>
+    (await api.get<NovelModerationKeyword[]>('/admin/novel-moderation/keywords')).data,
+  addNovelModerationKeyword: (keyword: string) =>
+    api.post<NovelModerationKeyword>('/admin/novel-moderation/keywords', { keyword }),
+  removeNovelModerationKeyword: (id: string) =>
+    api.delete(`/admin/novel-moderation/keywords/${id}`),
 
   approveContent: (id: string) => api.patch(`/admin/content/${id}/approve`),
   rejectContent: (id: string, reason?: string) => api.patch(`/admin/content/${id}/reject`, { reason }),

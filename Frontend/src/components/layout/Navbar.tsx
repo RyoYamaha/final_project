@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Bell, Bookmark, Heart, LogOut, Search } from 'lucide-react'
+import { Bell, Bookmark, Heart, LogOut, Search, Coins } from 'lucide-react'
 import { authService } from '@/services/auth.service'
 import { notificationService } from '@/services/notification.service'
+import { financeService } from '@/services/finance.service'
 import { REFRESH_TOKEN_KEY, useAuthStore } from '@/stores/auth-store'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -15,8 +16,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-
-const APP_NAME = 'NovaManga'
 
 export function Navbar() {
   const navigate = useNavigate()
@@ -40,6 +39,12 @@ export function Navbar() {
     queryKey: ['notifications'],
     enabled: !!user,
     queryFn: async () => (await notificationService.getAll()).data,
+  })
+
+  const walletQuery = useQuery({
+    queryKey: ['my-wallet'],
+    enabled: !!user && user.role === 'Reader',
+    queryFn: async () => (await financeService.getWalletBalance()).data,
   })
 
   const handleSearch = (e: FormEvent) => {
@@ -67,20 +72,20 @@ export function Navbar() {
   const unreadCount = unread.data ?? 0
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-      <div className="flex h-14 items-center gap-4 px-4">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-extrabold tracking-tight">
-            {APP_NAME}
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-xl">
+      <div className="flex h-14 items-center gap-2 px-3 sm:gap-4 sm:px-5">
+        <div className="flex shrink-0 items-center gap-3 sm:gap-6">
+          <Link to="/" className="text-lg font-extrabold tracking-tight sm:text-xl">
+            <span className="text-primary">Nova</span>Manga
           </Link>
 
           {/* Selector Manga / Novel */}
-          <div className="hidden md:flex items-center bg-muted/30 p-1 rounded-lg border border-border/50">
+          <div className="hidden md:flex items-center rounded-xl border border-border/70 bg-card p-1">
             <Link 
               to="/manga" 
               className={`flex items-center gap-1.5 px-4 py-1.5 text-sm rounded-md outline-none focus-visible:ring-1 transition-all ${
                 isManga 
-                  ? 'font-semibold bg-background text-foreground shadow-sm border border-border/50' 
+                  ? 'font-semibold bg-primary text-primary-foreground shadow-sm border border-transparent'
                   : 'font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 border border-transparent'
               }`}
             >
@@ -89,10 +94,10 @@ export function Navbar() {
 
             <Link 
               to="/novel" 
-              className={`flex items-center gap-1.5 px-4 py-1.5 text-sm rounded-md transition-all ${
-                isNovel 
-                  ? 'font-semibold bg-background text-foreground shadow-sm border border-border/50' 
-                  : 'font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 border border-transparent'
+              className={`flex items-center gap-1.5 rounded-md border px-4 py-1.5 text-sm transition-all ${
+                isNovel
+                  ? 'border-transparent bg-primary font-semibold text-primary-foreground shadow-sm'
+                  : 'border-transparent font-medium text-muted-foreground hover:bg-muted/50 hover:text-foreground'
               }`}
             >
               Novel
@@ -100,13 +105,13 @@ export function Navbar() {
           </div>
         </div>
 
-        <form onSubmit={handleSearch} className="relative mx-auto w-full max-w-md">
+        <form onSubmit={handleSearch} className="relative mx-auto w-full max-w-xl">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Tìm truyện..."
-            className="pl-9"
+            className="h-10 rounded-xl border-border/80 bg-card pl-9 placeholder:text-muted-foreground/75 focus-visible:ring-primary"
             aria-label="Tìm kiếm"
           />
         </form>
@@ -161,9 +166,16 @@ export function Navbar() {
             {/* Các tính năng chung cho Reader */}
             {user.role === 'Reader' && (
               <>
+                <Button variant="ghost" size="sm" asChild className="rounded-xl border border-amber-400/20 bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-bold px-3">
+                  <Link to="/wallet">
+                    <Coins className="mr-1.5 h-3.5 w-3.5 text-amber-400" />
+                    <span>{new Intl.NumberFormat('vi-VN').format(walletQuery.data?.balance ?? 0)}</span>
+                  </Link>
+                </Button>
+
                 <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex">
                   <Link to="/library?tab=favourite">
-                    <Heart className="mr-1.5 h-4 w-4" /> Favourite
+                    <Heart className="mr-1.5 h-4 w-4" /> Yêu thích
                   </Link>
                 </Button>
 
@@ -192,7 +204,15 @@ export function Navbar() {
                   <DropdownMenuItem onClick={() => navigate('/library')}>Thư viện</DropdownMenuItem>
                 )}
 
-                <DropdownMenuItem onClick={() => navigate('/wallet')}>Ví coin</DropdownMenuItem>
+                {user.role === 'Reader' && (
+                  <DropdownMenuItem onClick={() => navigate('/settings/preferences')}>
+                    Sở thích thể loại
+                  </DropdownMenuItem>
+                )}
+
+                {user.role === 'Reader' && (
+                  <DropdownMenuItem onClick={() => navigate('/wallet')}>Ví coin</DropdownMenuItem>
+                )}
 
                 {(user.role === 'Author' || user.role === 'Publisher') && (
                   <DropdownMenuItem onClick={() => navigate('/earnings')}>

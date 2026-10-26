@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import type { LoginDto } from '@/types/auth'
+import type { LoginDto, User } from '@/types/auth'
 
 // ==========================================
 // 1. ĐỊNH NGHĨA KHUÔN KIỂM TRA DỮ LIỆU (VALIDATION)
@@ -34,6 +34,8 @@ export function Login() {
   // Lấy hàm setAuth để lưu token sau khi đăng nhập thành công
   // Lấy user để biết hiện tại đã đăng nhập chưa
   const setAuth = useAuthStore((s) => s.setAuth)
+  const setAccessToken = useAuthStore((s) => s.setAccessToken)
+  const clearAuth = useAuthStore((s) => s.clearAuth)
   const user = useAuthStore((s) => s.user)
   const [serverError, setServerError] = useState<string | null>(null)
 
@@ -68,14 +70,25 @@ export function Login() {
       const payload = decodeJwtPayload(data.accessToken)
       
       // 4.3. Lưu vào Global State (Zustand sẽ tự động lưu vào LocalStorage luôn)
+      setAccessToken(data.accessToken)
+      let profile: User
+      try {
+        profile = (await authService.me()).data
+      } catch (error) {
+        clearAuth()
+        throw error
+      }
       setAuth(data.accessToken, data.refreshToken, {
+        ...profile,
         id: payload.sub,
         role: payload.role,
         username: payload.username,
       })
       
       let nextPath = from;
-      if (nextPath === '/') {
+      if (profile.role === 'Reader' && !profile.onboardingCompletedAt) {
+        nextPath = '/onboarding'
+      } else if (nextPath === '/') {
           if (payload.role === 'Author') nextPath = '/author/dashboard'
           else if (payload.role === 'Publisher') nextPath = '/publisher/dashboard'
           else if (payload.role === 'Admin') nextPath = '/admin/dashboard'

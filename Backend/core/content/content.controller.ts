@@ -1,8 +1,11 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ContentService } from './content.service';
 import { QueryContentDto } from './dto/query-content.dto';
 import { QueryCatalogSortDto } from './dto/query-catalog-sort.dto';
 import { QueryRankingContentDto } from './dto/query-ranking-content.dto';
+import { QueryRecommendationsDto } from './dto/query-recommendations.dto';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @Controller('content')
 export class ContentController {
@@ -28,6 +31,15 @@ export class ContentController {
   @Get('rankings')
   getRankings(@Query() query: QueryRankingContentDto) {
     return this.contentService.getRankedContents(query);
+  }
+
+  @Get('recommendations')
+  @UseGuards(JwtAuthGuard)
+  getRecommendations(
+    @CurrentUser('id') userId: string,
+    @Query() query: QueryRecommendationsDto,
+  ) {
+    return this.contentService.getRecommendations(userId, query);
   }
 
   // Public — không cần login, ai cũng xem được danh sách/đọc truyện

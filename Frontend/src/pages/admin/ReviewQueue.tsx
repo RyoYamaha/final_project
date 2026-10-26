@@ -4,11 +4,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { adminService } from '@/services/admin.service'
 import { Button } from '@/components/ui/button'
 import type { ContentListItem } from '@/types/content'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 
 type Tab = 'content' | 'publisher'
 
 export function ReviewQueue() {
   const qc = useQueryClient()
+  const { confirm } = useAppDialog()
   const [tab, setTab] = useState<Tab>('content')
   const [error, setError] = useState<string | null>(null)
 
@@ -39,8 +41,14 @@ export function ReviewQueue() {
     onError: () => setError('Thao tác thất bại. Mục này có thể đã được xử lý, hãy tải lại.'),
   })
 
-  const reject = (label: string, fn: () => Promise<unknown>) => {
-    if (window.confirm(`Từ chối "${label}"? Hệ thống chưa lưu lý do từ chối.`)) act.mutate(fn)
+  const confirmAction = async (
+    title: string,
+    description: string,
+    confirmLabel: string,
+    fn: () => Promise<unknown>,
+    tone: 'default' | 'destructive' = 'default',
+  ) => {
+    if (await confirm({ title, description, confirmLabel, tone })) act.mutate(fn)
   }
 
   const content = allContents.filter((item: ContentListItem) => item.publicationStatus !== 'Published')
@@ -104,7 +112,12 @@ export function ReviewQueue() {
                           </Button>
                           {c.publicationStatus === 'PendingApproval' && (
                             <>
-                              <Button size="sm" disabled={act.isPending} onClick={() => act.mutate(() => adminService.approveContent(c.id))}>
+                              <Button size="sm" disabled={act.isPending} onClick={() => void confirmAction(
+                                'Xác nhận duyệt truyện',
+                                `Duyệt và xuất bản "${c.title}"?`,
+                                'Duyệt truyện',
+                                () => adminService.approveContent(c.id),
+                              )}>
                                 Duyệt
                               </Button>
                               <Button
@@ -119,7 +132,12 @@ export function ReviewQueue() {
                             </>
                           )}
                           {c.publicationStatus === 'Hidden' && (
-                            <Button size="sm" disabled={act.isPending} onClick={() => act.mutate(() => adminService.restoreContent(c.id))}>
+                            <Button size="sm" disabled={act.isPending} onClick={() => void confirmAction(
+                              'Xác nhận khôi phục truyện',
+                              `Khôi phục "${c.title}" để độc giả có thể truy cập lại?`,
+                              'Khôi phục',
+                              () => adminService.restoreContent(c.id),
+                            )}>
                               Khôi phục
                             </Button>
                           )}
@@ -167,14 +185,25 @@ export function ReviewQueue() {
                   )}
                 </div>
                 <div className="flex shrink-0 gap-2">
-                  <Button size="sm" disabled={act.isPending} onClick={() => act.mutate(() => adminService.verifyPublisher(p.id))}>
+                  <Button size="sm" disabled={act.isPending} onClick={() => void confirmAction(
+                    'Xác nhận duyệt Publisher',
+                    `Xác minh Publisher "${p.organizationName}"?`,
+                    'Duyệt Publisher',
+                    () => adminService.verifyPublisher(p.id),
+                  )}>
                     Duyệt
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     disabled={act.isPending}
-                    onClick={() => reject(p.organizationName, () => adminService.rejectPublisher(p.id))}
+                    onClick={() => void confirmAction(
+                      'Xác nhận từ chối Publisher',
+                      `Từ chối hồ sơ "${p.organizationName}"?`,
+                      'Từ chối',
+                      () => adminService.rejectPublisher(p.id),
+                      'destructive',
+                    )}
                   >
                     Từ chối
                   </Button>

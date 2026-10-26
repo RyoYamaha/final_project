@@ -107,6 +107,17 @@ export interface RankedContentPaginationResponse {
   popularityWindowDays: number;
 }
 
+export interface RecommendedContentListItem extends RankedContentListItem {
+  matchingGenres: number;
+  averageRating: number;
+}
+
+export interface RecommendedContentPaginationResponse {
+  items: RecommendedContentListItem[];
+  meta: ContentPaginationResponse["meta"];
+  fallback: boolean;
+}
+
 export interface PopularTag extends Tag {
   activeReads: number;
 }

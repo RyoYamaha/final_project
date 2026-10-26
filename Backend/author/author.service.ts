@@ -44,23 +44,7 @@ export class AuthorService {
   //bản dịch do fan tự tạo 
   async createFanTranslation(userId: string, dto: CreateFanTranslationDto) {
     // Không cho tự dịch bản dịch của người khác — chỉ được dịch từ Content Licensed gốc
-    const parent = await this.prisma.content.findUnique({ where: { id: dto.parentContentId } });
-    if (!parent) throw new NotFoundException('Không tìm thấy Content gốc');
-    if (parent.ownershipTier !== OwnershipTier.Licensed) {
-      throw new ForbiddenException('Chỉ được tạo Fan Translation từ Content Licensed');
-    }
-    if (parent.publicationStatus !== PublicationStatus.Published) {
-      throw new ForbiddenException('Content gốc chưa được duyệt, chưa thể dịch');
-    }
-    if (
-      parent.pricingType !== 'free' ||
-      !parent.allowCommunityTranslation
-    ) {
-      throw new ForbiddenException(
-        'Publisher chưa cho phép dịch cộng đồng cho Content này',
-      );
-    }
-
+    // ContentService kiểm tra Content gốc trong transaction trước khi tạo để tránh kiểm tra lặp.
     return this.contentService.createContent(
       dto,
       userId,

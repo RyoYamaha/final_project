@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Banknote, Check, Copy, RefreshCw, Settings2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 import {
   financeService,
   type AdminPaymentOrder,
@@ -61,6 +62,7 @@ function getTransactionStatus(status: string) {
 
 export function Payments() {
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const [transactionStatus, setTransactionStatus] = useState('')
   const [settingsForm, setSettingsForm] = useState(EMPTY_SETTINGS)
   const [settingsLoaded, setSettingsLoaded] = useState(false)
@@ -156,21 +158,44 @@ export function Payments() {
     },
   })
 
-  const submitSettings = (event: FormEvent<HTMLFormElement>) => {
+  const submitSettings = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const currentSettings = settingsQuery.data
+    if (
+      currentSettings &&
+      (!currentSettings.configured ||
+        currentSettings.bankName !== settingsForm.bankName ||
+        currentSettings.bankBin !== settingsForm.bankBin ||
+        currentSettings.bankAccountNumber !== settingsForm.bankAccountNumber ||
+        currentSettings.bankAccountName !== settingsForm.bankAccountName)
+    ) {
+      const confirmed = await confirm({
+        title: 'Xác nhận thay đổi tài khoản nhận tiền',
+        description: 'Cập nhật tài khoản ngân hàng dùng để nhận tiền nạp coin? Thay đổi này sẽ ảnh hưởng đến các đơn nạp mới.',
+        confirmLabel: 'Cập nhật tài khoản',
+      })
+      if (!confirmed) return
+    }
     setSuccessMessage('')
     updateSettingsMutation.mutate(settingsForm)
   }
 
-  const submitAssign = (event: FormEvent<HTMLFormElement>) => {
+  const submitAssign = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (assigningTransactionId && assignOrderId && assignReason.trim().length >= 3) {
+      const selectedOrder = ordersQuery.data?.items.find((order) => order.id === assignOrderId)
+      const confirmed = await confirm({
+        title: 'Xác nhận đối soát giao dịch',
+        description: `Gán giao dịch ngân hàng này vào đơn${selectedOrder ? ` ${selectedOrder.transferCode} của ${selectedOrder.user.username}` : ''}? Thao tác sẽ cập nhật ví của người dùng.`,
+        confirmLabel: 'Xác nhận đối soát',
+      })
+      if (!confirmed) return
       setSuccessMessage('')
       assignMutation.mutate()
     }
   }
 
-  const submitManualConfirm = (event: FormEvent<HTMLFormElement>) => {
+  const submitManualConfirm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const amount = Number(manualForm.paidAmount)
     if (
@@ -181,6 +206,12 @@ export function Payments() {
       amount % 1_000 === 0 &&
       manualForm.reason.trim().length >= 3
     ) {
+      const confirmed = await confirm({
+        title: 'Xác nhận nạp coin thủ công',
+        description: `Cộng coin cho ${manualOrder.user.username} sau khi xác nhận đã nhận ${formatVnd(amount)}?`,
+        confirmLabel: 'Xác nhận và cộng coin',
+      })
+      if (!confirmed) return
       setSuccessMessage('')
       manualConfirmMutation.mutate()
     }

@@ -75,6 +75,11 @@ export type ChapterContent = Prisma.ChapterContentModel
  */
 export type Genre = Prisma.GenreModel
 /**
+ * Model UserGenrePreference
+ * 
+ */
+export type UserGenrePreference = Prisma.UserGenrePreferenceModel
+/**
  * Model Tag
  * 
  */
@@ -144,6 +149,11 @@ export type PayoutRequest = Prisma.PayoutRequestModel
  * 
  */
 export type SystemSetting = Prisma.SystemSettingModel
+/**
+ * Model NovelModerationKeyword
+ * 
+ */
+export type NovelModerationKeyword = Prisma.NovelModerationKeywordModel
 /**
  * Model Bookmark
  * 

@@ -7,6 +7,7 @@ import type {
   PopularTag,
   QueryContentParams,
   RankedContentPaginationResponse,
+  RecommendedContentPaginationResponse,
   RankingContentParams,
   Tag,
 } from '@/types/content'
@@ -17,6 +18,8 @@ export const contentService = {
     api.get<ContentPaginationResponse>('/content', { params }),
   getRankings: (params: RankingContentParams) =>
     api.get<RankedContentPaginationResponse>('/content/rankings', { params }),
+  getRecommendations: (params?: Pick<RankingContentParams, 'page' | 'limit'>) =>
+    api.get<RecommendedContentPaginationResponse>('/content/recommendations', { params }),
   getDetail: (id: string) => api.get<ContentDetailData>(`/content/${id}`),
   getGenres: () => api.get<Genre[]>('/content/genres'),
   getTags: (sort: 'name' | 'popular' = 'name') =>
@@ -24,6 +27,7 @@ export const contentService = {
   getPublishers: (sort: 'name' | 'popular' = 'name') =>
     api.get<PopularPublisher[]>('/content/publishers', { params: { sort } }),
   getMangaChapterPages: (chapterId: string) => api.get<ChapterPage[]>(`/manga/chapters/${chapterId}/pages`),
+  getNovelChapterPages: (chapterId: string) => api.get<ChapterPage[]>(`/novel/chapters/${chapterId}/pages`),
   getNovelChapterText: (chapterId: string) => api.get<ChapterContent>(`/novel/chapters/${chapterId}/text`),
 }
 

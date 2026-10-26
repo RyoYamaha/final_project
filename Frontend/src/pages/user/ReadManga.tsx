@@ -1,13 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
 import { contentService } from '@/services/content.service'
+import { PaidChapterNotice } from '@/components/content/PaidChapterNotice'
 import { CommentSection } from '@/components/comment/CommentSection'
 import { useChapterNav } from '@/hooks/useChapterNav'
 import { readingProgressService } from '@/services/reading-progress.service'
 import { useAuthStore } from '@/stores/auth-store'
-import { ArrowLeft, ArrowRight, ImageOff, AlertTriangle } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ImageOff, AlertTriangle, Sparkles } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { ReportModal } from '@/components/shared/ReportModal'
+import { AiReadingDrawer } from '@/components/content/AiReadingDrawer'
 
 export function ReadManga() {
   const { id, chapterId } = useParams<{ id: string; chapterId: string }>()
@@ -15,12 +19,16 @@ export function ReadManga() {
   const queryClient = useQueryClient()
   const nav = useChapterNav(id, chapterId)
   const [isReportModalOpen, setIsReportModalOpen] = useState(false)
+  const [isAiDrawerOpen, setIsAiDrawerOpen] = useState(false)
   const user = useAuthStore((state) => state.user)
   const markedChapters = useRef(new Set<string>())
 
   const pages = useQuery({
     queryKey: ['manga-pages', chapterId],
     enabled: !!chapterId,
+    retry: (failureCount, error) =>
+      !(isAxiosError(error) && [401, 403].includes(error.response?.status ?? 0)) &&
+      failureCount < 2,
     queryFn: async () =>
       (await contentService.getMangaChapterPages(chapterId!)).data,
   })
@@ -44,6 +52,9 @@ export function ReadManga() {
     },
   })
   const completeChapter = markChapterRead.mutate
+  const refreshLockedChapter = async () => {
+    await queryClient.invalidateQueries({ queryKey: ['manga-pages', chapterId] })
+  }
 
   useEffect(() => {
     const currentChapterId = nav.chapter?.id
@@ -71,6 +82,21 @@ export function ReadManga() {
   if (nav.isLoading || pages.isLoading) {
     return <div className="p-12 text-center text-muted-foreground animate-pulse">Đang tải...</div>
   }
+  if (
+    pages.isError &&
+    isAxiosError(pages.error) &&
+    [401, 403].includes(pages.error.response?.status ?? 0) &&
+    id
+  ) {
+    return (
+      <PaidChapterNotice
+        contentId={id}
+        contentTitle={nav.content?.title}
+        priceCoins={nav.content?.priceCoins ?? 0}
+        onPurchaseSuccess={refreshLockedChapter}
+      />
+    )
+  }
   if (nav.isError || pages.isError || !id) {
     return <div className="p-12 text-center text-destructive">Không tải được chương này.</div>
   }
@@ -93,15 +119,15 @@ export function ReadManga() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl flex flex-col lg:flex-row gap-6 p-4 lg:p-8 min-h-screen">
+    <div className="mx-auto flex min-h-[calc(100vh-7rem)] max-w-7xl flex-col gap-5 px-0 py-2 lg:flex-row lg:gap-7 lg:py-4">
       
       {/* LEFT: READING AREA */}
       <div className="flex-1 flex flex-col min-w-0">
         
         {/* Header Info */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-border/50 pb-6">
+        <div className="mb-4 flex flex-col items-start justify-between gap-4 rounded-2xl border border-border/80 bg-card/70 p-4 sm:flex-row sm:items-center sm:p-5">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-20 bg-muted rounded overflow-hidden flex-shrink-0 flex items-center justify-center border shadow-sm">
+            <div className="h-20 w-16 flex-shrink-0 overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
               {nav.content?.coverImageUrl ? (
                 <img src={nav.content.coverImageUrl} alt={nav.content.title} className="w-full h-full object-cover" />
               ) : (
@@ -137,30 +163,42 @@ export function ReadManga() {
             </div>
           </div>
           
-          {/* Pagination Controls */}
-          {totalPages > 0 && (
-            <div className="flex items-center gap-3 bg-muted/40 p-1.5 rounded-full border border-border">
-              <button 
-                onClick={handlePrevPage}
-                disabled={currentPageIndex === 0 && !nav.prev}
-                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-background hover:shadow-sm transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:shadow-none"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              
-              <div className="px-4 text-sm font-bold tabular-nums min-w-[70px] text-center">
-                {currentPageIndex + 1} / {totalPages}
+          {/* Action & Pagination Controls */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              size="sm"
+              onClick={() => setIsAiDrawerOpen(true)}
+              className="rounded-xl bg-gradient-to-r from-amber-400 to-purple-600 font-bold text-black shadow-md hover:opacity-90"
+            >
+              <Sparkles className="mr-1.5 h-4 w-4" /> Trợ lý AI
+            </Button>
+
+            {totalPages > 0 && (
+              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#1e2631] p-1">
+                <button 
+                  onClick={handlePrevPage}
+                  disabled={currentPageIndex === 0 && !nav.prev}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-white/5 disabled:opacity-30"
+                  aria-label="Trang trước"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                
+                <div className="px-3 text-xs font-bold tabular-nums min-w-[65px] text-center text-foreground">
+                  {currentPageIndex + 1} / {totalPages}
+                </div>
+                
+                <button 
+                  onClick={handleNextPage}
+                  disabled={currentPageIndex === totalPages - 1 && !nav.next}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-white/5 disabled:opacity-30"
+                  aria-label="Trang sau"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
-              
-              <button 
-                onClick={handleNextPage}
-                disabled={currentPageIndex === totalPages - 1 && !nav.next}
-                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-background hover:shadow-sm transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:shadow-none"
-              >
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         
         <ReportModal
@@ -170,8 +208,16 @@ export function ReadManga() {
           targetId={chapterId!}
         />
 
+        <AiReadingDrawer
+          isOpen={isAiDrawerOpen}
+          onClose={() => setIsAiDrawerOpen(false)}
+          contentTitle={nav.content?.title}
+          chapterNumber={nav.chapter.number}
+          chapterTitle={nav.chapter.title}
+        />
+
         {/* Image Container */}
-        <div className="flex-1 bg-black/5 dark:bg-black/40 rounded-xl overflow-hidden flex flex-col items-center justify-center min-h-[600px] border border-border/50 relative group select-none">
+        <div className="relative flex min-h-[45vh] flex-1 select-none flex-col items-center justify-center overflow-hidden rounded-2xl border border-border/80 bg-[#151b23] shadow-lg shadow-black/10 sm:min-h-[60vh] lg:min-h-[600px]">
           {totalPages === 0 ? (
             <div className="text-muted-foreground flex flex-col items-center">
               <ImageOff className="w-12 h-12 mb-4 opacity-20" />

@@ -94,7 +94,9 @@ export function ContentPricingFields({
             )}
           </div>
           <p className="text-xs text-muted-foreground sm:col-span-2">
-            Mặc định 3 chương đầu được đọc thử. Mua một lần sẽ mở khóa cả bộ.
+            Bạn có thể chọn số chương miễn phí để độc giả đọc thử; mặc định là 3,
+            nhập 0 nếu không muốn có chương miễn phí. Mua một lần sẽ mở khóa cả bộ,
+            bao gồm các chương đăng sau.
           </p>
         </div>
       )}

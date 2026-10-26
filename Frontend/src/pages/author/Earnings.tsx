@@ -6,6 +6,7 @@ import { Navigate } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useAuthStore } from '@/stores/auth-store'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 import {
   financeService,
   type PayoutProfile,
@@ -54,6 +55,7 @@ function getPayoutStatusLabel(status: PayoutRequest['status']) {
 export function Earnings() {
   const user = useAuthStore((state) => state.user)
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const [profileForm, setProfileForm] = useState<Omit<PayoutProfile, 'updatedAt'>>({
     bankName: '',
     bankBin: '',
@@ -123,18 +125,41 @@ export function Earnings() {
     setProfileForm((current) => ({ ...current, [field]: value }))
   }
 
-  const submitProfile = (event: FormEvent<HTMLFormElement>) => {
+  const submitProfile = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const currentProfile = profileQuery.data?.profile
+    if (
+      !currentProfile ||
+      currentProfile.bankName !== profileForm.bankName ||
+      currentProfile.bankBin !== profileForm.bankBin ||
+      currentProfile.bankAccountNumber !== profileForm.bankAccountNumber ||
+      currentProfile.bankAccountName !== profileForm.bankAccountName
+    ) {
+      const confirmed = await confirm({
+        title: 'Xác nhận thay đổi tài khoản nhận payout',
+        description: currentProfile
+          ? 'Cập nhật thông tin ngân hàng sẽ nhận các khoản payout trong tương lai?'
+          : 'Lưu tài khoản ngân hàng này làm nơi nhận payout?',
+        confirmLabel: 'Cập nhật tài khoản',
+      })
+      if (!confirmed) return
+    }
     setSuccessMessage('')
     updateProfileMutation.mutate(profileForm)
   }
 
-  const submitPayout = (event: FormEvent<HTMLFormElement>) => {
+  const submitPayout = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const amount = Number(amountInput)
     if (!Number.isSafeInteger(amount) || amount < (minimumQuery.data ?? 10)) {
       return
     }
+    const confirmed = await confirm({
+      title: 'Xác nhận yêu cầu rút coin',
+      description: `Gửi yêu cầu rút ${formatCoins(amount)} coin về tài khoản ngân hàng đã đăng ký? Số coin sẽ được giữ trong thời gian yêu cầu được xử lý.`,
+      confirmLabel: 'Gửi yêu cầu rút',
+    })
+    if (!confirmed) return
     setSuccessMessage('')
     payoutMutation.mutate(amount)
   }

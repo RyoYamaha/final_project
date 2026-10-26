@@ -4,6 +4,7 @@ import { contentService } from '@/services/content.service'
 import { adminService } from '@/services/admin.service'
 import { ArrowLeft, CheckCircle, Clock, ImageOff } from 'lucide-react'
 import { useState } from 'react'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 
 export function ContentDetail() {
   const { id } = useParams()
@@ -11,6 +12,7 @@ export function ContentDetail() {
   const navigate = useNavigate()
   const returnTo = (location.state as { returnTo?: string } | null)?.returnTo ?? '/admin/content/unpublished'
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const [rejectReason, setRejectReason] = useState('')
 
   const { data: content, isLoading } = useQuery({
@@ -37,6 +39,21 @@ export function ContentDetail() {
 
   if (isLoading) return <div className="p-8 text-center text-muted-foreground flex items-center justify-center min-h-[60vh]"><Clock className="w-6 h-6 animate-spin mr-2" /> Đang tải dữ liệu...</div>
   if (!content) return <div className="p-8 text-center text-destructive">Không tìm thấy nội dung</div>
+
+  const confirmContentAction = async (action: 'approve' | 'reject') => {
+    const approved = action === 'approve'
+    const confirmed = await confirm({
+      title: approved ? 'Xác nhận duyệt truyện' : 'Xác nhận từ chối truyện',
+      description: approved
+        ? `Duyệt và xuất bản "${content.title}"?`
+        : `Từ chối "${content.title}" và gửi phản hồi cho người đăng?`,
+      confirmLabel: approved ? 'Duyệt và xuất bản' : 'Từ chối truyện',
+      tone: approved ? 'default' : 'destructive',
+    })
+    if (!confirmed) return
+    if (approved) approveMutation.mutate()
+    else rejectMutation.mutate()
+  }
 
   return (
     <div className="space-y-6 max-w-[1100px] mx-auto pb-12">
@@ -210,14 +227,14 @@ export function ContentDetail() {
               </div>
               <div className="p-6 bg-muted/20 border-t border-border flex justify-between items-center">
                 <button 
-                  onClick={() => rejectMutation.mutate()}
+                  onClick={() => void confirmContentAction('reject')}
                   disabled={rejectMutation.isPending || !rejectReason.trim()}
                   className="px-6 py-2.5 rounded border border-destructive/30 text-destructive hover:bg-destructive hover:text-destructive-foreground transition-all font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Từ chối và gửi phản hồi
                 </button>
                 <button 
-                  onClick={() => approveMutation.mutate()}
+                  onClick={() => void confirmContentAction('approve')}
                   disabled={approveMutation.isPending}
                   className="px-6 py-2.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition-all font-medium text-sm flex items-center gap-2 disabled:opacity-50 shadow-sm"
                 >

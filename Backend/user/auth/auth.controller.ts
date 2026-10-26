@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, HttpCode, HttpStatus, UseGuards, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Post, Get, HttpCode, HttpStatus, UseGuards, UseInterceptors, UploadedFile, BadRequestException, Put } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -56,6 +56,24 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async getProfile(@CurrentUser('id') userId: string) {
     return this.authService.getProfile(userId);
+  }
+
+  @Get('genre-preferences')
+  @UseGuards(JwtAuthGuard)
+  async getGenrePreferences(@CurrentUser('id') userId: string) {
+    return this.authService.getGenrePreferences(userId);
+  }
+
+  @Put('genre-preferences')
+  @UseGuards(JwtAuthGuard)
+  async saveGenrePreferences(
+    @CurrentUser('id') userId: string,
+    @Body('genreIds') genreIds: string[],
+  ) {
+    if (!Array.isArray(genreIds) || genreIds.some((genreId) => typeof genreId !== 'string')) {
+      throw new BadRequestException('genreIds phải là danh sách ID thể loại');
+    }
+    return this.authService.saveGenrePreferences(userId, genreIds);
   }
 
   @Post('logout')

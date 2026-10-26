@@ -16,10 +16,13 @@ interface SidebarProps {
 
 export function Sidebar({ items, title }: SidebarProps) {
   return (
-    <aside className="hidden w-56 shrink-0 border-r border-border bg-background md:block">
-      <nav className="sticky top-14 flex flex-col gap-1 p-3" aria-label={title ?? 'Điều hướng'}>
+    <aside className="w-full shrink-0 border-b border-border bg-background/90 md:w-56 md:border-b-0 md:border-r">
+      <nav
+        className="flex gap-1 overflow-x-auto p-2 md:sticky md:top-14 md:flex-col md:overflow-visible md:p-3"
+        aria-label={title ?? 'Điều hướng'}
+      >
         {title && (
-          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <p className="hidden px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground md:block">
             {title}
           </p>
         )}
@@ -30,9 +33,9 @@ export function Sidebar({ items, title }: SidebarProps) {
             end={end}
             className={({ isActive }) =>
               cn(
-                'flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                'flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors md:w-full',
                 isActive
-                  ? 'bg-primary/10 text-primary'
+                  ? 'bg-primary/15 text-primary'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground',
               )
             }

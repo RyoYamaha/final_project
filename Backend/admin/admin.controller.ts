@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -6,6 +6,7 @@ import { Role } from '../common/constants/roles.enum';
 import { AdminService } from './admin.service';
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { CreateNovelModerationKeywordDto } from '../novel/dto/create-novel-moderation-keyword.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.Admin)
@@ -16,6 +17,21 @@ export class AdminController {
     @Get('review-queue')
     getReviewQueue() {
         return this.service.getReviewQueue();
+    }
+
+    @Get('novel-moderation/keywords')
+    getNovelModerationKeywords() {
+        return this.service.getNovelModerationKeywords();
+    }
+
+    @Post('novel-moderation/keywords')
+    addNovelModerationKeyword(@Body() dto: CreateNovelModerationKeywordDto) {
+        return this.service.addNovelModerationKeyword(dto.keyword);
+    }
+
+    @Delete('novel-moderation/keywords/:id')
+    removeNovelModerationKeyword(@Param('id') id: string) {
+        return this.service.removeNovelModerationKeyword(id);
     }
 
     @Get('chapters/:id')

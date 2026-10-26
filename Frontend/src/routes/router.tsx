@@ -35,6 +35,16 @@ function SupportAccessRoute() {
   return <Outlet />
 }
 
+function ReaderAccessRoute() {
+  const role = useAuthStore((state) => state.user?.role)
+
+  if (role !== 'Reader') {
+    return <Navigate to="/" replace />
+  }
+
+  return <Outlet />
+}
+
 export const router = createBrowserRouter([
   // Auth pages use a standalone layout without role navigation.
   {
@@ -43,6 +53,25 @@ export const router = createBrowserRouter([
     children: [
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
+    ],
+  },
+
+  {
+    path: 'onboarding',
+    element: <ProtectedRoute />,
+    errorElement: <RouteError />,
+    children: [
+      {
+        element: <ReaderAccessRoute />,
+        children: [
+          {
+            element: <BareLayout />,
+            children: [
+              { index: true, ...lazyPage(() => import('@/pages/user/Onboarding'), 'Onboarding') },
+            ],
+          },
+        ],
+      },
     ],
   },
 
@@ -63,10 +92,16 @@ export const router = createBrowserRouter([
         children: [
           { path: 'library', ...lazyPage(() => import('@/pages/user/Library'), 'Library') },
           { path: 'history', ...lazyPage(() => import('@/pages/user/History'), 'History') },
+          { path: 'settings/preferences', ...lazyPage(() => import('@/pages/user/GenrePreferences'), 'GenrePreferences') },
           { path: 'inbox', ...lazyPage(() => import('@/pages/user/Inbox'), 'Inbox') },
           { path: 'my-reports', ...lazyPage(() => import('@/pages/user/MyReports'), 'MyReports') },
-          { path: 'wallet', ...lazyPage(() => import('@/pages/user/Wallet'), 'Wallet') },
           { path: 'earnings', ...lazyPage(() => import('@/pages/author/Earnings'), 'Earnings') },
+          {
+            element: <ReaderAccessRoute />,
+            children: [
+              { path: 'wallet', ...lazyPage(() => import('@/pages/user/Wallet'), 'Wallet') },
+            ],
+          },
           {
             element: <SupportAccessRoute />,
             children: [
@@ -163,6 +198,7 @@ export const router = createBrowserRouter([
           { path: 'chapters/:id', ...lazyPage(() => import('@/pages/admin/ChapterReview'), 'ChapterReview') },
           { path: 'content/:id', ...lazyPage(() => import('@/pages/admin/ContentDetail'), 'ContentDetail') },
           { path: 'reports', ...lazyPage(() => import('@/pages/admin/Reports'), 'Reports') },
+          { path: 'novel-moderation', ...lazyPage(() => import('@/pages/admin/NovelModeration'), 'NovelModeration') },
           { path: 'users', ...lazyPage(() => import('@/pages/admin/Users'), 'Users') },
           { path: 'tickets', ...lazyPage(() => import('@/pages/admin/AdminTickets'), 'AdminTickets') },
           { path: 'payments', ...lazyPage(() => import('@/pages/admin/Payments'), 'Payments') },

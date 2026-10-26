@@ -3,12 +3,16 @@ Body,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { Roles } from '../common/decorators/roles.decorator';
+import { Role } from '../common/constants/roles.enum';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../common/guards/roles.guard';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { PaymentService } from './payment.service';
 
 @Controller('payments')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.Reader)
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 

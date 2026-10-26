@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
@@ -46,11 +46,9 @@ export class AuthService {
       throw new ConflictException('Username or email has already existed');
     }
 
-    const verificationDocumentUrl = await this.cloudinary.uploadFile(
-      file.buffer,
-      'publisher-verifications',
-      file.mimetype,
-    );
+    const verificationDocumentUrl = await this.cloudinary.uploadFile( file.buffer, 'publisher-verifications', file.mimetype,);
+    //tải một file lên Cloudinary và nhận về đường dẫn của file sau khi tải lên thành công.
+
     const passwordHash = await bcrypt.hash(dto.password, 10);
 
     // Sử dụng transaction để đảm bảo tạo User và Publisher cùng lúc (hoặc cả 2 cùng fail)
@@ -133,10 +131,73 @@ export class AuthService {
   async getProfile(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, username: true, email: true, role: true, isLocked: true },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        isLocked: true,
+        onboardingCompletedAt: true,
+      },
     });
     if (!user) throw new UnauthorizedException('User not found');
     return user;
+  }
+
+  // lưu danh sách thể loại truyện mà người dùng yêu thích khi thiết lập tài khoản lần đầu
+  async saveGenrePreferences(userId: string, genreIds: string[]) {
+    //BƯỚC 1: TẠO MẢNG LƯU ID CÁC THỂ LOẠI
+    const uniqueGenreIds = [...new Set(genreIds)];
+    //SET: loại bỏ trùng lặp từ tham số người dùng
+    //... tạo thành mảng bao gồm các di tham số người dùng 
+
+    if ( uniqueGenreIds.length !== genreIds.length || (uniqueGenreIds.length > 0 && uniqueGenreIds.length < 3) || uniqueGenreIds.length > 5
+    ) {
+      throw new BadRequestException('Chọn từ 3 đến 5 thể loại hoặc bỏ qua onboarding');
+    }
+
+
+    //BƯỚC 2 tìm xem thể loại người dùng gửi vào có tồn tại trong db không 
+    const availableGenres = await this.prisma.genre.count({ where: { id: { in: uniqueGenreIds } }, });
+    if (availableGenres !== uniqueGenreIds.length) {
+      throw new BadRequestException('Một hoặc nhiều thể loại không tồn tại');
+    } 
+
+    //BƯỚC 3: XÓA SỞ THÍCH CŨ VÀ TẠO SỞ THÍCH MỚI 
+    await this.prisma.$transaction(async (tx) => {
+      await tx.userGenrePreference.deleteMany({ where: { userId } });
+      if (uniqueGenreIds.length > 0) {
+        await tx.userGenrePreference.createMany({ data: uniqueGenreIds.map((genreId) => ({ userId, genreId })),});
+        //chuyển mỗi uniquegenreid thành 1 object gồm userId và genreId để lưu vào userGenrePreference 
+        //uniqueGenreIds chỉ cung cấp genreId; userId đã có sẵn từ tham số của hàm
+      }
+      //BƯỚC 4: UPDATE THỜI GIAN NGƯỜI DÙNG HOÀN THIỆN CHỌN SỞ THÍCH 
+      await tx.user.update({
+        where: { id: userId },
+        data: { onboardingCompletedAt: new Date() },
+      });
+    });
+
+    return this.getGenrePreferences(userId);
+  }
+
+  async getGenrePreferences(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        onboardingCompletedAt: true,
+        genrePreferences: { include: { genre: true }, orderBy: { genre: { name: 'asc' } } },
+      },
+    });
+    if (!user) throw new UnauthorizedException('User not found');
+    return {
+      onboardingCompletedAt: user.onboardingCompletedAt,
+      genres: user.genrePreferences.map(({ genre }) => genre),
+      //Lấy danh sách thể loại mà người dùng yêu thích từ user.genrePreferences, rồi tạo một mảng mới chỉ chứa thông tin của từng genre.
+      //map() duyệt từng phần tử trong genrePreferences.
+      //({ genre }) lấy riêng thuộc tính genre từ phần tử đó.
+      //=> genre trả về chính đối tượng genre vừa lấy.
+    };
   }
 
   private async issueTokens(userId: string, role: string, username?: string) {

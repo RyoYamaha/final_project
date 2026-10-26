@@ -7,6 +7,7 @@ import { isAxiosError } from 'axios'
 import { decodeJwtPayload } from '@/lib/jwt'
 import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/stores/auth-store'
+import type { User as UserProfile } from '@/types/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -48,6 +49,8 @@ export function Register() {
   // 2. KẾT NỐI VỚI STATE GLOBAL (ZUSTAND STORE)
   // ==========================================
   const setAuth = useAuthStore((s) => s.setAuth)
+  const setAccessToken = useAuthStore((s) => s.setAccessToken)
+  const clearAuth = useAuthStore((s) => s.clearAuth)
   const user = useAuthStore((s) => s.user)
   const [serverError, setServerError] = useState<string | null>(null)
   const [verificationFile, setVerificationFile] = useState<File | null>(null)
@@ -101,13 +104,31 @@ export function Register() {
       const { data } = response;
       const payload = decodeJwtPayload(data.accessToken)
 
+      let profile: UserProfile | undefined
+      if (values.role === 'Reader') {
+        setAccessToken(data.accessToken)
+        try {
+          profile = (await authService.me()).data
+        } catch (error) {
+          clearAuth()
+          throw error
+        }
+      }
       setAuth(data.accessToken, data.refreshToken, {
+        ...profile,
         id: payload.sub,
         role: payload.role,
         username: payload.username ?? values.username,
       })
 
-      navigate(values.role === 'Publisher' ? '/publisher/status' : '/', { replace: true })
+      navigate(
+        values.role === 'Publisher'
+          ? '/publisher/status'
+          : values.role === 'Reader'
+            ? '/onboarding'
+            : '/',
+        { replace: true },
+      )
     } catch (err) {
       const status = isAxiosError(err) ? err.response?.status : undefined
       setServerError(

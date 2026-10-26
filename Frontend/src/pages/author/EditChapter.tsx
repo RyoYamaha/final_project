@@ -5,11 +5,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+import { contentService } from '@/services/content.service'
 import { chapterService } from '@/services/chapter.service'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { X, ImagePlus, Loader2, ArrowLeft, Clock } from 'lucide-react'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 
 const schema = z.object({
   title: z.string().trim().max(255, 'Tối đa 255 ký tự').optional(),
@@ -25,6 +27,7 @@ export function EditChapter() {
   const { id, chapterId } = useParams<{ id: string; chapterId: string }>()
   const navigate = useNavigate()
   const qc = useQueryClient()
+  const { confirm } = useAppDialog()
 
   const [items, setItems] = useState<PageItem[]>([])
   const [deletedPageIds, setDeletedPageIds] = useState<string[]>([])
@@ -146,6 +149,15 @@ export function EditChapter() {
     if (type === 'Manga' && items.length === 0) {
       setError('Chapter phải có ít nhất 1 trang ảnh.')
       return
+    }
+    if (deletedPageIds.length > 0) {
+      const confirmed = await confirm({
+        title: 'Xác nhận xóa trang truyện',
+        description: `Bạn sắp xóa ${deletedPageIds.length} trang ảnh khỏi chapter. Thay đổi này không thể hoàn tác. Tiếp tục lưu?`,
+        confirmLabel: 'Xóa trang và lưu',
+        tone: 'destructive',
+      })
+      if (!confirmed) return
     }
     
     try {

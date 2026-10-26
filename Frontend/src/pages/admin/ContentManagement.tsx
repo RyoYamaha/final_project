@@ -2,9 +2,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { adminService } from '@/services/admin.service'
 import { Link } from 'react-router'
 import { Button } from '@/components/ui/button'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 
 export function ContentManagement() {
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const { data: contents = [], isLoading, isError } = useQuery({
     queryKey: ['admin-content'],
     queryFn: adminService.getAllContents,
@@ -14,6 +16,16 @@ export function ContentManagement() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-content'] }),
   })
   const publishedContents = contents.filter((content) => content.publicationStatus === 'Published')
+
+  const confirmHideContent = async (contentId: string, title: string) => {
+    const confirmed = await confirm({
+      title: 'Xác nhận ẩn truyện',
+      description: `Ẩn "${title}" khỏi danh sách truyện công khai?`,
+      confirmLabel: 'Ẩn truyện',
+      tone: 'destructive',
+    })
+    if (confirmed) hideContent.mutate(contentId)
+  }
 
   return (
     <div className="space-y-6">
@@ -59,7 +71,7 @@ export function ContentManagement() {
                         size="sm"
                         variant="ghost"
                         disabled={hideContent.isPending}
-                        onClick={() => hideContent.mutate(c.id)}
+                        onClick={() => void confirmHideContent(c.id, c.title)}
                       >
                         Ẩn truyện
                       </Button>

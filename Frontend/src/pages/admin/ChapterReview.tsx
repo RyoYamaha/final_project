@@ -4,12 +4,14 @@ import { ArrowLeft, Clock } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { adminService } from '@/services/admin.service'
+import { useAppDialog } from '@/components/common/AppDialogProvider'
 
 export function ChapterReview() {
   const { id } = useParams()
   const location = useLocation()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { confirm } = useAppDialog()
   const [error, setError] = useState<string | null>(null)
   const returnTo = (location.state as { returnTo?: string } | null)?.returnTo
 
@@ -48,6 +50,20 @@ export function ChapterReview() {
   const data = chapter.data
   const textBody = data.chapterContent?.textBody ?? ''
   const canModerate = data.moderationStatus === 'PendingReview'
+
+  const confirmReview = async (action: 'approve' | 'reject') => {
+    const approved = action === 'approve'
+    const confirmed = await confirm({
+      title: approved ? 'Xác nhận duyệt chapter' : 'Xác nhận từ chối chapter',
+      description: `${approved ? 'Duyệt và xuất bản' : 'Từ chối'} chapter ${data.number}${data.title ? `: ${data.title}` : ''}?`,
+      confirmLabel: approved ? 'Duyệt chapter' : 'Từ chối chapter',
+      tone: approved ? 'default' : 'destructive',
+    })
+    if (confirmed) {
+      setError(null)
+      review.mutate(action)
+    }
+  }
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-10">
@@ -101,10 +117,10 @@ export function ChapterReview() {
 
       {canModerate && (
         <div className="flex justify-end gap-3 border-t border-border pt-4">
-          <Button variant="outline" disabled={review.isPending} onClick={() => { setError(null); review.mutate('reject') }}>
+          <Button variant="outline" disabled={review.isPending} onClick={() => void confirmReview('reject')}>
             Từ chối chapter
           </Button>
-          <Button disabled={review.isPending || (!textBody.trim() && data.pages.length === 0)} onClick={() => { setError(null); review.mutate('approve') }}>
+          <Button disabled={review.isPending || (!textBody.trim() && data.pages.length === 0)} onClick={() => void confirmReview('approve')}>
             Duyệt chapter
           </Button>
         </div>

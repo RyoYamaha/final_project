@@ -8,6 +8,7 @@ interface AuthState {
   user: User | null
   isAuthenticated: boolean
   setAuth: (accessToken: string, refreshToken: string, user: User) => void
+  setUser: (user: User) => void
   setAccessToken: (accessToken: string) => void
   clearAuth: () => void
   getRefreshToken: () => string | null
@@ -30,6 +31,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       isAuthenticated: true,
     })
   },
+  setUser: (user: User) => set({ user }),
 
   // 3. KHI CẤP LẠI TOKEN MỚI (sau khi tự động refresh thành công):
   setAccessToken: (accessToken: string) => {

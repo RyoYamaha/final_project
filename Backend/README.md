@@ -198,6 +198,12 @@ that reservation, and marking it Paid records completion. The bank details are
 copied into each request so later profile edits do not change an existing
 payout destination. The default `payout.holdDays` setting is 0.
 
+The Admin payout screen generates a VietQR transfer for each pending request.
+Payout conversion is 1 coin = 1,000 VND; the QR includes the snapshotted bank
+account, converted VND amount, and a unique `NOVAPAY-...` transfer reference.
+Admins should confirm the request as Paid only after the bank reports a
+successful transfer.
+
 Administrators can list pending payouts at `GET /admin/payout/requests`, mark a
 manual bank transfer Paid with `PATCH /admin/payout/requests/:id/paid`, reject
 with `PATCH /admin/payout/requests/:id/reject`, update the minimum using

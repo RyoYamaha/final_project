@@ -6,6 +6,7 @@ import { ContentService } from '../core/content/content.service';
 import { ChapterService } from '../core/chapter/chapter.service';
 import { PublisherService } from '../publisher/publisher.service';
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
+import { NovelModerationService } from '../novel/novel-moderation.service';
 
 @Injectable()
 export class AdminService{
@@ -14,7 +15,17 @@ export class AdminService{
         private readonly contentService: ContentService,
         private readonly chapterService: ChapterService,
         private readonly publisherService: PublisherService,
+        private readonly novelModerationService: NovelModerationService,
     ){}
+    getNovelModerationKeywords() {
+        return this.novelModerationService.getKeywords();
+    }
+    addNovelModerationKeyword(keyword: string) {
+        return this.novelModerationService.addKeyword(keyword);
+    }
+    removeNovelModerationKeyword(id: string) {
+        return this.novelModerationService.removeKeyword(id);
+    }
     ApproveContent(id: string){
         return this.contentService.approve(id);
     }

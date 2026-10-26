@@ -34,6 +34,7 @@ export type UserMinAggregateOutputType = {
   isLocked: boolean | null
   payoutBlocked: boolean | null
   createdAt: Date | null
+  onboardingCompletedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type UserMaxAggregateOutputType = {
   isLocked: boolean | null
   payoutBlocked: boolean | null
   createdAt: Date | null
+  onboardingCompletedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -58,6 +60,7 @@ export type UserCountAggregateOutputType = {
   isLocked: number
   payoutBlocked: number
   createdAt: number
+  onboardingCompletedAt: number
   _all: number
 }
 
@@ -72,6 +75,7 @@ export type UserMinAggregateInputType = {
   isLocked?: true
   payoutBlocked?: true
   createdAt?: true
+  onboardingCompletedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -84,6 +88,7 @@ export type UserMaxAggregateInputType = {
   isLocked?: true
   payoutBlocked?: true
   createdAt?: true
+  onboardingCompletedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -96,6 +101,7 @@ export type UserCountAggregateInputType = {
   isLocked?: true
   payoutBlocked?: true
   createdAt?: true
+  onboardingCompletedAt?: true
   _all?: true
 }
 
@@ -181,6 +187,7 @@ export type UserGroupByOutputType = {
   isLocked: boolean
   payoutBlocked: boolean
   createdAt: Date
+  onboardingCompletedAt: Date | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -214,11 +221,13 @@ export type UserWhereInput = {
   isLocked?: Prisma.BoolFilter<"User"> | boolean
   payoutBlocked?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  onboardingCompletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   uploadedContents?: Prisma.ContentListRelationFilter
   publisherProfile?: Prisma.XOR<Prisma.PublisherNullableScalarRelationFilter, Prisma.PublisherWhereInput> | null
   bookmarks?: Prisma.BookmarkListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
   ratings?: Prisma.RatingListRelationFilter
+  genrePreferences?: Prisma.UserGenrePreferenceListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   readingProgress?: Prisma.ReadingProgressListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
@@ -250,11 +259,13 @@ export type UserOrderByWithRelationInput = {
   isLocked?: Prisma.SortOrder
   payoutBlocked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboardingCompletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   uploadedContents?: Prisma.ContentOrderByRelationAggregateInput
   publisherProfile?: Prisma.PublisherOrderByWithRelationInput
   bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
   ratings?: Prisma.RatingOrderByRelationAggregateInput
+  genrePreferences?: Prisma.UserGenrePreferenceOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   readingProgress?: Prisma.ReadingProgressOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
@@ -289,11 +300,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   isLocked?: Prisma.BoolFilter<"User"> | boolean
   payoutBlocked?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  onboardingCompletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   uploadedContents?: Prisma.ContentListRelationFilter
   publisherProfile?: Prisma.XOR<Prisma.PublisherNullableScalarRelationFilter, Prisma.PublisherWhereInput> | null
   bookmarks?: Prisma.BookmarkListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
   ratings?: Prisma.RatingListRelationFilter
+  genrePreferences?: Prisma.UserGenrePreferenceListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   readingProgress?: Prisma.ReadingProgressListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
@@ -325,6 +338,7 @@ export type UserOrderByWithAggregationInput = {
   isLocked?: Prisma.SortOrder
   payoutBlocked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboardingCompletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -343,6 +357,7 @@ export type UserScalarWhereWithAggregatesInput = {
   isLocked?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   payoutBlocked?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  onboardingCompletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -355,11 +370,13 @@ export type UserCreateInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -391,11 +408,13 @@ export type UserUncheckedCreateInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -427,11 +446,13 @@ export type UserUpdateInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -463,11 +484,13 @@ export type UserUncheckedUpdateInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -499,6 +522,7 @@ export type UserCreateManyInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -511,6 +535,7 @@ export type UserUpdateManyMutationInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -523,6 +548,7 @@ export type UserUncheckedUpdateManyInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -540,6 +566,7 @@ export type UserCountOrderByAggregateInput = {
   isLocked?: Prisma.SortOrder
   payoutBlocked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboardingCompletedAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -552,6 +579,7 @@ export type UserMaxOrderByAggregateInput = {
   isLocked?: Prisma.SortOrder
   payoutBlocked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboardingCompletedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -564,6 +592,7 @@ export type UserMinOrderByAggregateInput = {
   isLocked?: Prisma.SortOrder
   payoutBlocked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboardingCompletedAt?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -583,6 +612,20 @@ export type UserUpdateOneRequiredWithoutUploadedContentsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutUploadedContentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUploadedContentsInput, Prisma.UserUpdateWithoutUploadedContentsInput>, Prisma.UserUncheckedUpdateWithoutUploadedContentsInput>
+}
+
+export type UserCreateNestedOneWithoutGenrePreferencesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGenrePreferencesInput, Prisma.UserUncheckedCreateWithoutGenrePreferencesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGenrePreferencesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGenrePreferencesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGenrePreferencesInput, Prisma.UserUncheckedCreateWithoutGenrePreferencesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGenrePreferencesInput
+  upsert?: Prisma.UserUpsertWithoutGenrePreferencesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGenrePreferencesInput, Prisma.UserUpdateWithoutGenrePreferencesInput>, Prisma.UserUncheckedUpdateWithoutGenrePreferencesInput>
 }
 
 export type UserCreateNestedOneWithoutPublisherProfileInput = {
@@ -921,10 +964,12 @@ export type UserCreateWithoutUploadedContentsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -956,10 +1001,12 @@ export type UserUncheckedCreateWithoutUploadedContentsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1007,10 +1054,12 @@ export type UserUpdateWithoutUploadedContentsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1042,6 +1091,172 @@ export type UserUncheckedUpdateWithoutUploadedContentsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUncheckedUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUncheckedUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedUpdateManyWithoutUserNestedInput
+  processedBankTransactions?: Prisma.BankTransactionUncheckedUpdateManyWithoutProcessedByNestedInput
+  walletLedger?: Prisma.WalletLedgerUncheckedUpdateManyWithoutUserNestedInput
+  contentPurchases?: Prisma.ContentPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  payoutProfile?: Prisma.PayoutProfileUncheckedUpdateOneWithoutUserNestedInput
+  creatorRevenue?: Prisma.CreatorRevenueUncheckedUpdateManyWithoutCreatorNestedInput
+  payoutRequests?: Prisma.PayoutRequestUncheckedUpdateManyWithoutUserNestedInput
+  processedPayoutRequests?: Prisma.PayoutRequestUncheckedUpdateManyWithoutProcessedByNestedInput
+}
+
+export type UserCreateWithoutGenrePreferencesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  payoutBlocked?: boolean
+  createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
+  uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderCreateNestedManyWithoutUserInput
+  processedBankTransactions?: Prisma.BankTransactionCreateNestedManyWithoutProcessedByInput
+  walletLedger?: Prisma.WalletLedgerCreateNestedManyWithoutUserInput
+  contentPurchases?: Prisma.ContentPurchaseCreateNestedManyWithoutUserInput
+  payoutProfile?: Prisma.PayoutProfileCreateNestedOneWithoutUserInput
+  creatorRevenue?: Prisma.CreatorRevenueCreateNestedManyWithoutCreatorInput
+  payoutRequests?: Prisma.PayoutRequestCreateNestedManyWithoutUserInput
+  processedPayoutRequests?: Prisma.PayoutRequestCreateNestedManyWithoutProcessedByInput
+}
+
+export type UserUncheckedCreateWithoutGenrePreferencesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: string
+  bio?: string | null
+  isLocked?: boolean
+  payoutBlocked?: boolean
+  createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
+  uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
+  publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  aiConversations?: Prisma.AIConversationUncheckedCreateNestedManyWithoutUserInput
+  recommendations?: Prisma.RecommendationCacheUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketMessages?: Prisma.TicketMessageUncheckedCreateNestedManyWithoutSenderInput
+  chapterReads?: Prisma.ChapterReadUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  paymentOrders?: Prisma.PaymentOrderUncheckedCreateNestedManyWithoutUserInput
+  processedBankTransactions?: Prisma.BankTransactionUncheckedCreateNestedManyWithoutProcessedByInput
+  walletLedger?: Prisma.WalletLedgerUncheckedCreateNestedManyWithoutUserInput
+  contentPurchases?: Prisma.ContentPurchaseUncheckedCreateNestedManyWithoutUserInput
+  payoutProfile?: Prisma.PayoutProfileUncheckedCreateNestedOneWithoutUserInput
+  creatorRevenue?: Prisma.CreatorRevenueUncheckedCreateNestedManyWithoutCreatorInput
+  payoutRequests?: Prisma.PayoutRequestUncheckedCreateNestedManyWithoutUserInput
+  processedPayoutRequests?: Prisma.PayoutRequestUncheckedCreateNestedManyWithoutProcessedByInput
+}
+
+export type UserCreateOrConnectWithoutGenrePreferencesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGenrePreferencesInput, Prisma.UserUncheckedCreateWithoutGenrePreferencesInput>
+}
+
+export type UserUpsertWithoutGenrePreferencesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGenrePreferencesInput, Prisma.UserUncheckedUpdateWithoutGenrePreferencesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGenrePreferencesInput, Prisma.UserUncheckedCreateWithoutGenrePreferencesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGenrePreferencesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGenrePreferencesInput, Prisma.UserUncheckedUpdateWithoutGenrePreferencesInput>
+}
+
+export type UserUpdateWithoutGenrePreferencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
+  publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  aiConversations?: Prisma.AIConversationUpdateManyWithoutUserNestedInput
+  recommendations?: Prisma.RecommendationCacheUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketMessages?: Prisma.TicketMessageUpdateManyWithoutSenderNestedInput
+  chapterReads?: Prisma.ChapterReadUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  paymentOrders?: Prisma.PaymentOrderUpdateManyWithoutUserNestedInput
+  processedBankTransactions?: Prisma.BankTransactionUpdateManyWithoutProcessedByNestedInput
+  walletLedger?: Prisma.WalletLedgerUpdateManyWithoutUserNestedInput
+  contentPurchases?: Prisma.ContentPurchaseUpdateManyWithoutUserNestedInput
+  payoutProfile?: Prisma.PayoutProfileUpdateOneWithoutUserNestedInput
+  creatorRevenue?: Prisma.CreatorRevenueUpdateManyWithoutCreatorNestedInput
+  payoutRequests?: Prisma.PayoutRequestUpdateManyWithoutUserNestedInput
+  processedPayoutRequests?: Prisma.PayoutRequestUpdateManyWithoutProcessedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGenrePreferencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -1077,10 +1292,12 @@ export type UserCreateWithoutPublisherProfileInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -1112,10 +1329,12 @@ export type UserUncheckedCreateWithoutPublisherProfileInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1163,10 +1382,12 @@ export type UserUpdateWithoutPublisherProfileInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1198,10 +1419,12 @@ export type UserUncheckedUpdateWithoutPublisherProfileInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1233,11 +1456,13 @@ export type UserCreateWithoutWalletInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -1268,11 +1493,13 @@ export type UserUncheckedCreateWithoutWalletInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1319,11 +1546,13 @@ export type UserUpdateWithoutWalletInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1354,11 +1583,13 @@ export type UserUncheckedUpdateWithoutWalletInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1389,11 +1620,13 @@ export type UserCreateWithoutPaymentOrdersInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -1424,11 +1657,13 @@ export type UserUncheckedCreateWithoutPaymentOrdersInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1475,11 +1710,13 @@ export type UserUpdateWithoutPaymentOrdersInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1510,11 +1747,13 @@ export type UserUncheckedUpdateWithoutPaymentOrdersInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1545,11 +1784,13 @@ export type UserCreateWithoutProcessedBankTransactionsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -1580,11 +1821,13 @@ export type UserUncheckedCreateWithoutProcessedBankTransactionsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1631,11 +1874,13 @@ export type UserUpdateWithoutProcessedBankTransactionsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1666,11 +1911,13 @@ export type UserUncheckedUpdateWithoutProcessedBankTransactionsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1701,11 +1948,13 @@ export type UserCreateWithoutWalletLedgerInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -1736,11 +1985,13 @@ export type UserUncheckedCreateWithoutWalletLedgerInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1787,11 +2038,13 @@ export type UserUpdateWithoutWalletLedgerInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1822,11 +2075,13 @@ export type UserUncheckedUpdateWithoutWalletLedgerInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1857,11 +2112,13 @@ export type UserCreateWithoutContentPurchasesInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -1892,11 +2149,13 @@ export type UserUncheckedCreateWithoutContentPurchasesInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1943,11 +2202,13 @@ export type UserUpdateWithoutContentPurchasesInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -1978,11 +2239,13 @@ export type UserUncheckedUpdateWithoutContentPurchasesInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2013,11 +2276,13 @@ export type UserCreateWithoutCreatorRevenueInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2048,11 +2313,13 @@ export type UserUncheckedCreateWithoutCreatorRevenueInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2099,11 +2366,13 @@ export type UserUpdateWithoutCreatorRevenueInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -2134,11 +2403,13 @@ export type UserUncheckedUpdateWithoutCreatorRevenueInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2169,11 +2440,13 @@ export type UserCreateWithoutPayoutProfileInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2204,11 +2477,13 @@ export type UserUncheckedCreateWithoutPayoutProfileInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2255,11 +2530,13 @@ export type UserUpdateWithoutPayoutProfileInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -2290,11 +2567,13 @@ export type UserUncheckedUpdateWithoutPayoutProfileInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2325,11 +2604,13 @@ export type UserCreateWithoutPayoutRequestsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2360,11 +2641,13 @@ export type UserUncheckedCreateWithoutPayoutRequestsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2400,11 +2683,13 @@ export type UserCreateWithoutProcessedPayoutRequestsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2435,11 +2720,13 @@ export type UserUncheckedCreateWithoutProcessedPayoutRequestsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2486,11 +2773,13 @@ export type UserUpdateWithoutPayoutRequestsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -2521,11 +2810,13 @@ export type UserUncheckedUpdateWithoutPayoutRequestsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2567,11 +2858,13 @@ export type UserUpdateWithoutProcessedPayoutRequestsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -2602,11 +2895,13 @@ export type UserUncheckedUpdateWithoutProcessedPayoutRequestsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2637,10 +2932,12 @@ export type UserCreateWithoutBookmarksInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2672,10 +2969,12 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2723,10 +3022,12 @@ export type UserUpdateWithoutBookmarksInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -2758,10 +3059,12 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2793,10 +3096,12 @@ export type UserCreateWithoutFavoritesInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2828,10 +3133,12 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2879,10 +3186,12 @@ export type UserUpdateWithoutFavoritesInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -2914,10 +3223,12 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2949,10 +3260,12 @@ export type UserCreateWithoutRatingsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -2984,10 +3297,12 @@ export type UserUncheckedCreateWithoutRatingsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -3035,10 +3350,12 @@ export type UserUpdateWithoutRatingsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -3070,10 +3387,12 @@ export type UserUncheckedUpdateWithoutRatingsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -3105,11 +3424,13 @@ export type UserCreateWithoutCommentsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
@@ -3140,11 +3461,13 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
@@ -3191,11 +3514,13 @@ export type UserUpdateWithoutCommentsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
@@ -3226,11 +3551,13 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
@@ -3261,11 +3588,13 @@ export type UserCreateWithoutReadingProgressInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
@@ -3296,11 +3625,13 @@ export type UserUncheckedCreateWithoutReadingProgressInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
@@ -3347,11 +3678,13 @@ export type UserUpdateWithoutReadingProgressInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
@@ -3382,11 +3715,13 @@ export type UserUncheckedUpdateWithoutReadingProgressInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
@@ -3417,11 +3752,13 @@ export type UserCreateWithoutChapterReadsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -3452,11 +3789,13 @@ export type UserUncheckedCreateWithoutChapterReadsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -3503,11 +3842,13 @@ export type UserUpdateWithoutChapterReadsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -3538,11 +3879,13 @@ export type UserUncheckedUpdateWithoutChapterReadsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -3573,11 +3916,13 @@ export type UserCreateWithoutNotificationsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   reportsFiled?: Prisma.ReportCreateNestedManyWithoutReporterInput
@@ -3608,11 +3953,13 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   reportsFiled?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
@@ -3659,11 +4006,13 @@ export type UserUpdateWithoutNotificationsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   reportsFiled?: Prisma.ReportUpdateManyWithoutReporterNestedInput
@@ -3694,11 +4043,13 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   reportsFiled?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
@@ -3729,11 +4080,13 @@ export type UserCreateWithoutReportsFiledInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -3764,11 +4117,13 @@ export type UserUncheckedCreateWithoutReportsFiledInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -3815,11 +4170,13 @@ export type UserUpdateWithoutReportsFiledInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -3850,11 +4207,13 @@ export type UserUncheckedUpdateWithoutReportsFiledInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -3885,11 +4244,13 @@ export type UserCreateWithoutRefreshTokensInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -3920,11 +4281,13 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -3971,11 +4334,13 @@ export type UserUpdateWithoutRefreshTokensInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -4006,11 +4371,13 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -4041,11 +4408,13 @@ export type UserCreateWithoutAiConversationsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -4076,11 +4445,13 @@ export type UserUncheckedCreateWithoutAiConversationsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -4127,11 +4498,13 @@ export type UserUpdateWithoutAiConversationsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -4162,11 +4535,13 @@ export type UserUncheckedUpdateWithoutAiConversationsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -4197,11 +4572,13 @@ export type UserCreateWithoutRecommendationsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -4232,11 +4609,13 @@ export type UserUncheckedCreateWithoutRecommendationsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -4283,11 +4662,13 @@ export type UserUpdateWithoutRecommendationsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -4318,11 +4699,13 @@ export type UserUncheckedUpdateWithoutRecommendationsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -4353,11 +4736,13 @@ export type UserCreateWithoutSupportTicketsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -4388,11 +4773,13 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -4439,11 +4826,13 @@ export type UserUpdateWithoutSupportTicketsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -4474,11 +4863,13 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -4509,11 +4900,13 @@ export type UserCreateWithoutTicketMessagesInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
@@ -4544,11 +4937,13 @@ export type UserUncheckedCreateWithoutTicketMessagesInput = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: Date | string
+  onboardingCompletedAt?: Date | string | null
   uploadedContents?: Prisma.ContentUncheckedCreateNestedManyWithoutUploaderInput
   publisherProfile?: Prisma.PublisherUncheckedCreateNestedOneWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   readingProgress?: Prisma.ReadingProgressUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -4595,11 +4990,13 @@ export type UserUpdateWithoutTicketMessagesInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
@@ -4630,11 +5027,13 @@ export type UserUncheckedUpdateWithoutTicketMessagesInput = {
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   payoutBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploadedContents?: Prisma.ContentUncheckedUpdateManyWithoutUploaderNestedInput
   publisherProfile?: Prisma.PublisherUncheckedUpdateOneWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  genrePreferences?: Prisma.UserGenrePreferenceUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   readingProgress?: Prisma.ReadingProgressUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -4665,6 +5064,7 @@ export type UserCountOutputType = {
   bookmarks: number
   favorites: number
   ratings: number
+  genrePreferences: number
   comments: number
   readingProgress: number
   notifications: number
@@ -4689,6 +5089,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   bookmarks?: boolean | UserCountOutputTypeCountBookmarksArgs
   favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
   ratings?: boolean | UserCountOutputTypeCountRatingsArgs
+  genrePreferences?: boolean | UserCountOutputTypeCountGenrePreferencesArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   readingProgress?: boolean | UserCountOutputTypeCountReadingProgressArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
@@ -4744,6 +5145,13 @@ export type UserCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.
  */
 export type UserCountOutputTypeCountRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RatingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGenrePreferencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserGenrePreferenceWhereInput
 }
 
 /**
@@ -4876,11 +5284,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: boolean
+  onboardingCompletedAt?: boolean
   uploadedContents?: boolean | Prisma.User$uploadedContentsArgs<ExtArgs>
   publisherProfile?: boolean | Prisma.User$publisherProfileArgs<ExtArgs>
   bookmarks?: boolean | Prisma.User$bookmarksArgs<ExtArgs>
   favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
   ratings?: boolean | Prisma.User$ratingsArgs<ExtArgs>
+  genrePreferences?: boolean | Prisma.User$genrePreferencesArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   readingProgress?: boolean | Prisma.User$readingProgressArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
@@ -4915,15 +5325,17 @@ export type UserSelectScalar = {
   isLocked?: boolean
   payoutBlocked?: boolean
   createdAt?: boolean
+  onboardingCompletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "role" | "bio" | "isLocked" | "payoutBlocked" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "role" | "bio" | "isLocked" | "payoutBlocked" | "createdAt" | "onboardingCompletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   uploadedContents?: boolean | Prisma.User$uploadedContentsArgs<ExtArgs>
   publisherProfile?: boolean | Prisma.User$publisherProfileArgs<ExtArgs>
   bookmarks?: boolean | Prisma.User$bookmarksArgs<ExtArgs>
   favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
   ratings?: boolean | Prisma.User$ratingsArgs<ExtArgs>
+  genrePreferences?: boolean | Prisma.User$genrePreferencesArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   readingProgress?: boolean | Prisma.User$readingProgressArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
@@ -4954,6 +5366,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
     ratings: Prisma.$RatingPayload<ExtArgs>[]
+    genrePreferences: Prisma.$UserGenrePreferencePayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     readingProgress: Prisma.$ReadingProgressPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
@@ -4984,6 +5397,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     isLocked: boolean
     payoutBlocked: boolean
     createdAt: Date
+    onboardingCompletedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -5329,6 +5743,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   bookmarks<T extends Prisma.User$bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.User$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ratings<T extends Prisma.User$ratingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  genrePreferences<T extends Prisma.User$genrePreferencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$genrePreferencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserGenrePreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   readingProgress<T extends Prisma.User$readingProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$readingProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReadingProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5386,6 +5801,7 @@ export interface UserFieldRefs {
   readonly isLocked: Prisma.FieldRef<"User", 'Boolean'>
   readonly payoutBlocked: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly onboardingCompletedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -5845,6 +6261,30 @@ export type User$ratingsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.RatingScalarFieldEnum | Prisma.RatingScalarFieldEnum[]
+}
+
+/**
+ * User.genrePreferences
+ */
+export type User$genrePreferencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserGenrePreference
+   */
+  select?: Prisma.UserGenrePreferenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserGenrePreference
+   */
+  omit?: Prisma.UserGenrePreferenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserGenrePreferenceInclude<ExtArgs> | null
+  where?: Prisma.UserGenrePreferenceWhereInput
+  orderBy?: Prisma.UserGenrePreferenceOrderByWithRelationInput | Prisma.UserGenrePreferenceOrderByWithRelationInput[]
+  cursor?: Prisma.UserGenrePreferenceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserGenrePreferenceScalarFieldEnum | Prisma.UserGenrePreferenceScalarFieldEnum[]
 }
 
 /**

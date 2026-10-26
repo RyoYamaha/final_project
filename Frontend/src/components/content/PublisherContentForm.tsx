@@ -7,11 +7,13 @@ import { z } from 'zod'
 import { isAxiosError } from 'axios'
 import { publisherService } from '@/services/publisher.service'
 import { contentService } from '@/services/content.service'
+import { financeService } from '@/services/finance.service'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { TagInput } from '@/components/ui/tag-input'
 import { ContentPricingFields } from '@/components/content/ContentPricingFields'
+import { PaidContentPayoutNotice } from '@/components/content/PaidContentPayoutNotice'
 import type { ContentType } from '@/types/content'
 
 const schema = z.object({
@@ -67,8 +69,32 @@ export function PublisherContentForm({ type }: Props) {
     },
   })
 
+  const pricingType = watch('pricingType')
+  const payoutProfileQuery = useQuery({
+    queryKey: ['payout', 'profile'],
+    queryFn: async () => (await financeService.getPayoutProfile()).data,
+    enabled: pricingType === 'paid',
+  })
+  const payoutProfile = payoutProfileQuery.data?.profile
+  const hasPayoutProfile = Boolean(
+    payoutProfile?.bankName.trim() &&
+      payoutProfile.bankBin.trim() &&
+      payoutProfile.bankAccountNumber.trim() &&
+      payoutProfile.bankAccountName.trim(),
+  )
+
   const onSubmit = async (v: FormValues) => {
     setServerError(null)
+
+    if (
+      v.pricingType === 'paid' &&
+      (!hasPayoutProfile || payoutProfileQuery.isLoading || payoutProfileQuery.isError)
+    ) {
+      setServerError(
+        'Vui lòng hoàn tất thông tin tài khoản nhận tiền trước khi đăng truyện trả phí.',
+      )
+      return
+    }
 
     let coverUrl: string | undefined = undefined
     if (coverFile) {
@@ -99,9 +125,13 @@ export function PublisherContentForm({ type }: Props) {
       navigate('/publisher/dashboard', { replace: true })
     } catch (err) {
       const status = isAxiosError(err) ? err.response?.status : undefined
+      const responseMessage =
+        isAxiosError(err) && typeof err.response?.data?.message === 'string'
+          ? err.response.data.message
+          : undefined
       setServerError(
         status === 400
-          ? 'Thông tin không hợp lệ.'
+          ? responseMessage || 'Thông tin không hợp lệ.'
           : status === 403
             ? 'Bạn không có quyền thực hiện thao tác này.'
             : 'Không kết nối được máy chủ. Thử lại sau.',
@@ -128,7 +158,7 @@ export function PublisherContentForm({ type }: Props) {
       </div>
 
       <ContentPricingFields
-        pricingType={watch('pricingType')}
+        pricingType={pricingType}
         priceCoins={watch('priceCoins')}
         freeChapters={watch('freeChapters')}
         allowCommunityTranslation={watch('allowCommunityTranslation')}
@@ -150,6 +180,13 @@ export function PublisherContentForm({ type }: Props) {
         }
         showCommunityTranslation
       />
+      {pricingType === 'paid' && (
+        <PaidContentPayoutNotice
+          isLoading={payoutProfileQuery.isLoading}
+          isError={payoutProfileQuery.isError}
+          isConfigured={hasPayoutProfile}
+        />
+      )}
 
       <div className="space-y-6 pt-4 border-t border-border/50">
         <h3 className="text-sm font-bold tracking-wider text-muted-foreground uppercase">Genre & Tags</h3>
@@ -201,7 +238,16 @@ export function PublisherContentForm({ type }: Props) {
       </div>
 
       {serverError && <p className="text-sm text-red-600">{serverError}</p>}
-      <Button type="submit" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        disabled={
+          isSubmitting ||
+          (pricingType === 'paid' &&
+            (payoutProfileQuery.isLoading ||
+              payoutProfileQuery.isError ||
+              !hasPayoutProfile))
+        }
+      >
         {isSubmitting ? 'Đang gửi...' : 'Tạo truyện'}
       </Button>
     </form>

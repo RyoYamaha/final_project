@@ -26,6 +26,7 @@ import { ChapterService } from '../core/chapter/chapter.service';
 import { CloudinaryService } from '../common/cloudinary/cloudinary.service';
 import { isCommunityTranslationVisible } from '../core/content/content-visibility';
 import { UnlockService } from '../unlock/unlock.service';
+import { NovelModerationService } from './novel-moderation.service';
 
 
 ////////////////////////////PDF TỐI ĐA 200 TRANG ////////////////////////////////////////////////////
@@ -44,6 +45,7 @@ export class NovelService {
     private readonly chapterService: ChapterService,
     private readonly cloudinary: CloudinaryService,
     private readonly unlockService: UnlockService,
+    private readonly novelModerationService: NovelModerationService,
   ) { }
 
 
@@ -53,13 +55,22 @@ export class NovelService {
   async setChapterText(chapterId: string, uploaderId: string, textBody: string) {
 
     //BƯỚC 1: TÌM CHAPTER XEM CỐ TỒN TẠI KHÔNG
-    const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId } });
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+      include: {
+        content: {
+          select: { type: true, title: true },
+        },
+      },
+    });
     if (!chapter) {
       throw new BadRequestException('Không tìm thấy Chapter');
     }
-
     //BƯỚC 2: KIỂM TRA QUYỀN CHỈNH SỬA
     await this.chapterService.verifyOwnership(chapter.contentId, uploaderId);
+    if (chapter.content.type !== 'Novel') {
+      throw new BadRequestException('Chỉ có thể lưu nội dung text cho Novel');
+    }
 
 
     //BƯỚC 3: LƯU NỘI DUNG HOẶC TẠO NỘI DUNG MỚI THÔNG QUA UPSERT
@@ -80,6 +91,12 @@ export class NovelService {
     //BƯỚC 5: ĐƯA VÀO TRẠNG THÁI CHỜ DUYỆT
     await this.prisma.chapter.update({ where: { id: chapterId }, data: { moderationStatus: 'PendingReview', publishedAt: null }});
 
+    await this.novelModerationService.notifyAdminsIfContentMatches(
+      textBody,
+      chapter.content.title,
+      chapter.number,
+      chapter.title,
+    );
 
     return result;
   }
@@ -110,13 +127,22 @@ export class NovelService {
 
   async setChapterFromPdf(chapterId: string, uploaderId: string, pdfBuffer: Buffer) {
     //BƯỚC 1 TÌM CHAPTER VÀ KIỂM TRA QUYỀN
-    const chapter = await this.prisma.chapter.findUnique({ where: { id: chapterId } });
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+      include: {
+        content: {
+          select: { type: true, title: true },
+        },
+      },
+    });
 
     if (!chapter){
       throw new BadRequestException('Không tìm thấy Chapter');
     }
-
     await this.chapterService.verifyOwnership(chapter.contentId, uploaderId);
+    if (chapter.content.type !== 'Novel') {
+      throw new BadRequestException('Chỉ có thể lưu PDF cho Novel');
+    }
 
 
     //BƯỚC 2: KIỂM TRA XEM FILE CÓ PHẢI LÀ PDF KHÔNG
@@ -266,6 +292,13 @@ export class NovelService {
 
     //BƯỚC 11: Đưa chapter về chờ duyệt và trả kết quả
     await this.prisma.chapter.update({ where: { id: chapterId }, data: { moderationStatus: 'PendingReview', publishedAt: null },});
+
+    await this.novelModerationService.notifyAdminsIfContentMatches(
+      textBody,
+      chapter.content.title,
+      chapter.number,
+      chapter.title,
+    );
 
     return { pagesCreated: uploadedUrls.length };
   }

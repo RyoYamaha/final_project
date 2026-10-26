@@ -404,6 +404,7 @@ export const ModelName = {
   ChapterPage: 'ChapterPage',
   ChapterContent: 'ChapterContent',
   Genre: 'Genre',
+  UserGenrePreference: 'UserGenrePreference',
   Tag: 'Tag',
   ContentGenre: 'ContentGenre',
   ContentTag: 'ContentTag',
@@ -418,6 +419,7 @@ export const ModelName = {
   PayoutProfile: 'PayoutProfile',
   PayoutRequest: 'PayoutRequest',
   SystemSetting: 'SystemSetting',
+  NovelModerationKeyword: 'NovelModerationKeyword',
   Bookmark: 'Bookmark',
   Favorite: 'Favorite',
   Rating: 'Rating',
@@ -447,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "content" | "mangaDetail" | "novelDetail" | "chapter" | "chapterPage" | "chapterContent" | "genre" | "tag" | "contentGenre" | "contentTag" | "publisher" | "user" | "wallet" | "paymentOrder" | "bankTransaction" | "walletLedger" | "contentPurchase" | "creatorRevenue" | "payoutProfile" | "payoutRequest" | "systemSetting" | "bookmark" | "favorite" | "rating" | "comment" | "readingProgress" | "chapterRead" | "notification" | "report" | "refreshToken" | "contentKnowledgeBase" | "aIConversation" | "recommendationCache" | "supportTicket" | "ticketMessage"
+    modelProps: "content" | "mangaDetail" | "novelDetail" | "chapter" | "chapterPage" | "chapterContent" | "genre" | "userGenrePreference" | "tag" | "contentGenre" | "contentTag" | "publisher" | "user" | "wallet" | "paymentOrder" | "bankTransaction" | "walletLedger" | "contentPurchase" | "creatorRevenue" | "payoutProfile" | "payoutRequest" | "systemSetting" | "novelModerationKeyword" | "bookmark" | "favorite" | "rating" | "comment" | "readingProgress" | "chapterRead" | "notification" | "report" | "refreshToken" | "contentKnowledgeBase" | "aIConversation" | "recommendationCache" | "supportTicket" | "ticketMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -910,6 +912,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.GenreCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.GenreCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserGenrePreference: {
+      payload: Prisma.$UserGenrePreferencePayload<ExtArgs>
+      fields: Prisma.UserGenrePreferenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserGenrePreferenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserGenrePreferenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>
+        }
+        findFirst: {
+          args: Prisma.UserGenrePreferenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserGenrePreferenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>
+        }
+        findMany: {
+          args: Prisma.UserGenrePreferenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>[]
+        }
+        create: {
+          args: Prisma.UserGenrePreferenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>
+        }
+        createMany: {
+          args: Prisma.UserGenrePreferenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.UserGenrePreferenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>
+        }
+        update: {
+          args: Prisma.UserGenrePreferenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserGenrePreferenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserGenrePreferenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.UserGenrePreferenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGenrePreferencePayload>
+        }
+        aggregate: {
+          args: Prisma.UserGenrePreferenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserGenrePreference>
+        }
+        groupBy: {
+          args: Prisma.UserGenrePreferenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserGenrePreferenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserGenrePreferenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserGenrePreferenceCountAggregateOutputType> | number
         }
       }
     }
@@ -1834,6 +1902,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SystemSettingCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SystemSettingCountAggregateOutputType> | number
+        }
+      }
+    }
+    NovelModerationKeyword: {
+      payload: Prisma.$NovelModerationKeywordPayload<ExtArgs>
+      fields: Prisma.NovelModerationKeywordFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NovelModerationKeywordFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NovelModerationKeywordFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>
+        }
+        findFirst: {
+          args: Prisma.NovelModerationKeywordFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NovelModerationKeywordFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>
+        }
+        findMany: {
+          args: Prisma.NovelModerationKeywordFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>[]
+        }
+        create: {
+          args: Prisma.NovelModerationKeywordCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>
+        }
+        createMany: {
+          args: Prisma.NovelModerationKeywordCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.NovelModerationKeywordDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>
+        }
+        update: {
+          args: Prisma.NovelModerationKeywordUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>
+        }
+        deleteMany: {
+          args: Prisma.NovelModerationKeywordDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NovelModerationKeywordUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.NovelModerationKeywordUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NovelModerationKeywordPayload>
+        }
+        aggregate: {
+          args: Prisma.NovelModerationKeywordAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNovelModerationKeyword>
+        }
+        groupBy: {
+          args: Prisma.NovelModerationKeywordGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NovelModerationKeywordGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NovelModerationKeywordCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NovelModerationKeywordCountAggregateOutputType> | number
         }
       }
     }
@@ -2881,6 +3015,14 @@ export const GenreScalarFieldEnum = {
 export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
 
 
+export const UserGenrePreferenceScalarFieldEnum = {
+  userId: 'userId',
+  genreId: 'genreId'
+} as const
+
+export type UserGenrePreferenceScalarFieldEnum = (typeof UserGenrePreferenceScalarFieldEnum)[keyof typeof UserGenrePreferenceScalarFieldEnum]
+
+
 export const TagScalarFieldEnum = {
   id: 'id',
   name: 'name'
@@ -2925,7 +3067,8 @@ export const UserScalarFieldEnum = {
   bio: 'bio',
   isLocked: 'isLocked',
   payoutBlocked: 'payoutBlocked',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  onboardingCompletedAt: 'onboardingCompletedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3060,6 +3203,15 @@ export const SystemSettingScalarFieldEnum = {
 } as const
 
 export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
+
+
+export const NovelModerationKeywordScalarFieldEnum = {
+  id: 'id',
+  keyword: 'keyword',
+  createdAt: 'createdAt'
+} as const
+
+export type NovelModerationKeywordScalarFieldEnum = (typeof NovelModerationKeywordScalarFieldEnum)[keyof typeof NovelModerationKeywordScalarFieldEnum]
 
 
 export const BookmarkScalarFieldEnum = {
@@ -3434,6 +3586,7 @@ export type GlobalOmitConfig = {
   chapterPage?: Prisma.ChapterPageOmit
   chapterContent?: Prisma.ChapterContentOmit
   genre?: Prisma.GenreOmit
+  userGenrePreference?: Prisma.UserGenrePreferenceOmit
   tag?: Prisma.TagOmit
   contentGenre?: Prisma.ContentGenreOmit
   contentTag?: Prisma.ContentTagOmit
@@ -3448,6 +3601,7 @@ export type GlobalOmitConfig = {
   payoutProfile?: Prisma.PayoutProfileOmit
   payoutRequest?: Prisma.PayoutRequestOmit
   systemSetting?: Prisma.SystemSettingOmit
+  novelModerationKeyword?: Prisma.NovelModerationKeywordOmit
   bookmark?: Prisma.BookmarkOmit
   favorite?: Prisma.FavoriteOmit
   rating?: Prisma.RatingOmit
